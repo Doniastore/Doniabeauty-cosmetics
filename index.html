@@ -360,7 +360,7 @@ textarea.input{padding:12px 14px;min-height:78px;resize:vertical}
   <div class="foot-in">
     <div class="logo" id="footLogo"></div>
     <div class="tagline">BEAUTY &amp; COSMETICS</div>
-    <p>الدفع عند الاستلام. التوصيل لكل مناطق المملكة. ما في توصيل يوم الجمعة.</p>
+    <p>الدفع عند الاستلام. التوصيل لكل مناطق المملكة.</p>
     <a class="btn wa" id="footWa" href="#" target="_blank" rel="noopener">تواصل معنا على واتساب</a>
     <a class="adm-link" href="#admin">دخول المسؤول</a>
   </div>
@@ -448,8 +448,6 @@ const TYPES = { serum:'سيرومات', cream:'كريمات', sun:'واقيات 
 const SKINS = { normal:'بشرة عادية', oily:'بشرة دهنية', dry:'بشرة جافة', combo:'بشرة مختلطة', sensitive:'بشرة حساسة' };
 const CONCERNS = { acne:'حبوب وبثور', wrinkles:'خطوط وتجاعيد', pigmentation:'تصبغات', hydration:'جفاف وترطيب', redness:'احمرار وحساسية' };
 const CITIES = ['عمّان','إربد','الزرقاء','العقبة','السلط','مادبا','جرش','عجلون','الكرك','المفرق','معان','الطفيلة'];
-const TIMES = ['صباحاً (9 - 12)','ظهراً (12 - 3)','مساءً (3 - 7)'];
-const DAYS = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 const ONLINE = !!(CONFIG.firebase.projectId && CONFIG.firebase.apiKey);
 /* المنتجات الظاهرة بالموقع: تجريبية لو Firebase مش مربوط، وإلا بتنجاب من لوحة التحكم */
 const PRODUCTS = ONLINE ? [] : SAMPLES.map(p => Object.assign({ visible: true, image: '', ord: 0 }, p));
@@ -638,7 +636,7 @@ function renderControls() {
 function renderProducts() {
   const box = $('#products');
   if (state.catStatus === 'loading') { box.innerHTML = '<div class="sec"><div class="empty"><p>جاري تحميل المنتجات...</p></div></div>'; return; }
-  if (state.catStatus === 'error') { box.innerHTML = '<div class="sec"><div class="empty"><p>ما قدرنا نحمّل المنتجات هلأ.</p><button class="btn ghost" data-act="cat-retry">جرّب مرة ثانية</button></div></div>'; return; }
+  if (state.catStatus === 'error') { box.innerHTML = `<div class="sec"><div class="empty"><p>ما قدرنا نحمّل المنتجات هلأ.</p>${DEBUG ? `<p class="hint num" style="max-width:520px;overflow-wrap:anywhere">${esc(state.catErr || '')}</p>` : ''}<button class="btn ghost" data-act="cat-retry">جرّب مرة ثانية</button></div></div>`; return; }
   if (!PRODUCTS.length) { box.innerHTML = '<div class="sec"><div class="empty"><p>منتجاتنا قريباً، تابعونا.</p></div></div>'; return; }
   if (!isFiltering()) {
     const groups = SECTIONS.map(s => ({ title: s.title, list: PRODUCTS.filter(p => p.sections.includes(s.key)) }));
@@ -719,7 +717,7 @@ function totalsHTML(t, city) {
 function renderCart() {
   const d = $('#cartDrawer');
   const v = state.view, n = cartCount();
-  const titles = { cart: `سلتك (${n})`, checkout: 'إتمام الطلب', done: 'تأكيد الطلب' };
+  const titles = { cart: `سلتك (${n})`, checkout: 'إتمام الطلب', done: 'تأكيد الطلب', fail: 'تعذّر إرسال الطلب' };
   const back = v === 'checkout' ? `<button class="icon-btn back" data-act="back" aria-label="رجوع للسلة">${ic('fwd')}</button>` : '';
   let body = '', foot = '';
   const t = totals(state.form.city);
@@ -739,8 +737,6 @@ function renderCart() {
   } else if (v === 'checkout') {
     const f = state.form, val = k => (f[k] || '').replace(/"/g, '&quot;');
     const F = (id, label, inner) => `<div class="field"><label for="${id}">${label}</label>${inner}<div class="err" id="e-${id}"></div></div>`;
-    const min = new Date(); min.setDate(min.getDate() + 1);
-    state.minDate = min.getFullYear() + '-' + String(min.getMonth() + 1).padStart(2, '0') + '-' + String(min.getDate()).padStart(2, '0');
     body = `<details class="sum"><summary><span>ملخص الطلب</span><span class="num" id="sumTotal">${fmt(t.total)}</span></summary><div class="in" id="sumBox"></div></details>
     <div class="form">
       <h3>معلومات التواصل والتوصيل</h3>
@@ -752,27 +748,30 @@ function renderCart() {
       ${F('city', 'المدينة', `<select class="input" id="city" data-f="city"><option value="">اختر المدينة</option>${CITIES.map(c => `<option${f.city === c ? ' selected' : ''}>${c}</option>`).join('')}</select>`)}
       ${F('area', 'المنطقة (الصويفية، عبدون...)', `<input class="input" id="area" data-f="area" value="${val('area')}">`)}
       ${F('addr', 'العنوان بالتفصيل', `<textarea class="input" id="addr" data-f="addr" placeholder="اسم الشارع، رقم البناية، أقرب معلم">${val('addr')}</textarea>`)}
-      <div class="two">
-        ${F('date', 'تاريخ التسليم (ما عدا الجمعة)', `<input class="input" id="date" data-f="date" type="date" min="${state.minDate}" value="${val('date')}">`)}
-        ${F('time', 'الوقت المفضل', `<select class="input" id="time" data-f="time"><option value="">اختر الوقت</option>${TIMES.map(x => `<option${f.time === x ? ' selected' : ''}>${x}</option>`).join('')}</select>`)}
-      </div>
       ${F('note', 'ملاحظات (اختياري)', `<input class="input" id="note" data-f="note" value="${val('note')}">`)}
+      <input type="text" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
       <h3>طريقة الدفع</h3>
       <div class="pay"><i></i><span>الدفع عند الاستلام</span></div>
     </div>`;
     foot = `<button class="btn block" data-act="submit">تأكيد الطلب - <span class="num" id="subBtnTotal">${fmt(t.total)}</span></button>`;
   } else if (v === 'done') {
-    body = `<div class="center"><div class="ok-ic">${ic('check', 30)}</div><h3>طلبك جاهز للإرسال</h3>
-      <p>رقم الطلب <b class="num">${state.order.no}</b>. الطلب ما بيوصلنا إلا لما ترسله على واتساب: اضغط الزر وأرسل الرسالة كما هي.</p></div>
-      <div class="msg" id="msg"></div>`;
+    body = `<div class="center"><div class="ok-ic">${ic('check', 30)}</div><h3>تم استلام طلبك</h3>
+      <p>رقم طلبك <b class="num">${state.order.no}</b>. بنتواصل معك قريباً على رقمك لتأكيد التوصيل. الدفع عند الاستلام.</p></div>
+      <div class="msg" id="msg"></div>${ONLINE ? '' : '<p class="hint" style="margin-top:10px">وضع التجربة: الطلب انحفظ على جهازك وبتشوفه بلوحة التحكم.</p>'}`;
+    foot = `<a class="btn wa block" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent('مرحباً، بخصوص طلبي رقم ' + state.order.no)}">${ic('chat', 20)} تواصل معنا على واتساب</a>
+      <button class="btn ghost block" data-act="close-all">رجوع للمتجر</button>`;
+  } else if (v === 'fail') {
+    body = `<div class="center"><div class="ok-ic" style="color:var(--rose)">${ic('close', 30)}</div><h3>ما قدرنا نسجّل طلبك</h3>
+      <p>صار خطأ بالاتصال. أرسل طلبك على واتساب بالزر تحت وبنتواصل معك، أو جرّب مرة ثانية.</p></div><div class="msg" id="msg"></div>`;
     foot = `<a class="btn wa block" id="waSend" target="_blank" rel="noopener" href="${state.order.link}">${ic('chat', 20)} إرسال الطلب على واتساب</a>
-      <div class="two"><button class="btn ghost" data-act="copy">نسخ نص الطلب</button><button class="btn ghost" data-act="sent">أرسلت الطلب</button></div>`;
+      <div class="two"><button class="btn ghost" data-act="copy">نسخ نص الطلب</button><button class="btn ghost" data-act="sent">أرسلت الطلب</button></div>
+      <button class="btn ghost block" data-act="checkout">جرّب مرة ثانية</button>`;
   }
 
   d.innerHTML = `<div class="dr-head"><div class="start">${back}<strong>${titles[v]}</strong></div><button class="icon-btn" data-act="close-all" aria-label="إغلاق">${ic('close')}</button></div>
     <div class="dr-body" id="cartBody">${body}</div>${foot ? `<div class="dr-foot" id="cartFoot">${foot}</div>` : ''}`;
   if (v === 'checkout') updateSummary();
-  if (v === 'done') $('#msg').textContent = state.order.msg;
+  if (v === 'done' || v === 'fail') $('#msg').textContent = state.order.msg;
 }
 function updateSummary() {
   const t = totals(state.form.city);
@@ -796,11 +795,7 @@ function validate() {
   if (!f.city) e.city = 'اختر المدينة';
   if (!(f.area || '').trim()) e.area = 'اكتب اسم المنطقة';
   if (!(f.addr || '').trim()) e.addr = 'اكتب العنوان بالتفصيل';
-  if (!f.date) e.date = 'اختر تاريخ التسليم';
-  else if (new Date(f.date + 'T12:00:00').getDay() === 5) e.date = 'ما في توصيل يوم الجمعة، اختر يوم ثاني';
-  else if (f.date < state.minDate) e.date = 'اختر تاريخ من بكرة وطالع';
-  if (!f.time) e.time = 'اختر وقت التسليم';
-  ['fn','ln','phone','city','area','addr','date','time'].forEach(k => {
+  ['fn','ln','phone','city','area','addr'].forEach(k => {
     const el = $('#e-' + k), inp = $('#' + k);
     if (el) el.textContent = e[k] || '';
     if (inp) inp.classList.toggle('bad', !!e[k]);
@@ -810,18 +805,38 @@ function validate() {
   return true;
 }
 const iso = (x, raw) => '\u2066' + (raw ? x : fmt(x)) + '\u2069';
-function submitOrder() {
+const ORD = {
+  async create(o) {
+    if (!ONLINE) {
+      let all = []; try { all = JSON.parse(getLS('donia_orders_v1') || '[]'); } catch (e) {}
+      all.push(Object.assign({ id: 'l' + Date.now() }, o));
+      localStorage.setItem('donia_orders_v1', JSON.stringify(all)); return;
+    }
+    const S = v => ({ stringValue: String(v) }), N = v => ({ doubleValue: Number(v) });
+    const res = await fetch(`${REV.base()}/orders?key=${REV.key()}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: {
+        orderNo: S(o.orderNo), name: S(o.name), phone: S(o.phone), city: S(o.city), area: S(o.area), address: S(o.address), note: S(o.note),
+        itemsJson: S(o.itemsJson), subtotal: N(o.subtotal), discount: N(o.discount), delivery: N(o.delivery), total: N(o.total),
+        coupon: S(o.coupon), createdAt: { timestampValue: new Date(o.createdAt).toISOString() }, status: S('new') } })
+    });
+    if (!res.ok) throw await httpErr(res, 'order');
+  }
+};
+async function submitOrder() {
+  if (state.submitting) return;
   if (!validate()) return;
+  if ($('#hp') && $('#hp').value) return;
+  if (Date.now() - (+getLS('donia_ord_last') || 0) < 20000) return toast('استنى شوي قبل ما ترسل طلب ثاني');
   const f = state.form, t = totals(f.city);
+  if (!t.items.length) return;
   const no = 'DN-' + String(Math.floor(1000 + Math.random() * 9000));
-  const day = DAYS[new Date(f.date + 'T12:00:00').getDay()];
   const lines = [
     `طلب جديد ${no}`, '',
     `الاسم: ${f.fn.trim()} ${f.ln.trim()}`,
     `الهاتف: ${normPhone(f.phone)}`,
     `المدينة والمنطقة: ${f.city} - ${f.area.trim()}`,
     `العنوان: ${f.addr.trim()}`,
-    `موعد التسليم: ${day} ${iso(f.date,true)}، ${f.time}`,
     'الدفع: عند الاستلام', '',
     'المنتجات:',
     ...t.items.map(({ p, q }) => `- ${p.brand} ${p.ar} × ${q} = ${iso(p.price * q)}`), '',
@@ -833,11 +848,32 @@ function submitOrder() {
     ...((f.note || '').trim() ? ['', `ملاحظات: ${f.note.trim()}`] : [])
   ];
   const msg = lines.join('\n');
+  const order = {
+    orderNo: no, name: `${f.fn.trim()} ${f.ln.trim()}`, phone: normPhone(f.phone), city: f.city, area: f.area.trim(),
+    address: f.addr.trim(), note: (f.note || '').trim(),
+    itemsJson: JSON.stringify({ items: t.items.map(({ p, q }) => ({ id: p.id, b: p.brand, n: p.ar, q, pr: p.price })), auto: t.auto, autoLabel: CONFIG.auto ? CONFIG.auto.label : '', couponDisc: t.disc }),
+    subtotal: t.sub, discount: r3(t.auto + t.disc), delivery: t.fee || 0, total: t.total,
+    coupon: state.coupon && !t.belowMin ? state.coupon : '', createdAt: Date.now(), status: 'new'
+  };
   state.order = { no, msg, link: `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}` };
-  state.view = 'done'; renderCart(); $('#cartBody').scrollTop = 0;
+  const btn = document.querySelector('[data-act="submit"]');
+  state.submitting = true; if (btn) { btn.disabled = true; btn.textContent = 'جاري إرسال الطلب...'; }
+  try {
+    await ORD.create(order);
+    setLS('donia_ord_last', String(Date.now()));
+    state.cart = {}; state.coupon = null; state.form.note = ''; saveCart(); updateBadge();
+    state.view = 'done';
+  } catch (e) { console.error('[DONIA] order:', e); state.view = 'fail'; }
+  state.submitting = false; renderCart(); $('#cartBody').scrollTop = 0;
 }
 
 /* ====================== الكتالوج والإعدادات (من لوحة التحكم) ====================== */
+const DEBUG = /[?&]debug(=|&|$)/.test(location.search);
+async function httpErr(res, what) {
+  let d = '';
+  try { const j = await res.json(); const e = j.error || (Array.isArray(j) && j[0] && j[0].error) || {}; d = [e.status, e.message].filter(Boolean).join(': '); } catch (x) {}
+  return new Error(`${what} ${res.status} ${d}`.trim());
+}
 const num = (v, d = 0) => { const n = parseFloat(v); return Number.isFinite(n) && n >= 0 ? n : d; };
 const clean = t => String(t == null ? '' : t).replace(/[<>"`]/g, '').replace(/\s+/g, ' ').trim();
 const okImg = s => typeof s === 'string' && s.length < 900000 && /^data:image\/(webp|png|jpeg);base64,[A-Za-z0-9+/=]+$/.test(s);
@@ -915,7 +951,7 @@ const FS = {
     const out = []; let tok = '';
     for (let i = 0; i < 5; i++) {
       const res = await fetch(`${REV.base()}/products?pageSize=200&key=${REV.key()}${tok ? '&pageToken=' + encodeURIComponent(tok) : ''}`);
-      if (!res.ok) throw new Error('products ' + res.status);
+      if (!res.ok) throw await httpErr(res, 'products');
       const j = await res.json();
       (j.documents || []).forEach(d => {
         try {
@@ -930,7 +966,7 @@ const FS = {
   async getSettings() {
     const res = await fetch(`${REV.base()}/config/store?key=${REV.key()}`);
     if (res.status === 404) return null;
-    if (!res.ok) throw new Error('settings ' + res.status);
+    if (!res.ok) throw await httpErr(res, 'settings');
     const f = (await res.json()).fields || {};
     const s = JSON.parse(f.json.stringValue); s.heroImage = (f.heroImage && f.heroImage.stringValue) || '';
     return s;
@@ -950,6 +986,7 @@ async function loadCatalog() {
     if (items !== null) setProducts(items.map(i => normProduct(i.raw, i.image)).filter(p => p && p.visible));
     state.catStatus = 'ok';
   } catch (e) {
+    console.error('[DONIA] products:', e); state.catErr = String((e && e.message) || e);
     if (ONLINE) { setProducts([]); state.catStatus = 'error'; }
   }
   pruneCart(); updateBadge(); computeStats(); refresh();
@@ -1005,7 +1042,7 @@ const REV = {
         where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'approved' } } },
         limit: 500 } })
     });
-    if (!res.ok) throw new Error('load ' + res.status);
+    if (!res.ok) throw await httpErr(res, 'reviews');
     const rows = await res.json();
     return rows.filter(r => r.document).map(r => this.fromDoc(r.document)).filter(okRev);
   },
@@ -1024,7 +1061,7 @@ const REV = {
         createdAt: { timestampValue: new Date(r.createdAt).toISOString() },
         status: { stringValue: status } } })
     });
-    if (!res.ok) throw new Error('add ' + res.status);
+    if (!res.ok) throw await httpErr(res, 'add-review');
     return status;
   }
 };
@@ -1048,7 +1085,7 @@ function renderReviews() {
       ${REV.online() ? '' : '<div class="rv-note">تجربة: الآراء هون محفوظة على جهازك بس. اربط Firebase لتظهر لكل الزبائن.</div>'}</div>`;
   let body = '';
   if (state.revStatus === 'loading') body = '<div class="empty"><p>جاري تحميل الآراء...</p></div>';
-  else if (state.revStatus === 'error') body = '<div class="empty"><p>ما قدرنا نحمّل الآراء هلأ.</p><button class="btn ghost" data-act="rv-retry">جرّب مرة ثانية</button></div>';
+  else if (state.revStatus === 'error') body = `<div class="empty"><p>ما قدرنا نحمّل الآراء هلأ.</p>${DEBUG ? `<p class="hint num" style="max-width:520px;overflow-wrap:anywhere">${esc(state.revErr || '')}</p>` : ''}<button class="btn ghost" data-act="rv-retry">جرّب مرة ثانية</button></div>`;
   else if (!list.length) body = `<div class="empty"><p>${state.revFilter ? 'ما في آراء لهذا المنتج لسا.' : 'كون أول واحد بيقيّم.'}</p></div>`;
   else {
     const shown = list.slice(0, state.revShown);
@@ -1062,7 +1099,7 @@ function renderReviews() {
 async function loadReviews() {
   state.revStatus = 'loading'; renderReviews();
   try { state.reviews = (await REV.load()).sort((a, b) => b.createdAt - a.createdAt); state.revStatus = 'ok'; }
-  catch (e) { state.reviews = []; state.revStatus = 'error'; }
+  catch (e) { console.error('[DONIA] reviews:', e); state.revErr = String((e && e.message) || e); state.reviews = []; state.revStatus = 'error'; }
   computeStats(); renderReviews(); renderProducts();
 }
 
@@ -1187,7 +1224,7 @@ document.addEventListener('change', e => {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
 
 /* ====================== لوحة التحكم (الرابط: الموقع/#admin) ====================== */
-const A = { authed: false, tab: 'products', view: 'list', products: [], settings: null, reviews: [], edit: null, err: '', busy: false, loaded: false, del: '', saving: false };
+const A = { authed: false, tab: 'orders', view: 'list', products: [], settings: null, reviews: [], orders: [], ofilter: '', ordersErr: '', edit: null, err: '', busy: false, loaded: false, del: '', saving: false };
 const AUTH = { id: '', refresh: '', exp: 0 };
 const AUTH_ERRS = { INVALID_LOGIN_CREDENTIALS: 'الإيميل أو كلمة السر غلط', INVALID_PASSWORD: 'الإيميل أو كلمة السر غلط', EMAIL_NOT_FOUND: 'الإيميل أو كلمة السر غلط', INVALID_EMAIL: 'اكتب إيميل صحيح', TOO_MANY_ATTEMPTS_TRY_LATER: 'محاولات كثيرة، جرّب بعد شوي', USER_DISABLED: 'هذا الحساب موقوف' };
 const newId = () => 'n' + Date.now().toString(36) + Math.floor(Math.random() * 1296).toString(36);
@@ -1226,6 +1263,34 @@ function admErrMsg(e) {
   return 'صار خطأ، جرّب مرة ثانية.';
 }
 
+/* الطلبات */
+const ORDER_LABELS = { new: 'جديد', contacted: 'تم التواصل', done: 'تم التسليم', cancelled: 'ملغي' };
+function orderNorm(o) {
+  if (!o) return null;
+  let det = { items: [] }; try { det = JSON.parse(o.itemsJson || '{}'); } catch (e) {}
+  return { id: String(o.id || ''), orderNo: String(o.orderNo || ''), name: String(o.name || ''), phone: String(o.phone || ''), city: String(o.city || ''), area: String(o.area || ''),
+    address: String(o.address || ''), note: String(o.note || ''), coupon: String(o.coupon || ''), subtotal: +o.subtotal || 0, discount: +o.discount || 0, delivery: +o.delivery || 0, total: +o.total || 0,
+    status: ORDER_LABELS[o.status] ? o.status : 'new', createdAt: +o.createdAt || 0, det: det && typeof det === 'object' ? det : { items: [] } };
+}
+function orderFromDoc(d) {
+  const f = d.fields || {}, s = k => (f[k] && f[k].stringValue) || '', n = k => f[k] ? Number(f[k].doubleValue !== undefined ? f[k].doubleValue : f[k].integerValue) : 0;
+  return orderNorm({ id: d.name.split('/').pop(), orderNo: s('orderNo'), name: s('name'), phone: s('phone'), city: s('city'), area: s('area'), address: s('address'), note: s('note'), coupon: s('coupon'),
+    itemsJson: s('itemsJson'), subtotal: n('subtotal'), discount: n('discount'), delivery: n('delivery'), total: n('total'), status: s('status') || 'new',
+    createdAt: f.createdAt && f.createdAt.timestampValue ? Date.parse(f.createdAt.timestampValue) : 0 });
+}
+function waPhone(p) {
+  let d = String(p || '').replace(/\D/g, '');
+  if (d.startsWith('00')) d = d.slice(2);
+  if (d.startsWith('962')) return d;
+  if (d.startsWith('0')) return '962' + d.slice(1);
+  if (d.length === 9) return '962' + d;
+  return d;
+}
+function fmtDT(ts) {
+  try { return new Date(ts).toLocaleString('ar-JO-u-nu-latn', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }); }
+  catch (e) { return new Date(ts).toISOString().slice(0, 16).replace('T', ' '); }
+}
+
 /* كتابة/قراءة (أونلاين بعد تسجيل الدخول، أو محلي بوضع التجربة) */
 const ADB = {
   async saveProduct(p) {
@@ -1253,6 +1318,22 @@ const ADB = {
   },
   async setReview(id, status) {
     await authFetch(`${REV.base()}/reviews/${encodeURIComponent(id)}?updateMask.fieldPaths=status&key=${REV.key()}`, { method: 'PATCH', body: JSON.stringify({ fields: { status: { stringValue: status } } }) });
+  },
+  async listOrders() {
+    if (!REV.online()) {
+      let all = []; try { all = JSON.parse(getLS('donia_orders_v1') || '[]'); } catch (e) {}
+      return all.map(o => orderNorm(Object.assign({}, o))).filter(Boolean);
+    }
+    const rows = await authFetch(`${REV.base()}:runQuery?key=${REV.key()}`, { method: 'POST', body: JSON.stringify({ structuredQuery: { from: [{ collectionId: 'orders' }], orderBy: [{ field: { fieldPath: 'createdAt' }, direction: 'DESCENDING' }], limit: 300 } }) });
+    return (rows || []).filter(r => r.document).map(r => orderFromDoc(r.document)).filter(Boolean);
+  },
+  async setOrderStatus(id, status) {
+    if (!REV.online()) { let all = []; try { all = JSON.parse(getLS('donia_orders_v1') || '[]'); } catch (e) {} const o = all.find(x => x.id === id); if (o) o.status = status; return setLS('donia_orders_v1', JSON.stringify(all)); }
+    await authFetch(`${REV.base()}/orders/${encodeURIComponent(id)}?updateMask.fieldPaths=status&key=${REV.key()}`, { method: 'PATCH', body: JSON.stringify({ fields: { status: { stringValue: status } } }) });
+  },
+  async deleteOrder(id) {
+    if (!REV.online()) { let all = []; try { all = JSON.parse(getLS('donia_orders_v1') || '[]'); } catch (e) {} return setLS('donia_orders_v1', JSON.stringify(all.filter(x => x.id !== id))); }
+    await authFetch(`${REV.base()}/orders/${encodeURIComponent(id)}?key=${REV.key()}`, { method: 'DELETE' });
   },
   async deleteReview(id) {
     if (!REV.online()) { setLS('donia_reviews_v1', JSON.stringify(REV.readLocal().filter(r => r.id !== id))); return; }
@@ -1305,6 +1386,7 @@ async function admLoad() {
     A.products = items.map(i => normProduct(i.raw, i.image)).filter(Boolean);
     A.settings = mergeSettings(REV.online() ? await FS.getSettings() : LOC.getSettings());
     try { A.reviews = await ADB.listReviews(); } catch (e) { A.reviews = []; if (String(e.message) === 'DENIED') throw e; }
+    try { A.orders = await ADB.listOrders(); A.ordersErr = ''; } catch (e) { A.orders = []; A.ordersErr = String(e.message) === 'DENIED' ? 'قواعد Firebase ما فيها صلاحية الطلبات. حدّث القواعد من ملف firestore.rules ثم Publish.' : 'ما قدرنا نحمّل الطلبات.'; }
     A.loaded = true; A.err = '';
   } catch (e) { A.err = admErrMsg(e); }
   A.busy = false; admRender();
@@ -1330,22 +1412,59 @@ function admLoginHTML() {
     <p style="margin-top:16px"><a href="#" class="hint" data-a="exit">رجوع للموقع</a></p></div></div>`;
 }
 function admPanelHTML() {
-  const tabs = [['products', 'المنتجات'], ['cart', 'السلة والشحن'], ['reviews', 'الآراء'], ['site', 'الموقع']];
-  const pend = A.reviews.filter(r => r.status === 'pending').length;
+  const tabs = [['orders', 'الطلبات'], ['products', 'المنتجات'], ['cart', 'السلة والشحن'], ['reviews', 'الآراء'], ['site', 'الموقع']];
+  const pend = A.reviews.filter(r => r.status === 'pending').length, newOrd = A.orders.filter(o => o.status === 'new').length;
   const editing = A.view === 'edit';
   let body;
   if (A.busy && !A.loaded) body = '<div class="empty"><p>جاري التحميل...</p></div>';
   else if (editing) body = admEditHTML();
   else if (!A.loaded) body = `<div class="empty"><p>${esc(A.err) || 'ما قدرنا نحمّل البيانات.'}</p><button class="btn ghost" data-a="reload">جرّب مرة ثانية</button></div>`;
-  else body = A.tab === 'products' ? admProductsHTML() : A.tab === 'cart' ? admCartHTML() : A.tab === 'reviews' ? admReviewsHTML() : admSiteHTML();
+  else body = A.tab === 'orders' ? admOrdersHTML() : A.tab === 'products' ? admProductsHTML() : A.tab === 'cart' ? admCartHTML() : A.tab === 'reviews' ? admReviewsHTML() : admSiteHTML();
   return `<div class="adm-top"><div class="adm-top-in"><strong>لوحة التحكم</strong><div style="display:flex;gap:8px"><button class="btn ghost sm" data-a="exit">الموقع</button>${REV.online() ? '<button class="btn ghost sm" data-a="logout">خروج</button>' : ''}</div></div></div>
   <div class="adm-in">
     ${REV.online() ? '' : '<div class="card-box hint">وضع التجربة: التغييرات محفوظة على جهازك بس.</div>'}
-    ${editing ? '' : `<div class="tabs">${tabs.map(([k, v]) => `<button class="pill" data-a="tab" data-t="${k}" aria-pressed="${A.tab === k}">${v}${k === 'reviews' && pend ? ' (' + pend + ')' : ''}</button>`).join('')}</div>`}
+    ${editing ? '' : `<div class="tabs">${tabs.map(([k, v]) => `<button class="pill" data-a="tab" data-t="${k}" aria-pressed="${A.tab === k}">${v}${k === 'reviews' && pend ? ' (' + pend + ')' : ''}${k === 'orders' && newOrd ? ' (' + newOrd + ')' : ''}</button>`).join('')}</div>`}
     ${A.err && A.loaded ? `<div class="card-box err" role="alert">${esc(A.err)}</div>` : ''}
     ${body}
   </div>`;
 }
+function admOrdersHTML() {
+  const f = A.ofilter, list = A.orders.filter(o => !f || o.status === f).sort((a, b) => b.createdAt - a.createdAt);
+  const cnt = k => A.orders.filter(o => o.status === k).length;
+  const pills = [['', 'الكل (' + A.orders.length + ')']].concat(Object.entries(ORDER_LABELS).map(([k, v]) => [k, v + ' (' + cnt(k) + ')']));
+  const cards = list.map(o => {
+    const items = (o.det.items || []).map(i => `<div class="it"><span>${esc(i.b || '')} ${esc(i.n || '')} × ${num(i.q)}</span><span class="num">${fmt(num(i.pr) * num(i.q))}</span></div>`).join('');
+    const wa = `https://wa.me/${waPhone(o.phone)}?text=${encodeURIComponent(`مرحباً ${o.name}، معك متجر ${CONFIG.storeName}. وصلنا طلبك رقم ${o.orderNo} بقيمة ${fmt(o.total)}. حابين نأكد معك تفاصيل التوصيل.`)}`;
+    return `<div class="card-box ord ord-${o.status}">
+      <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline"><b class="num">${esc(o.orderNo)}</b><span class="flag">${ORDER_LABELS[o.status]}</span></div>
+      <div class="hint">${fmtDT(o.createdAt)}</div>
+      <p style="margin:8px 0 2px"><b>${esc(o.name)}</b></p>
+      <p class="num" style="direction:ltr;text-align:right;margin:0">${esc(o.phone)}</p>
+      <p style="margin:4px 0">${esc(o.city)} - ${esc(o.area)}</p>
+      <p class="hint" style="margin:0 0 8px;overflow-wrap:anywhere">${esc(o.address)}</p>
+      ${o.note ? `<p style="background:var(--sage);border-radius:12px;padding:8px 12px;margin:0 0 8px;overflow-wrap:anywhere">ملاحظات: ${esc(o.note)}</p>` : ''}
+      <div class="sum" style="margin:8px 0"><div class="in" style="padding:10px 14px">${items}
+        <div class="it hint"><span>المجموع الفرعي</span><span class="num">${fmt(o.subtotal)}</span></div>
+        ${o.discount > 0 ? `<div class="it hint"><span>الخصم${o.coupon ? ' (' + esc(o.coupon) + ')' : ''}</span><span class="num">- ${fmt(o.discount)}</span></div>` : ''}
+        <div class="it hint"><span>التوصيل</span><span class="${o.delivery ? 'num' : ''}">${o.delivery ? fmt(o.delivery) : 'مجاني'}</span></div>
+        <div class="it" style="font-weight:700;border-top:1px solid var(--line);margin-top:4px;padding-top:6px"><span>الإجمالي (عند الاستلام)</span><span class="num">${fmt(o.total)}</span></div></div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <a class="btn wa sm" data-a="ord-wa" data-id="${esc(o.id)}" href="${wa}" target="_blank" rel="noopener">${ic('chat', 18)} واتساب</a>
+        <a class="btn ghost sm" href="tel:${esc(o.phone)}">اتصال</a>
+        <select class="input" style="width:auto;min-height:42px;font-size:14px" data-a="ord-status" data-id="${esc(o.id)}" aria-label="حالة الطلب">${Object.entries(ORDER_LABELS).map(([k, v]) => `<option value="${k}"${o.status === k ? ' selected' : ''}>${v}</option>`).join('')}</select>
+        <button class="btn ghost sm" data-a="ord-del" data-id="${esc(o.id)}">${A.del === 'o:' + o.id ? 'اضغط لتأكيد الحذف' : 'حذف'}</button></div></div>`;
+  }).join('');
+  return `<div class="tabs" style="padding-top:0">${pills.map(([k, v]) => `<button class="pill" data-a="ofilter" data-k="${k}" aria-pressed="${f === k}">${v}</button>`).join('')}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0"><span class="hint">${list.length} طلب</span><button class="btn ghost sm" data-a="ord-reload">تحديث</button></div>
+    ${A.ordersErr ? `<div class="card-box err" role="alert">${esc(A.ordersErr)}</div>` : ''}
+    ${cards || (A.ordersErr ? '' : '<div class="empty"><p>ما في طلبات لسا.</p></div>')}`;
+}
+async function admReloadOrders(silent) {
+  const sig = l => l.map(x => x.id + x.status).join();
+  try { const l = await ADB.listOrders(); const changed = sig(l) !== sig(A.orders); A.orders = l; A.ordersErr = ''; if (changed || !silent) { if (A.tab === 'orders' && A.view === 'list') admRender(); } if (!silent) toast('تم التحديث'); }
+  catch (e) { if (!silent) { A.ordersErr = 'ما قدرنا نحمّل الطلبات.'; admRender(); } }
+}
+setInterval(() => { if (A.authed && A.loaded && document.body.classList.contains('is-admin') && A.tab === 'orders') admReloadOrders(true); }, 45000);
 function admProductsHTML() {
   const list = A.products.slice().sort((a, b) => a.ord - b.ord);
   const rows = list.map(p => {
@@ -1503,7 +1622,7 @@ document.addEventListener('click', async e => {
   const el = e.target.closest('[data-a]'); if (!el) return;
   const a = el.dataset.a, id = el.dataset.id;
   if (a === 'exit') e.preventDefault();
-  if (!['del', 'rv-del', 'cp-del'].includes(a)) A.del = '';
+  if (!['del', 'rv-del', 'cp-del', 'ord-del'].includes(a)) A.del = '';
   const rerender = () => admRender();
   try {
     switch (a) {
@@ -1545,6 +1664,14 @@ document.addEventListener('click', async e => {
         A.del = ''; A.settings.coupons.splice(i, 1); await admSaveSettings(true); break;
       }
       case 'hero-clear': A.settings.heroImage = ''; rerender(); break;
+      case 'ofilter': A.ofilter = el.dataset.k; rerender(); break;
+      case 'ord-reload': admReloadOrders(false); break;
+      case 'ord-wa': { const o = A.orders.find(x => x.id === id); if (o && o.status === 'new') { try { await ADB.setOrderStatus(id, 'contacted'); o.status = 'contacted'; } catch (err) {} setTimeout(rerender, 300); } break; }
+      case 'ord-del':
+        if (A.del !== 'o:' + id) { A.del = 'o:' + id; rerender(); break; }
+        try { await ADB.deleteOrder(id); A.orders = A.orders.filter(x => x.id !== id); A.del = ''; toast('تم حذف الطلب'); }
+        catch (err) { A.err = admErrMsg(err); A.del = ''; }
+        rerender(); break;
       case 'rv-ok': case 'rv-hide': {
         const st = a === 'rv-ok' ? 'approved' : 'pending';
         try { await ADB.setReview(id, st); const r = A.reviews.find(x => x.id === id); if (r) r.status = st; toast(st === 'approved' ? 'تم نشر الرأي' : 'تم إخفاء الرأي'); }
@@ -1568,6 +1695,12 @@ document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id
 document.addEventListener('change', async e => {
   const t = e.target;
   if (t.dataset && t.dataset.s && A.settings) setPath(A.settings, t.dataset.s, t.type === 'checkbox' ? t.checked : t.value);
+  if (t.dataset && t.dataset.a === 'ord-status') {
+    const o = A.orders.find(x => x.id === t.dataset.id), prev = o ? o.status : 'new';
+    try { await ADB.setOrderStatus(t.dataset.id, t.value); if (o) o.status = t.value; toast('تم تحديث حالة الطلب'); }
+    catch (err) { A.err = admErrMsg(err); if (o) o.status = prev; }
+    admRender();
+  }
   if (t.dataset && t.dataset.a === 'cp-toggle') { A.settings.coupons[+t.dataset.i].active = t.checked; await admSaveSettings(true); }
   if ((t.id === 'pf-file' || t.id === 'hero-file') && t.files && t.files[0]) {
     const hero = t.id === 'hero-file';
