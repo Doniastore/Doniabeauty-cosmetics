@@ -2579,7 +2579,12 @@
       const nv = $('#dnav');
       if (nv) nv.innerHTML = '<button class="dlink" data-act="home">' + tr('home') + '</button>' +
         usedTypes().map(k => `<button class="dlink" data-only="1" data-filter="type:${k}">${tl('type', k)}</button>`).join('') +
-        '<a class="dlink" href="#reviews" data-act="close-dnav">' + tr('reviewsTitle') + '</a>';
+        '<a class="dlink" href="#reviews" data-act="close-dnav">' + tr('reviewsTitle') + '</a>' +
+        `<div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--line)">
+          <div class="hint" style="padding:0 14px 6px">${tr('support')}</div>
+          <a class="dlink" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(tr('supportMsg'))}">${tr('supportWa')}</a>
+          ${CONFIG.instagram ? `<a class="dlink" target="_blank" rel="noopener" href="${CONFIG.instagram}">${tr('supportIg')}</a>` : ''}
+        </div>`;
     }
     function renderProducts() {
       const box = $('#products');
