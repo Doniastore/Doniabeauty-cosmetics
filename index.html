@@ -2043,7 +2043,6 @@
         <a class="btn ig" id="footIg" href="#" target="_blank" rel="noopener" data-i18n="igFollow">تابعنا على
           إنستقرام</a>
       </div>
-      <a class="adm-link" href="#admin" data-i18n="admLink">دخول المسؤول</a>
     </div>
   </footer>
 
@@ -3505,12 +3504,12 @@
       return `<div class="card-box"><h3>التواصل</h3>
       <div class="field"><label>رقم واتساب الطلبات (بصيغة دولية بدون +)</label><input class="input" data-s="whatsapp" inputmode="numeric" style="direction:ltr;text-align:right" value="${esc(s.whatsapp)}" placeholder="962791234567"></div>
       <div class="field"><label>رابط صفحة إنستقرام</label><input class="input" data-s="instagram" dir="ltr" style="text-align:left" value="${esc(s.instagram || '')}" placeholder="https://www.instagram.com/your_page"></div>
-      <div class="field"><label>نص الشريط العلوي (اتركه فاضي للنص الافتراضي)</label><input class="input" data-s="promoText" maxlength="120" value="${esc(s.promoText || '')}"></div>
-      <div class="field"><label>نص الشريط العلوي بالإنجليزي (اتركه فاضي للنص الافتراضي)</label><input class="input" data-s="promoTextEn" maxlength="120" dir="ltr" style="text-align:left" value="${esc(s.promoTextEn || '')}"></div></div>
+      <div class="field"><label>نص الشريط العلوي </label><input class="input" data-s="promoText" maxlength="120" value="${esc(s.promoText || '')}"></div>
+      <div class="field"><label>نص الشريط العلوي بالإنجليزي </label><input class="input" data-s="promoTextEn" maxlength="120" dir="ltr" style="text-align:left" value="${esc(s.promoTextEn || '')}"></div></div>
     <div class="card-box"><h3>صورة الغلاف (الهيرو)</h3>
-      <div class="imgprev" style="height:170px;margin-bottom:10px">${okImg(s.heroImage) ? `<img src="${s.heroImage}" alt="" style="height:100%;width:auto;max-width:100%;object-fit:cover;border-radius:10px">` : '<span class="hint">ما في صورة: الموقع بيعرض الرسمة الافتراضية</span>'}</div>
+      <div class="imgprev" style="height:170px;margin-bottom:10px">${okImg(s.heroImage) ? `<img src="${s.heroImage}" alt="" style="height:100%;width:auto;max-width:100%;object-fit:cover;border-radius:10px">` : '<span class="hint">لا يوجد صورة</span>'}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><label class="btn ghost sm" for="hero-file" style="cursor:pointer">${okImg(s.heroImage) ? 'تغيير الصورة' : 'رفع صورة'}</label><input type="file" id="hero-file" accept="image/*" hidden>${okImg(s.heroImage) ? '<button class="btn ghost sm" data-a="hero-clear">حذف الصورة</button>' : ''}</div>
-      <p class="hint" style="margin-top:8px">يفضّل صورة عمودية (بنت بتحط كريم مثلاً). الكتابة والزر بيظهروا فوقها.</p></div>
+      <p class="hint" style="margin-top:8px">.</p></div>
     <button class="btn block" data-a="save-settings"${A.saving ? ' disabled' : ''}>${A.saving ? 'جاري الحفظ...' : 'حفظ'}</button>`;
     }
     function admReviewsHTML() {
@@ -3523,7 +3522,7 @@
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">${REV.online() ? (r.status === 'pending' ? `<button class="btn sm" data-a="rv-ok" data-id="${esc(r.id)}">موافقة ونشر</button>` : `<button class="btn ghost sm" data-a="rv-hide" data-id="${esc(r.id)}">إخفاء</button>`) : ''}
       <button class="btn ghost sm" data-a="rv-del" data-id="${esc(r.id)}">${A.del === 'r:' + r.id ? 'اضغط لتأكيد الحذف' : 'حذف'}</button></div></div>`;
       }).join('');
-      return `<div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0 12px"><span class="hint">${list.length} رأي</span><button class="btn ghost sm" data-a="reload">تحديث</button></div>${rows || '<div class="empty"><p>ما في آراء لسا.</p></div>'}`;
+      return `<div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0 12px"><span class="hint">${list.length} رأي</span><button class="btn ghost sm" data-a="reload">تحديث</button></div>${rows || '<div class="empty"><p>لا يوجد آراء حاليا.</p></div>'}`;
     }
 
     /* ---------- تجميع القيم من النماذج ---------- */
