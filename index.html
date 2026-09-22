@@ -2071,7 +2071,7 @@
       whatsapp: '962700000000',           // رقم واتساب الطلبات بصيغة دولية بدون + (مؤقت)
       instagram: 'https://www.instagram.com/donia.e.mutlaq/', // رابط صفحة انستقرام
       firebase: { projectId: 'doniastore-cee4a', apiKey: 'AIzaSyBOsxlTBcKtcH_v1SXDAC3_0eXB4nqTV3E' },  // من إعدادات مشروع Firebase (فاضيين = تجربة محلية)
-      moderateReviews: true,                   // true: الرأي بيظهر بعد ما توافق عليه
+      moderateReviews: false,                   // false: الرأي بينشر فوراً بدون موافقة (بس تقدر تشوفه وتحذفه من لوحة التحكم)
       freeShipping: 35,                   // الحد الأدنى للشحن المجاني (JD)
       delivery: { amman: 2, other: 3 },   // أجرة التوصيل (JD)
       coupons: {                          // أكواد الخصم (بتتحكم فيها انت)
@@ -2187,6 +2187,7 @@
         reviewsTitle: 'آراء الزبائن',
         footP: 'الدفع عند الاستلام. التوصيل لكل مناطق المملكة.',
         waChat: 'تواصل معنا على واتساب', admLink: 'دخول المسؤول', waFab: 'تواصل معنا',
+        support: 'الدعم الفني', supportMsg: 'مرحباً، احتاج مساعدة', supportWa: 'واتساب', supportIg: 'إنستقرام',
         igLabel: 'تابعنا على إنستقرام', igFollow: 'تابعنا على إنستقرام',
         cartAria: 'سلة المشتريات', modalAria: 'تفاصيل المنتج', close: 'إغلاق',
         /* المنتجات */
@@ -2253,6 +2254,7 @@
         reviewsTitle: 'Customer reviews',
         footP: 'Cash on delivery. Delivery across Jordan.',
         waChat: 'Chat with us on WhatsApp', admLink: 'Admin login', waFab: 'Contact us',
+        support: 'Technical Support', supportMsg: 'Hi, I need help', supportWa: 'WhatsApp', supportIg: 'Instagram',
         igLabel: 'Follow us on Instagram', igFollow: 'Follow us on Instagram',
         cartAria: 'Shopping cart', modalAria: 'Product details', close: 'Close',
         soon: 'Coming soon', save: 'Save', addAria: n => `Add ${n} to cart`, added: 'Added to cart',
@@ -2641,6 +2643,13 @@
       ${group(tr('shopSkin'), SKINS, 'skin')}
       ${group(tr('shopConcern'), CONCERNS, 'concern')}
       ${group(tr('shopType'), Object.fromEntries(usedTypes().map(k => [k, TYPES[k]])), 'type')}
+      <div style="margin-top:36px;padding-top:16px;border-top:1px solid var(--line)">
+        <div class="hint" style="margin-bottom:10px">${tr('support')}</div>
+        <div style="display:grid;gap:8px">
+          <a class="btn wa block" style="display:flex;align-items:center;justify-content:center;gap:8px" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(tr('supportMsg'))}">${ic('chat', 18)} ${tr('supportWa')}</a>
+          ${CONFIG.instagram ? `<a class="btn ghost block" style="display:flex;align-items:center;justify-content:center;gap:8px" target="_blank" rel="noopener" href="${CONFIG.instagram}">${ic('camera', 18)} ${tr('supportIg')}</a>` : ''}
+        </div>
+      </div>
     </div>`;
     }
 
