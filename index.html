@@ -1797,6 +1797,7 @@
         animation-duration: .01ms !important
       }
     }
+
     /* ===== تبديل اللغة (عربي / English) ===== */
     .lang-btn {
       display: flex;
@@ -1928,6 +1929,38 @@
       padding: 0 16px 0 18px
     }
 
+    /* instagram fab: يقف فوق زر الواتساب مباشرة، نفس الجهة */
+    .ig-fab {
+      position: fixed;
+      left: 14px;
+      bottom: calc(74px + env(safe-area-inset-bottom, 0px));
+      z-index: 15;
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f5bd5, #962fbf, #d62976, #fa7e1e, #feda75);
+      color: #fff;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .25)
+    }
+
+    html[dir="ltr"] .ig-fab {
+      left: auto;
+      right: 14px
+    }
+
+    .btn.ig {
+      background: linear-gradient(135deg, #4f5bd5, #962fbf, #d62976, #fa7e1e, #feda75);
+      color: #fff
+    }
+
+    .foot-ctas {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
     html[dir="ltr"] .dr-head {
       padding: 8px 16px 8px 12px
     }
@@ -1956,19 +1989,22 @@
   <header class="hdr">
     <div class="hdr-in">
       <div class="hdr-start">
-        <button class="icon-btn" data-act="menu" aria-label="القائمة" data-i18n-attr="aria-label:menu" id="btnMenu" aria-haspopup="true" aria-expanded="false"></button>
-        <button class="icon-btn" data-act="search" aria-label="بحث" data-i18n-attr="aria-label:search" id="btnSearch"></button>
+        <button class="icon-btn" data-act="menu" aria-label="القائمة" data-i18n-attr="aria-label:menu" id="btnMenu"
+          aria-haspopup="true" aria-expanded="false"></button>
+        <button class="icon-btn" data-act="search" aria-label="بحث" data-i18n-attr="aria-label:search"
+          id="btnSearch"></button>
       </div>
       <a class="logo" href="#top" id="logo"></a>
       <nav class="dnav" id="dnav" aria-label="الأقسام" data-i18n-attr="aria-label:cats"></nav>
       <div class="hdr-end">
         <button class="icon-btn lang-btn" data-act="lang" id="btnLang" type="button">EN</button>
-        <button class="icon-btn" data-act="cart" aria-label="السلة" data-i18n-attr="aria-label:cartBtn" id="btnCart"><span class="badge" id="cartCount"
-            hidden>0</span></button>
+        <button class="icon-btn" data-act="cart" aria-label="السلة" data-i18n-attr="aria-label:cartBtn"
+          id="btnCart"><span class="badge" id="cartCount" hidden>0</span></button>
       </div>
     </div>
     <div class="searchbar" id="searchbar" hidden>
-      <input class="input" id="q" type="search" placeholder="ابحث عن منتج أو ماركة" data-i18n-attr="placeholder:searchPh" autocomplete="off">
+      <input class="input" id="q" type="search" placeholder="ابحث عن منتج أو ماركة"
+        data-i18n-attr="placeholder:searchPh" autocomplete="off">
     </div>
   </header>
 
@@ -1985,7 +2021,8 @@
     </section>
 
     <div class="row-scroll brand-row" id="brandRow" aria-label="الماركات" data-i18n-attr="aria-label:brands"></div>
-    <div class="row-scroll" id="typeRow" aria-label="نوع المنتج" data-i18n-attr="aria-label:prodType" style="padding-top:8px"></div>
+    <div class="row-scroll" id="typeRow" aria-label="نوع المنتج" data-i18n-attr="aria-label:prodType"
+      style="padding-top:8px"></div>
 
     <section id="products"></section>
 
@@ -2000,19 +2037,28 @@
       <div class="logo" id="footLogo"></div>
       <div class="tagline">BEAUTY &amp; COSMETICS</div>
       <p data-i18n="footP">الدفع عند الاستلام. التوصيل لكل مناطق المملكة.</p>
-      <a class="btn wa" id="footWa" href="#" target="_blank" rel="noopener" data-i18n="waChat">تواصل معنا على واتساب</a>
+      <div class="foot-ctas">
+        <a class="btn wa" id="footWa" href="#" target="_blank" rel="noopener" data-i18n="waChat">تواصل معنا على
+          واتساب</a>
+        <a class="btn ig" id="footIg" href="#" target="_blank" rel="noopener" data-i18n="igFollow">تابعنا على
+          إنستقرام</a>
+      </div>
       <a class="adm-link" href="#admin" data-i18n="admLink">دخول المسؤول</a>
     </div>
   </footer>
 
-  <a class="wa-fab" id="waFab" href="#" target="_blank" rel="noopener" aria-label="تواصل معنا على واتساب" data-i18n-attr="aria-label:waChat"></a>
+  <a class="wa-fab" id="waFab" href="#" target="_blank" rel="noopener" aria-label="تواصل معنا على واتساب"
+    data-i18n-attr="aria-label:waChat"></a>
+  <a class="ig-fab" id="igFab" href="#" target="_blank" rel="noopener" aria-label="تابعنا على إنستقرام"
+    data-i18n-attr="aria-label:igLabel"></a>
 
   <div class="scrim" id="scrim" data-act="close-all"></div>
 
   <aside class="drawer menu" id="menuDrawer" aria-label="القائمة" data-i18n-attr="aria-label:menu"></aside>
   <aside class="drawer cart" id="cartDrawer" aria-label="سلة المشتريات" data-i18n-attr="aria-label:cartAria"></aside>
 
-  <div class="modal" id="modal" data-act="close-modal" role="dialog" aria-modal="true" aria-label="تفاصيل المنتج" data-i18n-attr="aria-label:modalAria">
+  <div class="modal" id="modal" data-act="close-modal" role="dialog" aria-modal="true" aria-label="تفاصيل المنتج"
+    data-i18n-attr="aria-label:modalAria">
     <div class="sheet" id="sheet"></div>
   </div>
 
@@ -2024,6 +2070,7 @@
     const CONFIG = {
       storeName: 'DONIA',                  // اسم المتجر
       whatsapp: '962700000000',           // رقم واتساب الطلبات بصيغة دولية بدون + (مؤقت)
+      instagram: 'https://www.instagram.com/donia.e.mutlaq/', // رابط صفحة انستقرام
       firebase: { projectId: 'doniastore-cee4a', apiKey: 'AIzaSyBOsxlTBcKtcH_v1SXDAC3_0eXB4nqTV3E' },  // من إعدادات مشروع Firebase (فاضيين = تجربة محلية)
       moderateReviews: true,                   // true: الرأي بيظهر بعد ما توافق عليه
       freeShipping: 35,                   // الحد الأدنى للشحن المجاني (JD)
@@ -2141,6 +2188,7 @@
         reviewsTitle: 'آراء الزبائن',
         footP: 'الدفع عند الاستلام. التوصيل لكل مناطق المملكة.',
         waChat: 'تواصل معنا على واتساب', admLink: 'دخول المسؤول', waFab: 'تواصل معنا',
+        igLabel: 'تابعنا على إنستقرام', igFollow: 'تابعنا على إنستقرام',
         cartAria: 'سلة المشتريات', modalAria: 'تفاصيل المنتج', close: 'إغلاق',
         /* المنتجات */
         soon: 'سيتوفر قريباً', save: 'وفر', addAria: n => `أضف ${n} للسلة`, added: 'تمت الإضافة للسلة',
@@ -2200,12 +2248,13 @@
         langBtn: 'عربي', langLabel: 'التبديل إلى العربية',
         menu: 'Menu', search: 'Search', cats: 'Categories', cartBtn: 'Cart', home: 'Home',
         searchPh: 'Search products or brands',
-        heroH1: 'Your beauty,<br>with a touch of Donia',
+        heroH1: 'Your beauty,<br>with a touch From Donia',
         heroP: 'Curated skincare and cosmetics, delivered across Jordan, with cash on delivery.',
         shopNow: 'Shop now', brands: 'Brands', prodType: 'Product type',
         reviewsTitle: 'Customer reviews',
         footP: 'Cash on delivery. Delivery across Jordan.',
         waChat: 'Chat with us on WhatsApp', admLink: 'Admin login', waFab: 'Contact us',
+        igLabel: 'Follow us on Instagram', igFollow: 'Follow us on Instagram',
         cartAria: 'Shopping cart', modalAria: 'Product details', close: 'Close',
         soon: 'Coming soon', save: 'Save', addAria: n => `Add ${n} to cart`, added: 'Added to cart',
         allProducts: 'All products', loadingProducts: 'Loading products...', prodError: "We couldn't load the products right now.",
@@ -2355,6 +2404,7 @@
       chev: '<path d="m6 9 6 6 6-6"/>',
       fwd: '<path d="m9 6 6 6-6 6"/>',
       chat: '<path d="M4 20l1.3-4.1A8 8 0 1 1 8.2 18.8L4 20Z"/><path d="M9 10h6M9 13.5h4"/>',
+      camera: '<rect x="3" y="3" width="18" height="18" rx="6"/><circle cx="12" cy="12" r="4.3"/><circle cx="16.8" cy="7.2" r="1" fill="currentColor" stroke="none"/>',
       drop: '<path d="M12 3s6 6.4 6 10.5A6 6 0 0 1 6 13.5C6 9.4 12 3 12 3Z"/>',
       star: '<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8L12 3.5Z" fill="currentColor"/>'
     };
@@ -2805,7 +2855,7 @@
       list.sort((a, b) => a.ord - b.ord).forEach(p => PRODUCTS.push(p));
     }
     const DEFAULT_SETTINGS = () => ({
-      whatsapp: CONFIG.whatsapp, freeShipping: CONFIG.freeShipping,
+      whatsapp: CONFIG.whatsapp, instagram: CONFIG.instagram, freeShipping: CONFIG.freeShipping,
       deliveryAmman: CONFIG.delivery.amman, deliveryOther: CONFIG.delivery.other,
       promoText: '', promoTextEn: '', heroImage: '',
       coupons: Object.entries(CONFIG.coupons).map(([code, c]) => ({ code, type: c.type, value: c.value, min: c.min || 0, active: true })),
@@ -2820,6 +2870,7 @@
     function setWaLinks() {
       const wa = `https://wa.me/${CONFIG.whatsapp}`;
       $('#waFab').href = wa; $('#footWa').href = wa;
+      if (CONFIG.instagram) { $('#igFab').href = CONFIG.instagram; $('#footIg').href = CONFIG.instagram; }
     }
     function applyHero() {
       const hc = $('#heroCard'); if (!hc) return;
@@ -2831,6 +2882,8 @@
       const s = mergeSettings(raw);
       const wa = String(s.whatsapp || '').replace(/\D/g, '');
       if (wa.length >= 9) CONFIG.whatsapp = wa;
+      const ig = String(s.instagram || '').trim();
+      if (ig) CONFIG.instagram = ig;
       CONFIG.freeShipping = num(s.freeShipping, CONFIG.freeShipping);
       CONFIG.delivery = { amman: num(s.deliveryAmman, CONFIG.delivery.amman), other: num(s.deliveryOther, CONFIG.delivery.other) };
       CONFIG.coupons = {};
@@ -3451,6 +3504,7 @@
       const s = A.settings;
       return `<div class="card-box"><h3>التواصل</h3>
       <div class="field"><label>رقم واتساب الطلبات (بصيغة دولية بدون +)</label><input class="input" data-s="whatsapp" inputmode="numeric" style="direction:ltr;text-align:right" value="${esc(s.whatsapp)}" placeholder="962791234567"></div>
+      <div class="field"><label>رابط صفحة إنستقرام</label><input class="input" data-s="instagram" dir="ltr" style="text-align:left" value="${esc(s.instagram || '')}" placeholder="https://www.instagram.com/your_page"></div>
       <div class="field"><label>نص الشريط العلوي (اتركه فاضي للنص الافتراضي)</label><input class="input" data-s="promoText" maxlength="120" value="${esc(s.promoText || '')}"></div>
       <div class="field"><label>نص الشريط العلوي بالإنجليزي (اتركه فاضي للنص الافتراضي)</label><input class="input" data-s="promoTextEn" maxlength="120" dir="ltr" style="text-align:left" value="${esc(s.promoTextEn || '')}"></div></div>
     <div class="card-box"><h3>صورة الغلاف (الهيرو)</h3>
@@ -3497,6 +3551,7 @@
         whatsapp: String(s.whatsapp || '').replace(/\D/g, ''), freeShipping: num(s.freeShipping, 35),
         deliveryAmman: num(s.deliveryAmman, 2), deliveryOther: num(s.deliveryOther, 3),
         promoText: clean(s.promoText || ''), promoTextEn: clean(s.promoTextEn || ''), heroImage: okImg(s.heroImage) ? s.heroImage : '',
+        instagram: clean(s.instagram || ''),
         coupons: (s.coupons || []).map(c => ({ code: String(c.code).toUpperCase(), type: c.type === 'fixed' ? 'fixed' : 'percent', value: num(c.value), min: num(c.min), active: c.active !== false })),
         auto: { on: !!s.auto.on, type: s.auto.type === 'fixed' ? 'fixed' : 'percent', value: num(s.auto.value), min: num(s.auto.min), label: clean(s.auto.label || ''), labelEn: clean(s.auto.labelEn || '') }
       };
@@ -3646,6 +3701,9 @@
       const wa = `https://wa.me/${CONFIG.whatsapp}`;
       $('#waFab').href = wa; $('#footWa').href = wa;
       $('#waFab').innerHTML = `${ic('chat', 22)}<span data-i18n="waFab">تواصل معنا</span>`;
+      if (CONFIG.instagram) { $('#igFab').href = CONFIG.instagram; $('#footIg').href = CONFIG.instagram; }
+      $('#igFab').innerHTML = ic('camera', 22);
+      $('#footIg').insertAdjacentHTML('afterbegin', ic('camera', 18));
       const HB = (shape, c) => art({ brand: 'DONIA', ar: 'DONIA', shape, c });
       $('#heroArt').innerHTML = `<div class="halo"></div><div class="a1">${HB('tube', { body: '#F6EEE8', accent: '#8A6350', cap: '#E9D7CB', swatch: '#DCC6B8' })}</div><div class="a2">${HB('pump', { body: '#8A6350', accent: '#6E4C3B', cap: '#5A3A2B', swatch: '#E4CBBB' })}</div><div class="a3">${HB('dropper', { body: '#E9D7CB', accent: '#8A6350', cap: '#B98A6E', swatch: '#DCC6B8' })}</div>`;
       $('#heroArt').querySelectorAll('div[class^="a"]').forEach(w => { const sv = w.querySelector('svg'); sv.setAttribute('class', w.className); w.replaceWith(sv); });
