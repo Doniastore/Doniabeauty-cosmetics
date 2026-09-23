@@ -2805,11 +2805,21 @@
     const TELEGRAM = { token: '8831919230:AAFroaU3IgzCsk9MGle2c3dy-UIRSqz4Sdc', chatId: '1441110815' };
     async function notifyTelegram(text) {
       try {
-        await fetch(`https://api.telegram.org/bot${TELEGRAM.token}/sendMessage`, {
+        const res = await fetch(`https://api.telegram.org/bot${TELEGRAM.token}/sendMessage`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chat_id: TELEGRAM.chatId, text })
         });
-      } catch (e) { console.error('[DONIA] telegram notify:', e); }
+        let body = null; try { body = await res.json(); } catch (x) { }
+        if (!res.ok || (body && body.ok === false)) {
+          const desc = (body && body.description) || res.statusText || 'unknown error';
+          console.error(`[DONIA] telegram notify FAILED (${res.status}): ${desc}`);
+          if (/chat not found/i.test(desc)) console.error('[DONIA] السبب الأرجح: صاحب الـ chatId ما بعت /start للبوت، أو الـ chatId غلط.');
+          if (/bot was blocked|Forbidden/i.test(desc)) console.error('[DONIA] السبب الأرجح: المستخدم حاظر البوت أو ما بدأ محادثة معه.');
+          if (/Unauthorized/i.test(desc)) console.error('[DONIA] السبب الأرجح: توكن البوت غلط أو تم إلغاؤه من BotFather.');
+          return false;
+        }
+        return true;
+      } catch (e) { console.error('[DONIA] telegram notify: network/JS error:', e); return false; }
     }
     async function submitOrder() {
       if (state.submitting) return;
@@ -2848,13 +2858,18 @@
       state.order = { no, msg, link: igDM() };
       const btn = document.querySelector('[data-act="submit"]');
       state.submitting = true; if (btn) { btn.disabled = true; btn.textContent = tr('sending'); }
-      try {
-        await ORD.create(order);
-        notifyTelegram(msg);
+      const [savedRes, tgRes] = await Promise.allSettled([ORD.create(order), notifyTelegram(msg)]);
+      const saved = savedRes.status === 'fulfilled';
+      const tgOk = tgRes.status === 'fulfilled' && tgRes.value === true;
+      if (!saved) console.error('[DONIA] order save FAILED:', savedRes.reason);
+      if (!tgOk) console.error('[DONIA] order was NOT delivered to Telegram (see error above).');
+      if (saved) {
         setLS('donia_ord_last', String(Date.now()));
         state.cart = {}; state.coupon = null; state.form.note = ''; state.form.deliveryDate = ''; saveCart(); updateBadge();
         state.view = 'done';
-      } catch (e) { console.error('[DONIA] order:', e); state.view = 'fail'; }
+      } else {
+        state.view = 'fail';
+      }
       state.submitting = false; renderCart(); $('#cartBody').scrollTop = 0;
     }
 
