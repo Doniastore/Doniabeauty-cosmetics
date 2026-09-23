@@ -1020,7 +1020,7 @@
       text-decoration: underline
     }
 
-    /* whatsapp fab */
+    /* زر المراسلة العائم (إنستقرام) */
     .wa-fab {
       position: fixed;
       left: 14px;
@@ -1032,7 +1032,7 @@
       min-height: 48px;
       padding: 0 18px 0 16px;
       border-radius: 999px;
-      background: var(--wa);
+      background: linear-gradient(135deg, #4f5bd5, #962fbf, #d62976, #fa7e1e, #feda75);
       color: #fff;
       text-decoration: none;
       font-weight: 600;
@@ -2038,15 +2038,15 @@
       <div class="tagline">BEAUTY &amp; COSMETICS</div>
       <p data-i18n="footP">الدفع عند الاستلام. التوصيل لكل مناطق المملكة.</p>
       <div class="foot-ctas">
-        <a class="btn wa" id="footWa" href="#" target="_blank" rel="noopener" data-i18n="waChat">تواصل معنا على
-          واتساب</a>
+        <a class="btn ig" id="footWa" href="#" target="_blank" rel="noopener" data-i18n="waChat">راسلنا على
+          إنستقرام</a>
         <a class="btn ig" id="footIg" href="#" target="_blank" rel="noopener" data-i18n="igFollow">تابعنا على
           إنستقرام</a>
       </div>
     </div>
   </footer>
 
-  <a class="wa-fab" id="waFab" href="#" target="_blank" rel="noopener" aria-label="تواصل معنا على واتساب"
+  <a class="wa-fab" id="waFab" href="#" target="_blank" rel="noopener" aria-label="راسلنا على إنستقرام"
     data-i18n-attr="aria-label:waChat"></a>
   <a class="ig-fab" id="igFab" href="#" target="_blank" rel="noopener" aria-label="تابعنا على إنستقرام"
     data-i18n-attr="aria-label:igLabel"></a>
@@ -2068,8 +2068,7 @@
     /* ====================== الإعدادات: عدّلها هون ====================== */
     const CONFIG = {
       storeName: 'DONIA',                  // اسم المتجر
-      whatsapp: '962700000000',           // رقم واتساب الطلبات بصيغة دولية بدون + (مؤقت)
-      instagram: 'https://www.instagram.com/donia.e.mutlaq/', // رابط صفحة انستقرام
+      instagram: 'https://www.instagram.com/donia.e.mutlaq/', // رابط صفحة انستقرام (وبيُستخدم منه رابط المراسلة المباشرة)
       firebase: { projectId: 'doniastore-cee4a', apiKey: 'AIzaSyBOsxlTBcKtcH_v1SXDAC3_0eXB4nqTV3E' },  // من إعدادات مشروع Firebase (فاضيين = تجربة محلية)
       moderateReviews: false,                   // false: الرأي بينشر فوراً بدون موافقة (بس تقدر تشوفه وتحذفه من لوحة التحكم)
       freeShipping: 35,                   // الحد الأدنى للشحن المجاني (JD)
@@ -2164,6 +2163,15 @@
     const CONCERNS = { acne: 'حبوب وبثور', wrinkles: 'خطوط وتجاعيد', pigmentation: 'تصبغات', hydration: 'جفاف وترطيب', redness: 'احمرار وحساسية' };
     const CITIES = ['عمّان', 'إربد', 'الزرقاء', 'العقبة', 'السلط', 'مادبا', 'جرش', 'عجلون', 'الكرك', 'المفرق', 'معان', 'الطفيلة'];
     const ONLINE = !!(CONFIG.firebase.projectId && CONFIG.firebase.apiKey);
+    /* رابط المراسلة المباشرة على إنستقرام (DM)، مبني من رابط صفحة انستقرام */
+    function igUsername() {
+      const m = /instagram\.com\/([^/?#]+)/i.exec(CONFIG.instagram || '');
+      return m ? m[1].replace(/\/$/, '') : '';
+    }
+    function igDM() {
+      const u = igUsername();
+      return u ? `https://ig.me/m/${u}` : (CONFIG.instagram || '#');
+    }
     /* المنتجات الظاهرة بالموقع: تجريبية لو Firebase مش مربوط، وإلا بتنجاب من لوحة التحكم */
     const PRODUCTS = ONLINE ? [] : SAMPLES.map(p => Object.assign({ visible: true, image: '', ord: 0 }, p));
     const brands = () => [...new Set(PRODUCTS.map(p => p.brand).filter(Boolean))];
@@ -2186,8 +2194,8 @@
         shopNow: 'تسوّق الآن', brands: 'الماركات', prodType: 'نوع المنتج',
         reviewsTitle: 'آراء الزبائن',
         footP: 'الدفع عند الاستلام. التوصيل لكل مناطق المملكة.',
-        waChat: 'تواصل معنا على واتساب', admLink: 'دخول المسؤول', waFab: 'تواصل معنا',
-        support: 'الدعم الفني', supportMsg: 'مرحباً، احتاج مساعدة', supportWa: 'واتساب', supportIg: 'إنستقرام',
+        waChat: 'راسلنا على إنستقرام', admLink: 'دخول المسؤول', waFab: 'راسلنا',
+        support: 'الدعم الفني', supportMsg: 'مرحباً، احتاج مساعدة', supportWa: 'راسلنا على إنستقرام', supportIg: 'إنستقرام',
         igLabel: 'تابعنا على إنستقرام', igFollow: 'تابعنا على إنستقرام',
         cartAria: 'سلة المشتريات', modalAria: 'تفاصيل المنتج', close: 'إغلاق',
         /* المنتجات */
@@ -2211,13 +2219,13 @@
         summary: 'ملخص الطلب', formTitle: 'معلومات التواصل والتوصيل',
         fn: 'الاسم الأول', ln: 'اسم العائلة', phone: 'رقم الهاتف', city: 'المدينة', selCity: 'اختر المدينة',
         area: 'المنطقة (الصويفية، عبدون...)', addr: 'العنوان بالتفصيل', addrPh: 'اسم الشارع، رقم البناية، أقرب معلم',
-        note: 'ملاحظات (اختياري)', payTitle: 'طريقة الدفع', cod: 'الدفع عند الاستلام',
+        note: 'ملاحظات (اختياري)', deliveryDate: 'تاريخ التوصيل', deliveryDateHint: 'اختر التاريخ المناسب لاستلام طلبك (بعد يومين على الأقل)', vDate: 'اختر تاريخ توصيل صحيح', payTitle: 'طريقة الدفع', cod: 'الدفع عند الاستلام',
         submitBtn: 'تأكيد الطلب', sending: 'جاري إرسال الطلب...',
         doneH: 'تم استلام طلبك',
         doneP: no => `رقم طلبك <b class="num">${no}</b>. بنتواصل معك قريباً على رقمك لتأكيد التوصيل. الدفع عند الاستلام.`,
         demoHint: 'وضع التجربة: الطلب انحفظ على جهازك وبتشوفه بلوحة التحكم.', backStore: 'رجوع للمتجر',
-        failH: 'ما قدرنا نسجّل طلبك', failP: 'صار خطأ بالاتصال. أرسل طلبك على واتساب بالزر تحت وبنتواصل معك، أو جرّب مرة ثانية.',
-        sendWa: 'إرسال الطلب على واتساب', copyOrder: 'نسخ نص الطلب', sentOrder: 'أرسلت الطلب',
+        failH: 'ما قدرنا نسجّل طلبك', failP: 'صار خطأ بالاتصال. انسخ تفاصيل طلبك وراسلنا على إنستقرام بالزر تحت، أو جرّب مرة ثانية.',
+        sendWa: 'راسلنا على إنستقرام', copyOrder: 'نسخ نص الطلب', sentOrder: 'أرسلت الطلب',
         vFn: 'اكتب اسمك الأول', vLn: 'اكتب اسم العائلة', vPhone: 'اكتب رقم أردني صحيح، مثل 0791234567',
         vCity: 'اختر المدينة', vArea: 'اكتب اسم المنطقة', vAddr: 'اكتب العنوان بالتفصيل',
         waitOrder: 'استنى شوي قبل ما ترسل طلب ثاني', selectCopy: 'حدد النص وانسخه يدوياً', copied: 'تم نسخ الطلب',
@@ -2225,7 +2233,7 @@
         /* نص رسالة الطلب (بتنبعت على واتساب) */
         ordNew: 'طلب جديد', ordName: 'الاسم', ordPhone: 'الهاتف', ordCity: 'المدينة والمنطقة', ordAddr: 'العنوان',
         ordPay: 'الدفع: عند الاستلام', ordItems: 'المنتجات:', ordSub: 'المجموع الفرعي', ordCpn: c => `خصم (${c})`,
-        ordDelivery: 'التوصيل', ordTotal: 'الإجمالي', ordNote: 'ملاحظات', waHello: no => `مرحباً، بخصوص طلبي رقم ${no}`,
+        ordDelivery: 'التوصيل', ordTotal: 'الإجمالي', ordNote: 'ملاحظات', ordDate: 'تاريخ التوصيل المطلوب',
         /* الآراء */
         outOf5: x => `${x} من 5`, reviewsFor: 'آراء منتج معيّن', reviewsAll: 'آراء كل المنتجات',
         basedOn: n => 'بناءً على رأي ' + cust(n), noReviews: 'لا يوجد  آراء ',
@@ -2253,8 +2261,8 @@
         shopNow: 'Shop now', brands: 'Brands', prodType: 'Product type',
         reviewsTitle: 'Customer reviews',
         footP: 'Cash on delivery. Delivery across Jordan.',
-        waChat: 'Chat with us on WhatsApp', admLink: 'Admin login', waFab: 'Contact us',
-        support: 'Technical Support', supportMsg: 'Hi, I need help', supportWa: 'WhatsApp', supportIg: 'Instagram',
+        waChat: 'Message us on Instagram', admLink: 'Admin login', waFab: 'Message us',
+        support: 'Technical Support', supportMsg: 'Hi, I need help', supportWa: 'Message us on Instagram', supportIg: 'Instagram',
         igLabel: 'Follow us on Instagram', igFollow: 'Follow us on Instagram',
         cartAria: 'Shopping cart', modalAria: 'Product details', close: 'Close',
         soon: 'Coming soon', save: 'Save', addAria: n => `Add ${n} to cart`, added: 'Added to cart',
@@ -2276,20 +2284,20 @@
         summary: 'Order summary', formTitle: 'Contact & delivery details',
         fn: 'First name', ln: 'Last name', phone: 'Phone number', city: 'City', selCity: 'Select city',
         area: 'Area (e.g. Sweifieh, Abdoun)', addr: 'Full address', addrPh: 'Street name, building number, nearest landmark',
-        note: 'Notes (optional)', payTitle: 'Payment method', cod: 'Cash on delivery',
+        note: 'Notes (optional)', deliveryDate: 'Delivery date', deliveryDateHint: 'Choose the date you want your order delivered (at least 2 days from now)', vDate: 'Select a valid delivery date', payTitle: 'Payment method', cod: 'Cash on delivery',
         submitBtn: 'Place order', sending: 'Sending your order...',
         doneH: 'We received your order',
         doneP: no => `Your order number is <b class="num">${no}</b>. We'll contact you shortly on your phone to confirm delivery. Payment is cash on delivery.`,
         demoHint: 'Demo mode: your order was saved on this device and appears in the admin panel.', backStore: 'Back to store',
-        failH: "We couldn't record your order", failP: 'A connection error occurred. Send your order on WhatsApp with the button below and we will get back to you, or try again.',
-        sendWa: 'Send order on WhatsApp', copyOrder: 'Copy order text', sentOrder: 'I sent the order',
+        failH: "We couldn't record your order", failP: 'A connection error occurred. Copy your order details below and message us on Instagram, or try again.',
+        sendWa: 'Message us on Instagram', copyOrder: 'Copy order text', sentOrder: 'I sent the order',
         vFn: 'Enter your first name', vLn: 'Enter your last name', vPhone: 'Enter a valid Jordanian number, e.g. 0791234567',
         vCity: 'Select your city', vArea: 'Enter your area', vAddr: 'Enter your full address',
         waitOrder: 'Please wait a moment before sending another order', selectCopy: 'Select the text and copy it manually', copied: 'Order copied',
         thanksSoon: "Thank you, we'll be in touch soon",
         ordNew: 'New order', ordName: 'Name', ordPhone: 'Phone', ordCity: 'City & area', ordAddr: 'Address',
         ordPay: 'Payment: cash on delivery', ordItems: 'Items:', ordSub: 'Subtotal', ordCpn: c => `Discount (${c})`,
-        ordDelivery: 'Delivery', ordTotal: 'Total', ordNote: 'Notes', waHello: no => `Hello, regarding my order number ${no}`,
+        ordDelivery: 'Delivery', ordTotal: 'Total', ordNote: 'Notes', ordDate: 'Requested delivery date',
         outOf5: x => `${x} out of 5`, reviewsFor: 'Reviews for a specific product', reviewsAll: 'Reviews for all products',
         basedOn: n => `Based on ${n} review${n === 1 ? '' : 's'}`, noReviews: 'No reviews yet',
         revShareP: 'Bought from DONIA? Share your review. No account needed.', writeReview: 'Write a review',
@@ -2582,7 +2590,7 @@
         '<a class="dlink" href="#reviews" data-act="close-dnav">' + tr('reviewsTitle') + '</a>' +
         `<div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--line)">
           <div class="hint" style="padding:0 14px 6px">${tr('support')}</div>
-          <a class="dlink" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(tr('supportMsg'))}">${tr('supportWa')}</a>
+          <a class="dlink" target="_blank" rel="noopener" href="${igDM()}">${tr('supportWa')}</a>
           ${CONFIG.instagram ? `<a class="dlink" target="_blank" rel="noopener" href="${CONFIG.instagram}">${tr('supportIg')}</a>` : ''}
         </div>`;
     }
@@ -2651,7 +2659,7 @@
       <div style="margin-top:36px;padding-top:16px;border-top:1px solid var(--line)">
         <div class="hint" style="margin-bottom:10px">${tr('support')}</div>
         <div style="display:grid;gap:8px">
-          <a class="btn wa block" style="display:flex;align-items:center;justify-content:center;gap:8px" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(tr('supportMsg'))}">${ic('chat', 18)} ${tr('supportWa')}</a>
+          <a class="btn ig block" style="display:flex;align-items:center;justify-content:center;gap:8px" target="_blank" rel="noopener" href="${igDM()}">${ic('chat', 18)} ${tr('supportWa')}</a>
           ${CONFIG.instagram ? `<a class="btn ghost block" style="display:flex;align-items:center;justify-content:center;gap:8px" target="_blank" rel="noopener" href="${CONFIG.instagram}">${ic('camera', 18)} ${tr('supportIg')}</a>` : ''}
         </div>
       </div>
@@ -2708,6 +2716,7 @@
       ${F('city', tr('city'), `<select class="input" id="city" data-f="city"><option value="">${tr('selCity')}</option>${CITIES.map(c => `<option value="${c}"${f.city === c ? ' selected' : ''}>${cityLbl(c)}</option>`).join('')}</select>`)}
       ${F('area', tr('area'), `<input class="input" id="area" data-f="area" value="${val('area')}">`)}
       ${F('addr', tr('addr'), `<textarea class="input" id="addr" data-f="addr" placeholder="${tr('addrPh')}">${val('addr')}</textarea>`)}
+      ${F('deliveryDate', tr('deliveryDate'), `<input class="input ltr-txt" id="deliveryDate" data-f="deliveryDate" type="date" min="${minDeliveryDateStr()}" value="${val('deliveryDate')}"><p class="hint" style="margin-top:2px">${tr('deliveryDateHint')}</p>`)}
       ${F('note', tr('note'), `<input class="input" id="note" data-f="note" value="${val('note')}">`)}
       <input type="text" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
       <h3>${tr('payTitle')}</h3>
@@ -2718,12 +2727,12 @@
         body = `<div class="center"><div class="ok-ic">${ic('check', 30)}</div><h3>${tr('doneH')}</h3>
       <p>${tr('doneP', state.order.no)}</p></div>
       <div class="msg" id="msg" dir="auto"></div>${ONLINE ? '' : `<p class="hint" style="margin-top:10px">${tr('demoHint')}</p>`}`;
-        foot = `<a class="btn wa block" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(tr('waHello', state.order.no))}">${ic('chat', 20)} ${tr('waChat')}</a>
+        foot = `<a class="btn ig block" target="_blank" rel="noopener" href="${igDM()}">${ic('chat', 20)} ${tr('waChat')}</a>
       <button class="btn ghost block" data-act="close-all">${tr('backStore')}</button>`;
       } else if (v === 'fail') {
         body = `<div class="center"><div class="ok-ic" style="color:var(--rose)">${ic('close', 30)}</div><h3>${tr('failH')}</h3>
       <p>${tr('failP')}</p></div><div class="msg" id="msg" dir="auto"></div>`;
-        foot = `<a class="btn wa block" id="waSend" target="_blank" rel="noopener" href="${state.order.link}">${ic('chat', 20)} ${tr('sendWa')}</a>
+        foot = `<a class="btn ig block" id="waSend" target="_blank" rel="noopener" href="${state.order.link}">${ic('chat', 20)} ${tr('sendWa')}</a>
       <div class="two"><button class="btn ghost" data-act="copy">${tr('copyOrder')}</button><button class="btn ghost" data-act="sent">${tr('sentOrder')}</button></div>
       <button class="btn ghost block" data-act="checkout">${tr('retry')}</button>`;
       }
@@ -2744,6 +2753,12 @@
       state.view = view || 'cart'; renderCart(); openDrawer('#cartDrawer');
     }
 
+    /* أقل تاريخ توصيل مسموح: بعد يومين من اليوم */
+    function minDeliveryDateStr() {
+      const d = new Date(); d.setDate(d.getDate() + 2);
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
     /* التحقق وإرسال الطلب */
     const PHONE = /^(?:\+?962|0)?7[789]\d{7}$/;
     function normPhone(v) { return v.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[\s\-()]/g, ''); }
@@ -2755,7 +2770,8 @@
       if (!f.city) e.city = tr('vCity');
       if (!(f.area || '').trim()) e.area = tr('vArea');
       if (!(f.addr || '').trim()) e.addr = tr('vAddr');
-      ['fn', 'ln', 'phone', 'city', 'area', 'addr'].forEach(k => {
+      if (!f.deliveryDate || f.deliveryDate < minDeliveryDateStr()) e.deliveryDate = tr('vDate');
+      ['fn', 'ln', 'phone', 'city', 'area', 'addr', 'deliveryDate'].forEach(k => {
         const el = $('#e-' + k), inp = $('#' + k);
         if (el) el.textContent = e[k] || '';
         if (inp) inp.classList.toggle('bad', !!e[k]);
@@ -2777,7 +2793,7 @@
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             fields: {
-              orderNo: S(o.orderNo), name: S(o.name), phone: S(o.phone), city: S(o.city), area: S(o.area), address: S(o.address), note: S(o.note),
+              orderNo: S(o.orderNo), name: S(o.name), phone: S(o.phone), city: S(o.city), area: S(o.area), address: S(o.address), deliveryDate: S(o.deliveryDate || ''), note: S(o.note),
               itemsJson: S(o.itemsJson), subtotal: N(o.subtotal), discount: N(o.discount), delivery: N(o.delivery), total: N(o.total),
               coupon: S(o.coupon), createdAt: { timestampValue: new Date(o.createdAt).toISOString() }, status: S('new')
             }
@@ -2801,6 +2817,7 @@
         `${tr('ordPhone')}: ${normPhone(f.phone)}`,
         `${tr('ordCity')}: ${cityLbl(f.city)} - ${f.area.trim()}`,
         `${tr('ordAddr')}: ${f.addr.trim()}`,
+        `${tr('ordDate')}: ${f.deliveryDate}`,
         tr('ordPay'), '',
         tr('ordItems'),
         ...t.items.map(({ p, q }) => `- ${p.brand} ${pName(p)} × ${q} = ${iso(p.price * q)}`), '',
@@ -2814,18 +2831,18 @@
       const msg = lines.join('\n');
       const order = {
         orderNo: no, name: `${f.fn.trim()} ${f.ln.trim()}`, phone: normPhone(f.phone), city: f.city, area: f.area.trim(),
-        address: f.addr.trim(), note: (f.note || '').trim(),
+        address: f.addr.trim(), deliveryDate: f.deliveryDate, note: (f.note || '').trim(),
         itemsJson: JSON.stringify({ items: t.items.map(({ p, q }) => ({ id: p.id, b: p.brand, n: p.ar, q, pr: p.price })), auto: t.auto, autoLabel: CONFIG.auto ? CONFIG.auto.label : '', couponDisc: t.disc }),
         subtotal: t.sub, discount: r3(t.auto + t.disc), delivery: t.fee || 0, total: t.total,
         coupon: state.coupon && !t.belowMin ? state.coupon : '', createdAt: Date.now(), status: 'new'
       };
-      state.order = { no, msg, link: `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}` };
+      state.order = { no, msg, link: igDM() };
       const btn = document.querySelector('[data-act="submit"]');
       state.submitting = true; if (btn) { btn.disabled = true; btn.textContent = tr('sending'); }
       try {
         await ORD.create(order);
         setLS('donia_ord_last', String(Date.now()));
-        state.cart = {}; state.coupon = null; state.form.note = ''; saveCart(); updateBadge();
+        state.cart = {}; state.coupon = null; state.form.note = ''; state.form.deliveryDate = ''; saveCart(); updateBadge();
         state.view = 'done';
       } catch (e) { console.error('[DONIA] order:', e); state.view = 'fail'; }
       state.submitting = false; renderCart(); $('#cartBody').scrollTop = 0;
@@ -2868,7 +2885,7 @@
       list.sort((a, b) => a.ord - b.ord).forEach(p => PRODUCTS.push(p));
     }
     const DEFAULT_SETTINGS = () => ({
-      whatsapp: CONFIG.whatsapp, instagram: CONFIG.instagram, freeShipping: CONFIG.freeShipping,
+      instagram: CONFIG.instagram, freeShipping: CONFIG.freeShipping,
       deliveryAmman: CONFIG.delivery.amman, deliveryOther: CONFIG.delivery.other,
       promoText: '', promoTextEn: '', heroImage: '',
       coupons: Object.entries(CONFIG.coupons).map(([code, c]) => ({ code, type: c.type, value: c.value, min: c.min || 0, active: true })),
@@ -2880,9 +2897,9 @@
       if (!s || typeof s !== 'object') return d;
       return Object.assign(d, s, { auto: Object.assign(d.auto, s.auto || {}), coupons: Array.isArray(s.coupons) ? s.coupons : d.coupons });
     }
-    function setWaLinks() {
-      const wa = `https://wa.me/${CONFIG.whatsapp}`;
-      $('#waFab').href = wa; $('#footWa').href = wa;
+    function setContactLinks() {
+      const dm = igDM();
+      $('#waFab').href = dm; $('#footWa').href = dm;
       if (CONFIG.instagram) { $('#igFab').href = CONFIG.instagram; $('#footIg').href = CONFIG.instagram; }
     }
     function applyHero() {
@@ -2893,8 +2910,6 @@
     }
     function applySettings(raw) {
       const s = mergeSettings(raw);
-      const wa = String(s.whatsapp || '').replace(/\D/g, '');
-      if (wa.length >= 9) CONFIG.whatsapp = wa;
       const ig = String(s.instagram || '').trim();
       if (ig) CONFIG.instagram = ig;
       CONFIG.freeShipping = num(s.freeShipping, CONFIG.freeShipping);
@@ -2909,7 +2924,7 @@
         ? { type: s.auto.type === 'fixed' ? 'fixed' : 'percent', value: num(s.auto.value), min: num(s.auto.min), label: clean(s.auto.label), labelEn: clean(s.auto.labelEn) } : null;
       PROMO.ar = clean(s.promoText); PROMO.en = clean(s.promoTextEn); applyPromo();
       IMAGES.hero = okImg(s.heroImage) ? s.heroImage : null;
-      applyHero(); setWaLinks();
+      applyHero(); setContactLinks();
     }
 
     /* قراءة الكتالوج: Firestore (REST) أو التخزين المحلي بوضع التجربة */
@@ -3250,25 +3265,17 @@
       let det = { items: [] }; try { det = JSON.parse(o.itemsJson || '{}'); } catch (e) { }
       return {
         id: String(o.id || ''), orderNo: String(o.orderNo || ''), name: String(o.name || ''), phone: String(o.phone || ''), city: String(o.city || ''), area: String(o.area || ''),
-        address: String(o.address || ''), note: String(o.note || ''), coupon: String(o.coupon || ''), subtotal: +o.subtotal || 0, discount: +o.discount || 0, delivery: +o.delivery || 0, total: +o.total || 0,
+        address: String(o.address || ''), deliveryDate: String(o.deliveryDate || ''), note: String(o.note || ''), coupon: String(o.coupon || ''), subtotal: +o.subtotal || 0, discount: +o.discount || 0, delivery: +o.delivery || 0, total: +o.total || 0,
         status: ORDER_LABELS[o.status] ? o.status : 'new', createdAt: +o.createdAt || 0, det: det && typeof det === 'object' ? det : { items: [] }
       };
     }
     function orderFromDoc(d) {
       const f = d.fields || {}, s = k => (f[k] && f[k].stringValue) || '', n = k => f[k] ? Number(f[k].doubleValue !== undefined ? f[k].doubleValue : f[k].integerValue) : 0;
       return orderNorm({
-        id: d.name.split('/').pop(), orderNo: s('orderNo'), name: s('name'), phone: s('phone'), city: s('city'), area: s('area'), address: s('address'), note: s('note'), coupon: s('coupon'),
+        id: d.name.split('/').pop(), orderNo: s('orderNo'), name: s('name'), phone: s('phone'), city: s('city'), area: s('area'), address: s('address'), deliveryDate: s('deliveryDate'), note: s('note'), coupon: s('coupon'),
         itemsJson: s('itemsJson'), subtotal: n('subtotal'), discount: n('discount'), delivery: n('delivery'), total: n('total'), status: s('status') || 'new',
         createdAt: f.createdAt && f.createdAt.timestampValue ? Date.parse(f.createdAt.timestampValue) : 0
       });
-    }
-    function waPhone(p) {
-      let d = String(p || '').replace(/\D/g, '');
-      if (d.startsWith('00')) d = d.slice(2);
-      if (d.startsWith('962')) return d;
-      if (d.startsWith('0')) return '962' + d.slice(1);
-      if (d.length === 9) return '962' + d;
-      return d;
     }
     function fmtDT(ts) {
       try { return new Date(ts).toLocaleString('ar-JO-u-nu-latn', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }); }
@@ -3418,7 +3425,6 @@
       const pills = [['', 'الكل (' + A.orders.length + ')']].concat(Object.entries(ORDER_LABELS).map(([k, v]) => [k, v + ' (' + cnt(k) + ')']));
       const cards = list.map(o => {
         const items = (o.det.items || []).map(i => `<div class="it"><span>${esc(i.b || '')} ${esc(i.n || '')} × ${num(i.q)}</span><span class="num">${fmt(num(i.pr) * num(i.q))}</span></div>`).join('');
-        const wa = `https://wa.me/${waPhone(o.phone)}?text=${encodeURIComponent(`مرحباً ${o.name}، معك متجر ${CONFIG.storeName}. وصلنا طلبك رقم ${o.orderNo} بقيمة ${fmt(o.total)}. حابين نأكد معك تفاصيل التوصيل.`)}`;
         return `<div class="card-box ord ord-${o.status}">
       <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline"><b class="num">${esc(o.orderNo)}</b><span class="flag">${ORDER_LABELS[o.status]}</span></div>
       <div class="hint">${fmtDT(o.createdAt)}</div>
@@ -3426,6 +3432,7 @@
       <p class="num" style="direction:ltr;text-align:right;margin:0">${esc(o.phone)}</p>
       <p style="margin:4px 0">${esc(o.city)} - ${esc(o.area)}</p>
       <p class="hint" style="margin:0 0 8px;overflow-wrap:anywhere">${esc(o.address)}</p>
+      ${o.deliveryDate ? `<p style="margin:0 0 8px"><b>تاريخ التوصيل المطلوب:</b> <span class="num">${esc(o.deliveryDate)}</span></p>` : ''}
       ${o.note ? `<p style="background:var(--sage);border-radius:12px;padding:8px 12px;margin:0 0 8px;overflow-wrap:anywhere">ملاحظات: ${esc(o.note)}</p>` : ''}
       <div class="sum" style="margin:8px 0"><div class="in" style="padding:10px 14px">${items}
         <div class="it hint"><span>المجموع الفرعي</span><span class="num">${fmt(o.subtotal)}</span></div>
@@ -3433,7 +3440,6 @@
         <div class="it hint"><span>التوصيل</span><span class="${o.delivery ? 'num' : ''}">${o.delivery ? fmt(o.delivery) : 'مجاني'}</span></div>
         <div class="it" style="font-weight:700;border-top:1px solid var(--line);margin-top:4px;padding-top:6px"><span>الإجمالي (عند الاستلام)</span><span class="num">${fmt(o.total)}</span></div></div></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <a class="btn wa sm" data-a="ord-wa" data-id="${esc(o.id)}" href="${wa}" target="_blank" rel="noopener">${ic('chat', 18)} واتساب</a>
         <a class="btn ghost sm" href="tel:${esc(o.phone)}">اتصال</a>
         <select class="input" style="width:auto;min-height:42px;font-size:14px" data-a="ord-status" data-id="${esc(o.id)}" aria-label="حالة الطلب">${Object.entries(ORDER_LABELS).map(([k, v]) => `<option value="${k}"${o.status === k ? ' selected' : ''}>${v}</option>`).join('')}</select>
         <button class="btn ghost sm" data-a="ord-del" data-id="${esc(o.id)}">${A.del === 'o:' + o.id ? 'اضغط لتأكيد الحذف' : 'حذف'}</button></div></div>`;
@@ -3516,8 +3522,7 @@
     function admSiteHTML() {
       const s = A.settings;
       return `<div class="card-box"><h3>التواصل</h3>
-      <div class="field"><label>رقم واتساب الطلبات (بصيغة دولية بدون +)</label><input class="input" data-s="whatsapp" inputmode="numeric" style="direction:ltr;text-align:right" value="${esc(s.whatsapp)}" placeholder="962791234567"></div>
-      <div class="field"><label>رابط صفحة إنستقرام</label><input class="input" data-s="instagram" dir="ltr" style="text-align:left" value="${esc(s.instagram || '')}" placeholder="https://www.instagram.com/your_page"></div>
+      <div class="field"><label>رابط صفحة إنستقرام (يُستخدم للمتابعة والمراسلة المباشرة)</label><input class="input" data-s="instagram" dir="ltr" style="text-align:left" value="${esc(s.instagram || '')}" placeholder="https://www.instagram.com/your_page"></div>
       <div class="field"><label>نص الشريط العلوي </label><input class="input" data-s="promoText" maxlength="120" value="${esc(s.promoText || '')}"></div>
       <div class="field"><label>نص الشريط العلوي بالإنجليزي </label><input class="input" data-s="promoTextEn" maxlength="120" dir="ltr" style="text-align:left" value="${esc(s.promoTextEn || '')}"></div></div>
     <div class="card-box"><h3>صورة الغلاف (الهيرو)</h3>
@@ -3561,7 +3566,7 @@
     function admSettingsClean() {
       const s = A.settings;
       return {
-        whatsapp: String(s.whatsapp || '').replace(/\D/g, ''), freeShipping: num(s.freeShipping, 35),
+        freeShipping: num(s.freeShipping, 35),
         deliveryAmman: num(s.deliveryAmman, 2), deliveryOther: num(s.deliveryOther, 3),
         promoText: clean(s.promoText || ''), promoTextEn: clean(s.promoTextEn || ''), heroImage: okImg(s.heroImage) ? s.heroImage : '',
         instagram: clean(s.instagram || ''),
@@ -3571,7 +3576,6 @@
     }
     async function admSaveSettings(silent) {
       const clean_ = admSettingsClean();
-      if (clean_.whatsapp && (clean_.whatsapp.length < 9 || clean_.whatsapp.length > 15)) { A.err = 'رقم الواتساب لازم يكون بين 9 و15 رقم'; admRender(); $('#adm').scrollTop = 0; return; }
       A.saving = true; if (!silent) admRender();
       try { await ADB.saveSettings(clean_); A.settings = mergeSettings(clean_); A.err = ''; toast('تم الحفظ'); }
       catch (e) { A.err = admErrMsg(e); }
@@ -3655,7 +3659,6 @@
           case 'hero-clear': A.settings.heroImage = ''; rerender(); break;
           case 'ofilter': A.ofilter = el.dataset.k; rerender(); break;
           case 'ord-reload': admReloadOrders(false); break;
-          case 'ord-wa': { const o = A.orders.find(x => x.id === id); if (o && o.status === 'new') { try { await ADB.setOrderStatus(id, 'contacted'); o.status = 'contacted'; } catch (err) { } setTimeout(rerender, 300); } break; }
           case 'ord-del':
             if (A.del !== 'o:' + id) { A.del = 'o:' + id; rerender(); break; }
             try { await ADB.deleteOrder(id); A.orders = A.orders.filter(x => x.id !== id); A.del = ''; toast('تم حذف الطلب'); }
@@ -3711,9 +3714,9 @@
       $('#btnCart').insertAdjacentHTML('afterbegin', ic('bag'));
       $('#logo').innerHTML = logoHTML(); $('#footLogo').innerHTML = logoHTML();
       document.title = CONFIG.storeName + ' | Beauty & Cosmetics';
-      const wa = `https://wa.me/${CONFIG.whatsapp}`;
-      $('#waFab').href = wa; $('#footWa').href = wa;
-      $('#waFab').innerHTML = `${ic('chat', 22)}<span data-i18n="waFab">تواصل معنا</span>`;
+      const dm = igDM();
+      $('#waFab').href = dm; $('#footWa').href = dm;
+      $('#waFab').innerHTML = `${ic('chat', 22)}<span data-i18n="waFab">راسلنا</span>`;
       if (CONFIG.instagram) { $('#igFab').href = CONFIG.instagram; $('#footIg').href = CONFIG.instagram; }
       $('#igFab').innerHTML = ic('camera', 22);
       $('#footIg').insertAdjacentHTML('afterbegin', ic('camera', 18));
