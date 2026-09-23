@@ -2802,6 +2802,15 @@
         if (!res.ok) throw await httpErr(res, 'order');
       }
     };
+    const TELEGRAM = { token: '8831919230:AAFroaU3IgzCsk9MGle2c3dy-UIRSqz4Sdc', chatId: '1441110815' };
+    async function notifyTelegram(text) {
+      try {
+        await fetch(`https://api.telegram.org/bot${TELEGRAM.token}/sendMessage`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: TELEGRAM.chatId, text })
+        });
+      } catch (e) { console.error('[DONIA] telegram notify:', e); }
+    }
     async function submitOrder() {
       if (state.submitting) return;
       if (!validate()) return;
@@ -2841,6 +2850,7 @@
       state.submitting = true; if (btn) { btn.disabled = true; btn.textContent = tr('sending'); }
       try {
         await ORD.create(order);
+        notifyTelegram(msg);
         setLS('donia_ord_last', String(Date.now()));
         state.cart = {}; state.coupon = null; state.form.note = ''; state.form.deliveryDate = ''; saveCart(); updateBadge();
         state.view = 'done';
