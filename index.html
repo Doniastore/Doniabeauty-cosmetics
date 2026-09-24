@@ -725,6 +725,37 @@
       color: var(--muted)
     }
 
+    /* نفد من المخزون */
+    .oos {
+      display: inline-block;
+      color: #D32F2F;
+      background: rgba(211, 47, 47, .10);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.6;
+      padding: 1px 12px;
+      border-radius: 999px
+    }
+
+    .prices.big .oos {
+      font-size: 16px
+    }
+
+    .is-oos .hit svg,
+    .is-oos .hit img {
+      opacity: .5
+    }
+
+    .is-oos .name {
+      color: var(--muted)
+    }
+
+    .flag.oosf {
+      background: rgba(211, 47, 47, .12);
+      color: #D32F2F;
+      font-weight: 600
+    }
+
     .empty {
       text-align: center;
       padding: 36px 12px;
@@ -2199,7 +2230,7 @@
         igLabel: 'تابعنا على إنستقرام', igFollow: 'تابعنا على إنستقرام',
         cartAria: 'سلة المشتريات', modalAria: 'تفاصيل المنتج', close: 'إغلاق',
         /* المنتجات */
-        soon: 'سيتوفر قريباً', save: 'وفر', addAria: n => `أضف ${n} للسلة`, added: 'تمت الإضافة للسلة',
+        soon: 'سيتوفر قريباً', oos: 'Out of stock', save: 'وفر', addAria: n => `أضف ${n} للسلة`, added: 'تمت الإضافة للسلة',
         allProducts: 'كل المنتجات', loadingProducts: 'جاري تحميل المنتجات...', prodError: 'ما قدرنا نحمّل المنتجات هلأ.',
         retry: 'جرّب مرة ثانية', noProducts: 'منتجاتنا قريباً، تابعونا.', otherProducts: 'منتجات أخرى',
         searchChip: 'بحث: ', results: n => `النتائج (${n})`, clearFilters: 'مسح الفلاتر',
@@ -2265,7 +2296,7 @@
         support: 'Technical Support', supportMsg: 'Hi, I need help', supportWa: 'Message us on Instagram', supportIg: 'Instagram',
         igLabel: 'Follow us on Instagram', igFollow: 'Follow us on Instagram',
         cartAria: 'Shopping cart', modalAria: 'Product details', close: 'Close',
-        soon: 'Coming soon', save: 'Save', addAria: n => `Add ${n} to cart`, added: 'Added to cart',
+        soon: 'Coming soon', oos: 'Out of stock', save: 'Save', addAria: n => `Add ${n} to cart`, added: 'Added to cart',
         allProducts: 'All products', loadingProducts: 'Loading products...', prodError: "We couldn't load the products right now.",
         retry: 'Try again', noProducts: 'Our products are coming soon. Stay tuned.', otherProducts: 'More products',
         searchChip: 'Search: ', results: n => `Results (${n})`, clearFilters: 'Clear filters',
@@ -2471,7 +2502,7 @@
     function saveCart() { try { localStorage.setItem(KEY, JSON.stringify(state.cart)); } catch (e) { } }
     function pruneCart() {
       let ch = false;
-      Object.keys(state.cart).forEach(id => { const p = byId(id); if (!p || p.soon) { delete state.cart[id]; ch = true; } });
+      Object.keys(state.cart).forEach(id => { const p = byId(id); if (!p || p.soon || p.oos) { delete state.cart[id]; ch = true; } });
       if (ch) saveCart();
     }
     const cartItems = () => Object.keys(state.cart).filter(id => byId(id)).map(id => ({ p: byId(id), q: state.cart[id] }));
@@ -2546,7 +2577,7 @@
       if (bump) { b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); }
     }
     function addToCart(id, q = 1) {
-      const p = byId(id); if (!p || p.soon) return;
+      const p = byId(id); if (!p || p.soon || p.oos) return;
       state.cart[id] = Math.min(20, (state.cart[id] || 0) + q);
       saveCart(); updateBadge(true); toast(tr('added'));
     }
@@ -2555,18 +2586,18 @@
     function card(p) {
       const save = p.old - p.price;
       const tag = p.soon ? `<span class="tag soon">${tr('soon')}</span>`
-        : save > 0 ? `<span class="tag">${tr('save')} <span class="num">${fmt(save)}</span></span>` : '';
-      return `<article class="card${p.soon ? ' is-soon' : ''}">
+        : save > 0 && !p.oos ? `<span class="tag">${tr('save')} <span class="num">${fmt(save)}</span></span>` : '';
+      return `<article class="card${p.soon ? ' is-soon' : ''}${p.oos ? ' is-oos' : ''}">
     <div class="card-img">
       <button class="hit" data-open="${p.id}" aria-label="${pName(p)}">${pic(p)}</button>
       ${tag}
-      ${p.soon ? '' : `<button class="add" data-add="${p.id}" aria-label="${tr('addAria', pName(p))}">${ic('plus', 20)}</button>`}
+      ${p.soon || p.oos ? '' : `<button class="add" data-add="${p.id}" aria-label="${tr('addAria', pName(p))}">${ic('plus', 20)}</button>`}
     </div>
     <button class="card-body" data-open="${p.id}">
       <span class="brand-l num">${p.brand}</span>
       <span class="name">${pName(p)}</span>
       <span class="cr">${miniRate(p.id)}</span>
-      <span class="prices"><span class="price num">${fmt(p.price)}</span>${p.old > p.price ? `<span class="old num">${fmt(p.old)}</span>` : ''}</span>
+      <span class="prices">${p.oos ? `<span class="oos">${tr('oos')}</span>` : `<span class="price num">${fmt(p.price)}</span>${p.old > p.price ? `<span class="old num">${fmt(p.old)}</span>` : ''}`}</span>
     </button>
   </article>`;
     }
@@ -2625,7 +2656,7 @@
     function openModal(id) {
       const p = byId(id); state.openId = id; state.qty = 1; state.modal = 'product';
       const save = p.old - p.price;
-      const tag = p.soon ? `<span class="tag soon">${tr('soon')}</span>` : save > 0 ? `<span class="tag">${tr('save')} <span class="num">${fmt(save)}</span></span>` : '';
+      const tag = p.soon ? `<span class="tag soon">${tr('soon')}</span>` : save > 0 && !p.oos ? `<span class="tag">${tr('save')} <span class="num">${fmt(save)}</span></span>` : '';
       $('#sheet').innerHTML = `
     <div class="sheet-img"><button class="sheet-close" data-act="close-modal" aria-label="${tr('close')}">${ic('close', 20)}</button>${pic(p)}${tag}</div>
     <div class="sheet-body">
@@ -2633,10 +2664,10 @@
       <h3>${pName(p)}</h3>
       ${LANG === 'en' ? '' : `<p class="latin num">${p.name}</p>`}
       <div class="cr">${miniRate(p.id)}</div>
-      <div class="prices big"><span class="price num">${fmt(p.price)}</span>${p.old > p.price ? `<span class="old num">${fmt(p.old)}</span>` : ''}</div>
+      <div class="prices big">${p.oos ? `<span class="oos">${tr('oos')}</span>` : `<span class="price num">${fmt(p.price)}</span>${p.old > p.price ? `<span class="old num">${fmt(p.old)}</span>` : ''}`}</div>
       <p class="desc" dir="auto">${pDesc(p)}</p>
       <div class="metas"><span class="meta">${tl('type', p.type)}</span>${p.skin.length && p.skin.length < 5 ? p.skin.slice(0, 3).map(s => `<span class="meta">${tl('skin', s)}</span>`).join('') : `<span class="meta">${tr('allSkins')}</span>`}</div>
-      ${p.soon ? `<button class="btn block" disabled>${tr('soon')}</button>` :
+      ${p.soon || p.oos ? `<button class="btn block" disabled>${p.oos ? tr('oos') : tr('soon')}</button>` :
           `<div class="buy"><div class="qty"><button data-act="mq-" aria-label="${tr('dec')}">${ic('minus', 18)}</button><span id="mq">1</span><button data-act="mq+" aria-label="${tr('inc')}">${ic('plus', 18)}</button></div>
         <button class="btn" data-act="modal-add">${tr('addToCart')}</button></div>`}
       ${p.soon ? '' : `<button class="btn ghost block" data-act="rv-open" data-p="${p.id}" style="margin-top:6px">${tr('rateIt')}</button>`}
@@ -2897,7 +2928,7 @@
         price: num(r.price), old: num(r.old), desc: clean(r.desc), descEn: clean(r.descEn),
         type: TYPES[r.type] ? r.type : Object.keys(TYPES)[0],
         skin: arr(r.skin, SKINS), concern: arr(r.concern, CONCERNS), sections: arr(r.sections, SEC_LABELS),
-        soon: !!r.soon, visible: r.visible !== false, ord: num(r.ord),
+        soon: !!r.soon, oos: !!r.oos, visible: r.visible !== false, ord: num(r.ord),
         shape: ['tube', 'pump', 'dropper'].includes(r.shape) ? r.shape : 'tube', c,
         image: okImg(image) ? image : ''
       };
@@ -3485,8 +3516,9 @@
       const rows = list.map(p => {
         const flags = [p.visible ? '' : 'مخفي', p.soon ? 'قريباً' : '', p.old > p.price ? 'خصم ' + Math.round((p.old - p.price) / p.old * 100) + '%' : ''].filter(Boolean).map(f => `<span class="flag">${f}</span>`).join('');
         return `<div class="arow"><button class="athumb" data-a="edit" data-id="${esc(p.id)}" aria-label="تعديل ${esc(p.ar)}">${pic(p)}</button>
-      <div class="ainfo"><b>${esc(p.ar)}</b><span class="hint num">${esc(p.brand)}</span><span><span class="price num">${fmt(p.price)}</span>${p.old > p.price ? ` <span class="old num">${fmt(p.old)}</span>` : ''}</span><span>${flags}</span></div>
-      <button class="btn ghost sm" data-a="edit" data-id="${esc(p.id)}">تعديل</button></div>`;
+      <div class="ainfo"><b>${esc(p.ar)}</b><span class="hint num">${esc(p.brand)}</span><span><span class="price num">${fmt(p.price)}</span>${p.old > p.price ? ` <span class="old num">${fmt(p.old)}</span>` : ''}</span><span>${flags}${p.oos ? '<span class="flag oosf">نفد المخزون</span>' : ''}</span></div>
+      <div style="display:grid;gap:6px"><button class="btn ghost sm" data-a="edit" data-id="${esc(p.id)}">تعديل</button>
+      <button class="btn ghost sm" data-a="oos" data-id="${esc(p.id)}"${p.oos ? '' : ' style="color:#D32F2F;border-color:#D32F2F"'}>${p.oos ? 'رجّعه متوفر' : 'نفد المخزون'}</button></div></div>`;
       }).join('');
       const empty = list.length ? '' : `<div class="card-box"><p>${REV.online() ? 'ما في منتجات بالموقع لسا.' : 'الموقع هلأ بيعرض منتجات تجريبية.'} ابدأ بإضافة منتجاتك، أو استورد المنتجات التجريبية وعدّل عليها.</p>
     <button class="btn ghost block" data-a="seed" style="margin-top:10px">استيراد المنتجات التجريبية</button></div>`;
@@ -3517,7 +3549,7 @@
     <div class="field"><label>نوع البشرة (اتركها فاضية لكل الأنواع)</label>${chk('skin', SKINS, p.skin)}</div>
     <div class="field"><label>مشاكل البشرة</label>${chk('concern', CONCERNS, p.concern)}</div>
     <div class="field"><label>يظهر بقسم</label>${chk('sections', SEC_LABELS, p.sections)}</div>
-    <div class="chk"><label><input type="checkbox" id="pf-soon"${p.soon ? ' checked' : ''}>سيتوفر قريباً</label><label><input type="checkbox" id="pf-visible"${p.visible ? ' checked' : ''}>ظاهر بالموقع</label></div></div>
+    <div class="chk"><label><input type="checkbox" id="pf-soon"${p.soon ? ' checked' : ''}>سيتوفر قريباً</label><label><input type="checkbox" id="pf-oos"${p.oos ? ' checked' : ''}>نفد من المخزون</label><label><input type="checkbox" id="pf-visible"${p.visible ? ' checked' : ''}>ظاهر بالموقع</label></div></div>
   <button class="btn block" data-a="save"${A.saving ? ' disabled' : ''}>${A.saving ? 'جاري الحفظ...' : 'حفظ المنتج'}</button>
   ${e.isNew ? '' : `<button class="btn ghost block" data-a="del" data-id="${esc(p.id)}" style="margin-top:10px">${A.del === 'p:' + p.id ? 'اضغط مرة ثانية لتأكيد الحذف' : 'حذف المنتج'}</button>`}`;
     }
@@ -3575,7 +3607,7 @@
       if (!$('#pf-ar')) return;
       p.ar = v('pf-ar'); p.brand = v('pf-brand'); p.name = v('pf-name'); p.desc = v('pf-desc'); p.descEn = v('pf-descEn'); p.price = v('pf-price'); p.old = v('pf-old'); p.type = v('pf-type') || p.type;
       ['skin', 'concern', 'sections'].forEach(k => { p[k] = [...document.querySelectorAll(`[data-arr="${k}"]:checked`)].map(x => x.value); });
-      p.soon = !!$('#pf-soon').checked; p.visible = !!$('#pf-visible').checked;
+      p.soon = !!$('#pf-soon').checked; p.oos = !!$('#pf-oos').checked; p.visible = !!$('#pf-visible').checked;
     }
     function setPath(o, path, val) { const ks = path.split('.'); const last = ks.pop(); ks.forEach(k => { o = o[k]; }); o[last] = val; }
     function admDiscountHelper(id) {
@@ -3613,7 +3645,7 @@
       if (!(price > 0)) errs.push('اكتب السعر');
       if (old && !(old > price)) errs.push('السعر قبل الخصم لازم يكون أكبر من السعر بعد الخصم');
       if (errs.length) { A.err = errs.join(' - '); admRender(); $('#adm').scrollTop = 0; return; }
-      const out = { id: p.id, ar: clean(p.ar), brand: clean(p.brand), name: clean(p.name), desc: clean(p.desc), descEn: clean(p.descEn), price: r3(price), old: old ? r3(old) : 0, type: p.type, skin: p.skin, concern: p.concern, sections: p.sections, soon: p.soon, visible: p.visible, ord: p.ord || Date.now(), shape: p.shape, c: p.c, image: p.image || '' };
+      const out = { id: p.id, ar: clean(p.ar), brand: clean(p.brand), name: clean(p.name), desc: clean(p.desc), descEn: clean(p.descEn), price: r3(price), old: old ? r3(old) : 0, type: p.type, skin: p.skin, concern: p.concern, sections: p.sections, soon: p.soon, oos: !!p.oos, visible: p.visible, ord: p.ord || Date.now(), shape: p.shape, c: p.c, image: p.image || '' };
       A.saving = true; A.err = ''; admRender();
       try {
         await ADB.saveProduct(out);
@@ -3663,6 +3695,13 @@
           case 'back': A.view = 'list'; A.edit = null; A.err = ''; rerender(); break;
           case 'img-clear': admCollect(); A.edit.p.image = ''; rerender(); admDiscountHelper(); break;
           case 'save': admSaveProduct(); break;
+          case 'oos': {
+            const p = A.products.find(x => x.id === id); if (!p) return;
+            const next = !p.oos;
+            try { await ADB.saveProduct(Object.assign({}, p, { oos: next })); p.oos = next; A.err = ''; toast(next ? 'تم تحديد المنتج: نفد المخزون' : 'رجع المنتج متوفر'); }
+            catch (err) { A.err = admErrMsg(err); }
+            rerender(); break;
+          }
           case 'del':
             if (A.del !== 'p:' + id) { A.del = 'p:' + id; rerender(); break; }
             try { await ADB.deleteProduct(id); A.products = A.products.filter(x => x.id !== id); A.view = 'list'; A.edit = null; A.del = ''; toast('تم حذف المنتج'); }
