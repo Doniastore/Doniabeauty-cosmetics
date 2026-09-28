@@ -3631,7 +3631,7 @@
       const inp = (label, path, val, extra = '') => `<div class="field"><label>${label}</label><input class="input" data-s="${path}" type="number" inputmode="decimal" step="0.001" min="0" value="${val}" ${extra}></div>`;
       return `<div class="card-box"><h3>الشحن</h3>
       ${inp('الشحن المجاني للطلبات من (JD)', 'freeShipping', s.freeShipping)}
-      <div class="two">${inp('أجرة التوصيل: إربد (JD)', 'deliveryAmman', s.deliveryAmman)}${inp('أجرة كل المحافظات الباقية بما فيها عمّان (JD)', 'deliveryOther', s.deliveryOther)}</div></div>
+      <div class="two">${inp('أجرة التوصيل: إربد (JD)', 'deliveryAmman', s.deliveryAmman)}${inp('أجرة كل المحافظات الباقية (JD)', 'deliveryOther', s.deliveryOther)}</div></div>
     <div class="card-box"><h3>خصم تلقائي على السلة</h3>
       <div class="chk"><label><input type="checkbox" data-s="auto.on"${s.auto.on ? ' checked' : ''}>تفعيل الخصم التلقائي</label></div>
       <div class="two" style="margin-top:12px"><div class="field"><label>نوع الخصم</label><select class="input" data-s="auto.type"><option value="percent"${s.auto.type === 'percent' ? ' selected' : ''}>نسبة %</option><option value="fixed"${s.auto.type === 'fixed' ? ' selected' : ''}>مبلغ ثابت JD</option></select></div>${inp('قيمة الخصم', 'auto.value', s.auto.value)}</div>
