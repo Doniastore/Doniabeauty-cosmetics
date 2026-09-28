@@ -2010,6 +2010,19 @@
       transform: translate(-50%, -50%);
       transition: left .3s
     }
+
+    /* ألوان المنتج */
+    .clr-lab{font-size:14px;margin:14px 0 0}
+    .clr-row{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 6px}
+    .clr-sw{background-size:cover;background-position:center;width:38px;height:38px;min-width:38px;border-radius:50%;border:1px solid var(--line);padding:0;cursor:pointer;outline:2px solid transparent;outline-offset:3px}
+    .clr-sw[aria-pressed="true"]{outline-color:var(--ink)}
+    .clr-dot{background-size:cover;background-position:center;display:inline-block;width:12px;height:12px;border-radius:50%;border:1px solid var(--line);vertical-align:middle;margin-inline-end:6px}
+    .clr-sub{font-size:12.5px;color:var(--muted);margin:2px 0 4px}
+    .clr-add{display:grid;grid-template-columns:56px 1fr;gap:8px;align-items:center;margin-top:10px}
+    .clr-pick{width:56px;height:46px;padding:3px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer}
+    .clr-item{display:flex;align-items:center;gap:8px;margin:8px 0}
+    .clr-item .chip{background-size:cover;background-position:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);flex:none}
+    .clr-item .input{min-width:0;flex:1}
   </style>
 </head>
 
@@ -2235,7 +2248,7 @@
         retry: 'جرّب مرة ثانية', noProducts: 'منتجاتنا قريباً، تابعونا.', otherProducts: 'منتجات أخرى',
         searchChip: 'بحث: ', results: n => `النتائج (${n})`, clearFilters: 'مسح الفلاتر',
         noResults: 'ما لقينا منتجات بهالبحث. جرّب كلمة ثانية أو امسح الفلاتر.',
-        allSkins: 'كل أنواع البشرة', dec: 'أنقص', inc: 'زد', addToCart: 'أضف للسلة', rateIt: 'اشتريته؟ قيّمه',
+        allSkins: 'كل أنواع البشرة', dec: 'أنقص', inc: 'زد', addToCart: 'أضف للسلة', color: 'اللون', rateIt: 'اشتريته؟ قيّمه',
         shopSkin: 'التسوق حسب نوع البشرة', shopConcern: 'التسوق حسب مشاكل البشرة', shopType: 'التسوق حسب نوع المنتج',
         /* السلة والدفع */
         shipRem: x => `أنت على بعد ${x} من الشحن المجاني`, shipFree: 'مبروك، شحن طلبك مجاني',
@@ -2301,7 +2314,7 @@
         retry: 'Try again', noProducts: 'Our products are coming soon. Stay tuned.', otherProducts: 'More products',
         searchChip: 'Search: ', results: n => `Results (${n})`, clearFilters: 'Clear filters',
         noResults: 'No products found. Try another word or clear the filters.',
-        allSkins: 'All skin types', dec: 'Decrease', inc: 'Increase', addToCart: 'Add to cart', rateIt: 'Bought it? Rate it',
+        allSkins: 'All skin types', dec: 'Decrease', inc: 'Increase', addToCart: 'Add to cart', color: 'Color', rateIt: 'Bought it? Rate it',
         shopSkin: 'Shop by skin type', shopConcern: 'Shop by skin concern', shopType: 'Shop by product type',
         shipRem: x => `You're ${x} away from free shipping`, shipFree: 'Congrats, your order ships free',
         autoHint: (x, y) => `Add ${x} more to get ${y} off`,
@@ -2401,10 +2414,21 @@
         <div class="sheet-body center"><div class="ok-ic">${ic('check', 30)}</div><h3>${tr('thanks')}</h3><p>${tr('thanksP')}</p><button class="btn block" data-act="close-modal">${tr('ok')}</button></div>`;
     }
     /* إعادة فتح النافذة المفتوحة باللغة الجديدة، مع حفظ اللي كتبه الزبون */
+    function pickColor(cid) {
+      const p = byId(state.openId), c = p && colObj(p, cid); if (!c) return;
+      state.color = cid;
+      document.querySelectorAll('#sheet .clr-sw').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.c === cid)));
+      const n = $('#clrName'); if (n) n.textContent = colName(p, cid);
+      const im = $('#sheet .sheet-img .ph'), box = $('#sheet .sheet-img');
+      if (box && (c.img || im)) {
+        const src = c.img || p.image, cur = box.querySelector('.ph, svg:not(.x)');
+        if (src) { const h = `<img class="ph" src="${src}" alt="${esc(pName(p))}">`; if (im) im.src = src; else if (cur && !cur.closest('button')) cur.outerHTML = h; }
+      }
+    }
     function reopenModal() {
       const g = id => { const e = $(id); return e ? e.value : ''; };
       if (state.modal === 'product' && byId(state.openId)) {
-        const q = state.qty; openModal(state.openId); state.qty = q;
+        const q = state.qty, c0 = state.color; openModal(state.openId); state.qty = q; if (c0) pickColor(c0);
         const m = $('#mq'); if (m) m.textContent = q;
       } else if (state.modal === 'review') {
         const v = { name: g('#rv-name'), pid: g('#rv-pid'), text: g('#rv-text'), rating: state.rv.rating };
@@ -2496,16 +2520,22 @@
     function loadCart() {
       try {
         const raw = JSON.parse(localStorage.getItem(KEY) || '{}');
-        Object.keys(raw).forEach(id => { if (/^[\w-]{1,40}$/.test(id) && raw[id] > 0) state.cart[id] = Math.min(20, +raw[id] || 0); });
+        Object.keys(raw).forEach(id => { if (/^[\w-]{1,40}(~[0-9a-z]{1,8})?$/i.test(id) && raw[id] > 0) state.cart[id] = Math.min(20, +raw[id] || 0); });
       } catch (e) { }
     }
     function saveCart() { try { localStorage.setItem(KEY, JSON.stringify(state.cart)); } catch (e) { } }
     function pruneCart() {
       let ch = false;
-      Object.keys(state.cart).forEach(id => { const p = byId(id); if (!p || p.soon || p.oos) { delete state.cart[id]; ch = true; } });
+      Object.keys(state.cart).forEach(k => { const p = byId(kid(k)), c = kcol(k); if (!p || p.soon || p.oos || (p.colorsOn ? !p.colors.some(x => x.id === c) : !!c)) { delete state.cart[k]; ch = true; } });
       if (ch) saveCart();
     }
-    const cartItems = () => Object.keys(state.cart).filter(id => byId(id)).map(id => ({ p: byId(id), q: state.cart[id] }));
+    const kid = k => String(k).split('~')[0];
+    const kcol = k => String(k).split('~')[1] || '';
+    const cKey = (id, cid) => cid ? id + '~' + cid : id;
+    const colObj = (p, cid) => (p.colors || []).find(x => x.id === cid);
+    const colName = (p, cid) => { const c = colObj(p, cid); return c ? (c.name || c.hex || ('#' + ((p.colors.indexOf(c)) + 1))) : ''; };
+    const swStyle = c => c && c.img ? `background-image:url('${c.img}')` : `background:${c && c.hex || '#ddd'}`;
+    const cartItems = () => Object.keys(state.cart).filter(k => byId(kid(k))).map(k => { const p = byId(kid(k)), hex = kcol(k); return { p, q: state.cart[k], k, hex, cn: hex ? colName(p, hex) : '', co: hex ? colObj(p, hex) : null }; });
     const cartCount = () => cartItems().reduce((a, i) => a + i.q, 0);
 
     const r3 = n => Math.round(n * 1000) / 1000;
@@ -2576,9 +2606,12 @@
       b.textContent = n; b.hidden = n === 0;
       if (bump) { b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); }
     }
-    function addToCart(id, q = 1) {
+    function addToCart(id, q = 1, hex = '') {
       const p = byId(id); if (!p || p.soon || p.oos) return;
-      state.cart[id] = Math.min(20, (state.cart[id] || 0) + q);
+      if (p.colorsOn && !p.colors.some(x => x.id === hex)) return openModal(id);
+      if (!p.colorsOn) hex = '';
+      const k = cKey(id, hex);
+      state.cart[k] = Math.min(20, (state.cart[k] || 0) + q);
       saveCart(); updateBadge(true); toast(tr('added'));
     }
 
@@ -2654,7 +2687,7 @@
 
     /* ====================== نافذة المنتج ====================== */
     function openModal(id) {
-      const p = byId(id); state.openId = id; state.qty = 1; state.modal = 'product';
+      const p = byId(id); state.openId = id; state.qty = 1; state.modal = 'product'; state.color = p.colorsOn ? p.colors[0].id : '';
       const save = p.old - p.price;
       const tag = p.soon ? `<span class="tag soon">${tr('soon')}</span>` : save > 0 && !p.oos ? `<span class="tag">${tr('save')} <span class="num">${fmt(save)}</span></span>` : '';
       $('#sheet').innerHTML = `
@@ -2667,6 +2700,7 @@
       <div class="prices big">${p.oos ? `<span class="oos">${tr('oos')}</span>` : `<span class="price num">${fmt(p.price)}</span>${p.old > p.price ? `<span class="old num">${fmt(p.old)}</span>` : ''}`}</div>
       <p class="desc" dir="auto">${pDesc(p)}</p>
       <div class="metas"><span class="meta">${tl('type', p.type)}</span>${p.skin.length && p.skin.length < 5 ? p.skin.slice(0, 3).map(s => `<span class="meta">${tl('skin', s)}</span>`).join('') : `<span class="meta">${tr('allSkins')}</span>`}</div>
+      ${p.colorsOn && !p.soon && !p.oos ? `<div class="clr-lab"><b>${tr('color')}:</b> <span id="clrName">${esc(colName(p, state.color))}</span></div><div class="clr-row">${p.colors.map(c => `<button class="clr-sw" data-act="pick-color" data-c="${c.id}" style="${swStyle(c)}" aria-label="${esc(colName(p, c.id))}" aria-pressed="${c.id === state.color}"></button>`).join('')}</div>` : ''}
       ${p.soon || p.oos ? `<button class="btn block" disabled>${p.oos ? tr('oos') : tr('soon')}</button>` :
           `<div class="buy"><div class="qty"><button data-act="mq-" aria-label="${tr('dec')}">${ic('minus', 18)}</button><span id="mq">1</span><button data-act="mq+" aria-label="${tr('inc')}">${ic('plus', 18)}</button></div>
         <button class="btn" data-act="modal-add">${tr('addToCart')}</button></div>`}
@@ -2726,9 +2760,10 @@
           body = `<div class="empty" style="padding-top:60px">${ic('bag', 44)}<p>${tr('cartEmpty')}</p><button class="btn" data-act="close-all">${tr('browse')}</button></div>`;
         } else {
           const cmsg = state.coupon ? (t.belowMin ? `<div class="cmsg bad">${tr('cpnMin', state.coupon, fmt(CONFIG.coupons[state.coupon].min))}</div>` : `<div class="cmsg ok">${tr('cpnOk', state.coupon)}</div>`) : '<div class="cmsg" id="cmsg"></div>';
-          body = shipHTML(t) + autoHint(t) + t.items.map(({ p, q }) => `<div class="line"><div class="thumb">${pic(p)}</div><div>
-          <div class="l-top"><span class="l-name">${pName(p)}</span><button class="del" data-del="${p.id}" aria-label="${tr('removeAria', pName(p))}">${ic('trash', 19)}</button></div>
-          <div class="l-bot"><div class="qty"><button data-dec="${p.id}" aria-label="${tr('dec')}">${ic('minus', 18)}</button><span>${q}</span><button data-inc="${p.id}" aria-label="${tr('inc')}">${ic('plus', 18)}</button></div>
+          body = shipHTML(t) + autoHint(t) + t.items.map(({ p, q, k, hex, cn, co }) => `<div class="line"><div class="thumb">${co && co.img ? `<img class="ph" src="${co.img}" alt="">` : pic(p)}</div><div>
+          <div class="l-top"><span class="l-name">${pName(p)}</span><button class="del" data-del="${k}" aria-label="${tr('removeAria', pName(p))}">${ic('trash', 19)}</button></div>
+          ${hex ? `<div class="clr-sub"><i class="clr-dot" style="${swStyle(co)}"></i>${tr('color')}: ${esc(cn)}</div>` : ''}
+          <div class="l-bot"><div class="qty"><button data-dec="${k}" aria-label="${tr('dec')}">${ic('minus', 18)}</button><span>${q}</span><button data-inc="${k}" aria-label="${tr('inc')}">${ic('plus', 18)}</button></div>
           <div class="prices" style="margin:0"><span class="price num">${fmt(p.price * q)}</span>${p.old > p.price ? `<span class="old num">${fmt(p.old * q)}</span>` : ''}</div></div></div></div>`).join('') +
             `<div class="coupon"><input class="input" id="cpn" placeholder="${tr('cpnPh')}" autocomplete="off" value="${state.coupon || ''}"><button class="btn ghost" data-act="apply">${tr('apply')}</button></div>${cmsg}` + totalsHTML(t);
           foot = `<button class="btn block" data-act="checkout">${tr('checkoutTitle')} - <span class="num">${fmt(t.total)}</span></button>`;
@@ -2776,7 +2811,7 @@
     function updateSummary() {
       const t = totals(state.form.city);
       const box = $('#sumBox'); if (!box) return;
-      box.innerHTML = t.items.map(({ p, q }) => `<div class="it"><span>${p.ar} × ${q}</span><span class="num">${fmt(p.price * q)}</span></div>`).join('') + totalsHTML(t);
+      box.innerHTML = t.items.map(({ p, q, hex, cn }) => `<div class="it"><span>${p.ar}${hex ? ' (' + esc(cn) + ')' : ''} × ${q}</span><span class="num">${fmt(p.price * q)}</span></div>`).join('') + totalsHTML(t);
       $('#sumTotal').textContent = fmt(t.total);
       const s = $('#subBtnTotal'); if (s) s.textContent = fmt(t.total);
     }
@@ -2870,7 +2905,7 @@
         `${tr('ordDate')}: ${f.deliveryDate}`,
         tr('ordPay'), '',
         tr('ordItems'),
-        ...t.items.map(({ p, q }) => `- ${p.brand} ${pName(p)} × ${q} = ${iso(p.price * q)}`), '',
+        ...t.items.map(({ p, q, hex, cn }) => `- ${p.brand} ${pName(p)}${hex ? ` (${tr('color')}: ${cn})` : ''} × ${q} = ${iso(p.price * q)}`), '',
         `${tr('ordSub')}: ${iso(t.sub)}`,
         ...(t.auto > 0 ? [`${tr('discAuto', lab)}: -${iso(t.auto)}`] : []),
         ...(t.disc > 0 ? [`${tr('ordCpn', state.coupon)}: -${iso(t.disc)}`] : []),
@@ -2882,7 +2917,7 @@
       const order = {
         orderNo: no, name: `${f.fn.trim()} ${f.ln.trim()}`, phone: normPhone(f.phone), city: f.city, area: f.area.trim(),
         address: f.addr.trim(), deliveryDate: f.deliveryDate, note: (f.note || '').trim(),
-        itemsJson: JSON.stringify({ items: t.items.map(({ p, q }) => ({ id: p.id, b: p.brand, n: p.ar, q, pr: p.price })), auto: t.auto, autoLabel: CONFIG.auto ? CONFIG.auto.label : '', couponDisc: t.disc }),
+        itemsJson: JSON.stringify({ items: t.items.map(({ p, q, hex, cn, co }) => ({ id: p.id, b: p.brand, n: p.ar, q, pr: p.price, ...(hex ? { col: (co && co.hex) || '', cn } : {}) })), auto: t.auto, autoLabel: CONFIG.auto ? CONFIG.auto.label : '', couponDisc: t.disc }),
         subtotal: t.sub, discount: r3(t.auto + t.disc), delivery: t.fee || 0, total: t.total,
         coupon: state.coupon && !t.belowMin ? state.coupon : '', createdAt: Date.now(), status: 'new'
       };
@@ -2923,6 +2958,14 @@
       const base = { body: '#FBEEF1', accent: '#C6567A', cap: '#F2D6DD', swatch: '#F8DEE6' };
       const c = Object.assign({}, base);
       if (r.c && typeof r.c === 'object') Object.keys(base).concat('t').forEach(k => { if (okColor(r.c[k])) c[k] = r.c[k]; });
+      const colors = []; (Array.isArray(r.colors) ? r.colors : []).slice(0, 12).forEach((x, n) => {
+        if (!x || typeof x !== 'object') return;
+        const hex = typeof x.hex === 'string' && /^#[0-9a-f]{6}$/i.test(x.hex) ? x.hex.toUpperCase() : '', img = okImg(x.img) ? x.img : '';
+        if (!hex && !img) return;
+        let id = typeof x.id === 'string' && /^[a-z0-9]{1,8}$/i.test(x.id) ? x.id : (hex ? hex.slice(1) : 'c' + n);
+        if (colors.some(c => c.id === id)) id = 'c' + n + id.slice(0, 5);
+        colors.push({ id, hex, img, name: clean(x.name) });
+      });
       const p = {
         id: clean(r.id), brand: clean(r.brand), name: clean(r.name), ar: clean(r.ar) || clean(r.name),
         price: num(r.price), old: num(r.old), desc: clean(r.desc), descEn: clean(r.descEn),
@@ -2930,7 +2973,8 @@
         skin: arr(r.skin, SKINS), concern: arr(r.concern, CONCERNS), sections: arr(r.sections, SEC_LABELS),
         soon: !!r.soon, oos: !!r.oos, visible: r.visible !== false, ord: num(r.ord),
         shape: ['tube', 'pump', 'dropper'].includes(r.shape) ? r.shape : 'tube', c,
-        image: okImg(image) ? image : ''
+        image: okImg(image) ? image : '',
+        colors, colorsOn: !!r.colorsOn && colors.length > 0
       };
       if (!p.id || !/^[\w-]{1,40}$/.test(p.id) || !p.ar || !(p.price > 0)) return null;
       if (p.old && p.old <= p.price) p.old = 0;
@@ -3204,7 +3248,7 @@
       const d = el.dataset;
 
       if (d.open) return openModal(d.open);
-      if (d.add) return addToCart(d.add);
+      if (d.add) { const pp = byId(d.add); return pp && pp.colorsOn ? openModal(d.add) : addToCart(d.add); }
       if (d.inc) { state.cart[d.inc] = Math.min(20, state.cart[d.inc] + 1); saveCart(); updateBadge(); return renderCart(); }
       if (d.dec) { state.cart[d.dec] = state.cart[d.dec] - 1; if (state.cart[d.dec] <= 0) delete state.cart[d.dec]; saveCart(); updateBadge(); return renderCart(); }
       if (d.del) { delete state.cart[d.del]; saveCart(); updateBadge(); return renderCart(); }
@@ -3233,7 +3277,8 @@
         case 'home': closeAll(); closeDnav(); state.q = state.type = state.skin = state.concern = state.brand = ''; $('#q').value = ''; refresh(); window.scrollTo(0, 0); break;
         case 'mq+': state.qty = Math.min(20, state.qty + 1); $('#mq').textContent = state.qty; break;
         case 'mq-': state.qty = Math.max(1, state.qty - 1); $('#mq').textContent = state.qty; break;
-        case 'modal-add': addToCart(state.openId, state.qty); closeAll(); break;
+        case 'pick-color': pickColor(d.c); break;
+        case 'modal-add': addToCart(state.openId, state.qty, state.color); closeAll(); break;
         case 'apply': {
           const code = ($('#cpn').value || '').trim().toUpperCase();
           if (!code) return;
@@ -3480,7 +3525,7 @@
       const cnt = k => A.orders.filter(o => o.status === k).length;
       const pills = [['', 'الكل (' + A.orders.length + ')']].concat(Object.entries(ORDER_LABELS).map(([k, v]) => [k, v + ' (' + cnt(k) + ')']));
       const cards = list.map(o => {
-        const items = (o.det.items || []).map(i => `<div class="it"><span>${esc(i.b || '')} ${esc(i.n || '')} × ${num(i.q)}</span><span class="num">${fmt(num(i.pr) * num(i.q))}</span></div>`).join('');
+        const items = (o.det.items || []).map(i => `<div class="it"><span>${esc(i.b || '')} ${esc(i.n || '')}${i.cn ? ` <i class="clr-dot" style="background:${okColor(i.col) ? i.col : '#ddd'}"></i>${esc(i.cn)}` : ''} × ${num(i.q)}</span><span class="num">${fmt(num(i.pr) * num(i.q))}</span></div>`).join('');
         return `<div class="card-box ord ord-${o.status}">
       <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline"><b class="num">${esc(o.orderNo)}</b><span class="flag">${ORDER_LABELS[o.status]}</span></div>
       <div class="hint">${fmtDT(o.createdAt)}</div>
@@ -3544,6 +3589,16 @@
     <div class="field"><label for="pf-old">السعر قبل الخصم (JD)</label><input class="input" id="pf-old" type="number" inputmode="decimal" step="0.001" min="0" value="${p.old || ''}"></div></div>
     <div class="field"><label for="pf-pct">أو اكتب نسبة الخصم %</label><input class="input" id="pf-pct" type="number" inputmode="decimal" min="0" max="95" placeholder="مثلاً 20"><div class="hint" id="pf-hint"></div></div>
     <p class="hint">بدون خصم؟ اترك "السعر قبل الخصم" فاضي.</p></div>
+  <div class="card-box"><h3>الألوان</h3>
+    <div class="chk"><label><input type="checkbox" id="pf-colorson"${p.colorsOn ? ' checked' : ''}>تفعيل اختيار اللون للزبون</label></div>
+    <div id="pf-colors"${p.colorsOn ? '' : ' hidden'}>
+      <p class="hint">أضف اللون بالمربع أو بالكود، أو ارفع صورة للون (بتظهر بدل الدائرة، وبتتبدّل صورة المنتج لما الزبون يختارها).</p>
+      ${(p.colors || []).map((c, i) => `<div class="clr-item"><span class="chip" style="${swStyle(c)}"></span><input class="input" data-cname="${i}" value="${esc(c.name || '')}" placeholder="اسم اللون (اختياري)"><label class="btn ghost sm" for="cimg-${i}" style="cursor:pointer">${c.img ? 'تغيير الصورة' : 'صورة'}</label><input type="file" id="cimg-${i}" data-ci="${i}" accept="image/*" hidden><button class="btn ghost sm" data-a="clr-del" data-i="${i}">حذف</button></div>`).join('')}
+      <div class="clr-add"><input type="color" class="clr-pick" id="pf-cpick" value="#c6567a" aria-label="اختيار اللون"><input class="input" id="pf-chex" dir="ltr" style="text-align:left" placeholder="#C6567A" value="#C6567A"></div>
+      <div class="field" style="margin:8px 0"><input class="input" id="pf-cname" placeholder="اسم اللون (اختياري) مثلاً: بنفسجي"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" data-a="clr-add">إضافة اللون (مربع/كود)</button>
+      <label class="btn ghost sm" for="pf-cimgnew" style="cursor:pointer">إضافة لون كصورة</label><input type="file" id="pf-cimgnew" accept="image/*" hidden></div>
+    </div></div>
   <div class="card-box"><h3>التصنيف</h3>
     <div class="field"><label for="pf-type">نوع المنتج</label><select class="input" id="pf-type">${Object.entries(TYPES).map(([k, v]) => `<option value="${k}"${p.type === k ? ' selected' : ''}>${v}</option>`).join('')}</select></div>
     <div class="field"><label>نوع البشرة (اتركها فاضية لكل الأنواع)</label>${chk('skin', SKINS, p.skin)}</div>
@@ -3605,6 +3660,8 @@
     function admCollect() {
       const e = A.edit; if (!e) return; const p = e.p; const v = id => { const el = $('#' + id); return el ? el.value : ''; };
       if (!$('#pf-ar')) return;
+      if ($('#pf-colorson')) p.colorsOn = !!$('#pf-colorson').checked;
+      document.querySelectorAll('[data-cname]').forEach(x => { const c = (p.colors || [])[+x.dataset.cname]; if (c) c.name = x.value; });
       p.ar = v('pf-ar'); p.brand = v('pf-brand'); p.name = v('pf-name'); p.desc = v('pf-desc'); p.descEn = v('pf-descEn'); p.price = v('pf-price'); p.old = v('pf-old'); p.type = v('pf-type') || p.type;
       ['skin', 'concern', 'sections'].forEach(k => { p[k] = [...document.querySelectorAll(`[data-arr="${k}"]:checked`)].map(x => x.value); });
       p.soon = !!$('#pf-soon').checked; p.oos = !!$('#pf-oos').checked; p.visible = !!$('#pf-visible').checked;
@@ -3643,9 +3700,10 @@
       const price = parseFloat(p.price), old = p.old === '' || p.old == null ? 0 : parseFloat(p.old);
       if (!clean(p.ar)) errs.push('اكتب اسم المنتج بالعربي');
       if (!(price > 0)) errs.push('اكتب السعر');
+      if (p.colorsOn && !(p.colors || []).length) errs.push('أضف لون واحد على الأقل أو أطفئ خاصية الألوان');
       if (old && !(old > price)) errs.push('السعر قبل الخصم لازم يكون أكبر من السعر بعد الخصم');
       if (errs.length) { A.err = errs.join(' - '); admRender(); $('#adm').scrollTop = 0; return; }
-      const out = { id: p.id, ar: clean(p.ar), brand: clean(p.brand), name: clean(p.name), desc: clean(p.desc), descEn: clean(p.descEn), price: r3(price), old: old ? r3(old) : 0, type: p.type, skin: p.skin, concern: p.concern, sections: p.sections, soon: p.soon, oos: !!p.oos, visible: p.visible, ord: p.ord || Date.now(), shape: p.shape, c: p.c, image: p.image || '' };
+      const out = { id: p.id, ar: clean(p.ar), brand: clean(p.brand), name: clean(p.name), desc: clean(p.desc), descEn: clean(p.descEn), price: r3(price), old: old ? r3(old) : 0, type: p.type, skin: p.skin, concern: p.concern, sections: p.sections, soon: p.soon, oos: !!p.oos, visible: p.visible, ord: p.ord || Date.now(), shape: p.shape, c: p.c, image: p.image || '', colorsOn: !!p.colorsOn && (p.colors || []).length > 0, colors: (p.colors || []).map(c => ({ id: c.id, hex: c.hex || '', img: c.img || '', name: clean(c.name) })) };
       A.saving = true; A.err = ''; admRender();
       try {
         await ADB.saveProduct(out);
@@ -3690,10 +3748,22 @@
           case 'reload': admLoad(); break;
           case 'tab': A.tab = el.dataset.t; A.err = ''; rerender(); $('#adm').scrollTop = 0; break;
           case 'seed': admSeed(); break;
-          case 'new': A.edit = { isNew: true, p: { id: newId(), ar: '', brand: '', name: '', desc: '', descEn: '', price: '', old: '', type: 'serum', skin: [], concern: [], sections: ['new'], soon: false, visible: true, ord: 0, shape: 'tube', c: { body: '#FBEEF1', accent: '#C6567A', cap: '#F2D6DD', swatch: '#F8DEE6' }, image: '' } }; A.view = 'edit'; A.err = ''; rerender(); $('#adm').scrollTop = 0; break;
+          case 'new': A.edit = { isNew: true, p: { id: newId(), ar: '', brand: '', name: '', desc: '', descEn: '', price: '', old: '', type: 'serum', skin: [], concern: [], sections: ['new'], soon: false, colorsOn: false, colors: [], visible: true, ord: 0, shape: 'tube', c: { body: '#FBEEF1', accent: '#C6567A', cap: '#F2D6DD', swatch: '#F8DEE6' }, image: '' } }; A.view = 'edit'; A.err = ''; rerender(); $('#adm').scrollTop = 0; break;
           case 'edit': { const p = A.products.find(x => x.id === id); if (!p) return; A.edit = { isNew: false, p: JSON.parse(JSON.stringify(p)) }; A.view = 'edit'; A.err = ''; rerender(); $('#adm').scrollTop = 0; break; }
           case 'back': A.view = 'list'; A.edit = null; A.err = ''; rerender(); break;
           case 'img-clear': admCollect(); A.edit.p.image = ''; rerender(); admDiscountHelper(); break;
+          case 'clr-add': {
+            admCollect(); const p = A.edit.p; p.colors = p.colors || [];
+            let hex = ($('#pf-chex').value || '').trim(); if (hex[0] !== '#') hex = '#' + hex;
+            if (/^#[0-9a-f]{3}$/i.test(hex)) hex = '#' + hex.slice(1).split('').map(c => c + c).join('');
+            hex = hex.toUpperCase(); const nm = clean($('#pf-cname').value);
+            if (!/^#[0-9A-F]{6}$/.test(hex)) A.err = 'كود اللون غير صحيح، مثال: #C6567A';
+            else if (p.colors.some(c => c.hex === hex)) A.err = 'هاد اللون مضاف من قبل';
+            else if (p.colors.length >= 12) A.err = 'الحد الأقصى 12 لون';
+            else { p.colors.push({ id: hex.slice(1), hex, img: '', name: nm }); A.err = ''; }
+            rerender(); if (A.err) $('#adm').scrollTop = 0; break;
+          }
+          case 'clr-del': admCollect(); A.edit.p.colors.splice(+el.dataset.i, 1); rerender(); break;
           case 'save': admSaveProduct(); break;
           case 'oos': {
             const p = A.products.find(x => x.id === id); if (!p) return;
@@ -3746,6 +3816,8 @@
       const t = e.target;
       if (t.dataset && t.dataset.s && A.settings) setPath(A.settings, t.dataset.s, t.type === 'checkbox' ? t.checked : t.value);
       if (t.id === 'pf-pct' || t.id === 'pf-price' || t.id === 'pf-old') admDiscountHelper(t.id);
+      if (t.id === 'pf-cpick') $('#pf-chex').value = t.value.toUpperCase();
+      if (t.id === 'pf-chex') { let h = t.value.trim(); if (h[0] !== '#') h = '#' + h; if (/^#[0-9a-f]{6}$/i.test(h)) $('#pf-cpick').value = h.toLowerCase(); }
     });
     document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'ad-pass') { const b = $('#ad-login'); if (b) b.click(); } });
     document.addEventListener('change', async e => {
@@ -3757,7 +3829,19 @@
         catch (err) { A.err = admErrMsg(err); if (o) o.status = prev; }
         admRender();
       }
+      if (t.id === 'pf-colorson') { const b = $('#pf-colors'); if (b) b.hidden = !t.checked; }
       if (t.dataset && t.dataset.a === 'cp-toggle') { A.settings.coupons[+t.dataset.i].active = t.checked; await admSaveSettings(true); }
+      if ((t.id === 'pf-cimgnew' || (t.dataset && t.dataset.ci !== undefined)) && t.files && t.files[0]) {
+        try {
+          const data = await compressImage(t.files[0], 400, 45000); admCollect(); const p = A.edit.p; p.colors = p.colors || [];
+          if (t.id === 'pf-cimgnew') {
+            if (p.colors.length >= 12) throw new Error('MAX');
+            let id; do { id = 'i' + Math.random().toString(36).slice(2, 7); } while (p.colors.some(c => c.id === id));
+            p.colors.push({ id, hex: '', img: data, name: clean(($('#pf-cname') || {}).value || '') });
+          } else if (p.colors[+t.dataset.ci]) p.colors[+t.dataset.ci].img = data;
+          A.err = ''; admRender();
+        } catch (err) { A.err = err.message === 'MAX' ? 'الحد الأقصى 12 لون' : err.message === 'BIG' ? 'صورة اللون كبيرة، جرّب صورة أصغر' : 'ما قدرنا نقرأ الصورة'; admRender(); $('#adm').scrollTop = 0; }
+      }
       if ((t.id === 'pf-file' || t.id === 'hero-file') && t.files && t.files[0]) {
         const hero = t.id === 'hero-file';
         try {
