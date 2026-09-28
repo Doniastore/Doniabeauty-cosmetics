@@ -2533,7 +2533,7 @@
     const kcol = k => String(k).split('~')[1] || '';
     const cKey = (id, cid) => cid ? id + '~' + cid : id;
     const colObj = (p, cid) => (p.colors || []).find(x => x.id === cid);
-    const colName = (p, cid) => { const c = colObj(p, cid); return c ? (c.name || c.hex || ('#' + ((p.colors.indexOf(c)) + 1))) : ''; };
+    const colName = (p, cid) => { const c = colObj(p, cid); return c ? (c.name || ('لون ' + (p.colors.indexOf(c) + 1))) : ''; };
     const swStyle = c => c && c.img ? `background-image:url('${c.img}')` : `background:${c && c.hex || '#ddd'}`;
     const cartItems = () => Object.keys(state.cart).filter(k => byId(kid(k))).map(k => { const p = byId(kid(k)), hex = kcol(k); return { p, q: state.cart[k], k, hex, cn: hex ? colName(p, hex) : '', co: hex ? colObj(p, hex) : null }; });
     const cartCount = () => cartItems().reduce((a, i) => a + i.q, 0);
@@ -3592,10 +3592,10 @@
   <div class="card-box"><h3>الألوان</h3>
     <div class="chk"><label><input type="checkbox" id="pf-colorson"${p.colorsOn ? ' checked' : ''}>تفعيل اختيار اللون للزبون</label></div>
     <div id="pf-colors"${p.colorsOn ? '' : ' hidden'}>
-      <p class="hint">أضف اللون بالمربع أو بالكود، أو ارفع صورة للون (بتظهر بدل الدائرة، وبتتبدّل صورة المنتج لما الزبون يختارها).</p>
-      ${(p.colors || []).map((c, i) => `<div class="clr-item"><span class="chip" style="${swStyle(c)}"></span><input class="input" data-cname="${i}" value="${esc(c.name || '')}" placeholder="اسم اللون (اختياري)"><label class="btn ghost sm" for="cimg-${i}" style="cursor:pointer">${c.img ? 'تغيير الصورة' : 'صورة'}</label><input type="file" id="cimg-${i}" data-ci="${i}" accept="image/*" hidden><button class="btn ghost sm" data-a="clr-del" data-i="${i}">حذف</button></div>`).join('')}
+      <p class="hint">اكتب اسم اللون أولاً (مطلوب، وهو اللي بيظهر بالطلب والسلة مو الكود)، بعدين أضفه بالمربع أو الكود، أو ارفع صورة للون.</p>
+      ${(p.colors || []).map((c, i) => `<div class="clr-item"><span class="chip" style="${swStyle(c)}"></span><input class="input" data-cname="${i}" value="${esc(c.name || '')}" placeholder="اسم اللون (مطلوب)"><label class="btn ghost sm" for="cimg-${i}" style="cursor:pointer">${c.img ? 'تغيير الصورة' : 'صورة'}</label><input type="file" id="cimg-${i}" data-ci="${i}" accept="image/*" hidden><button class="btn ghost sm" data-a="clr-del" data-i="${i}">حذف</button></div>`).join('')}
       <div class="clr-add"><input type="color" class="clr-pick" id="pf-cpick" value="#c6567a" aria-label="اختيار اللون"><input class="input" id="pf-chex" dir="ltr" style="text-align:left" placeholder="#C6567A" value="#C6567A"></div>
-      <div class="field" style="margin:8px 0"><input class="input" id="pf-cname" placeholder="اسم اللون (اختياري) مثلاً: بنفسجي"></div>
+      <div class="field" style="margin:8px 0"><input class="input" id="pf-cname" placeholder="اسم اللون (مطلوب) مثلاً: بنفسجي"></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" data-a="clr-add">إضافة اللون (مربع/كود)</button>
       <label class="btn ghost sm" for="pf-cimgnew" style="cursor:pointer">إضافة لون كصورة</label><input type="file" id="pf-cimgnew" accept="image/*" hidden></div>
     </div></div>
@@ -3700,6 +3700,7 @@
       const price = parseFloat(p.price), old = p.old === '' || p.old == null ? 0 : parseFloat(p.old);
       if (!clean(p.ar)) errs.push('اكتب اسم المنتج بالعربي');
       if (!(price > 0)) errs.push('اكتب السعر');
+      if (p.colorsOn && (p.colors || []).some(c => !clean(c.name))) errs.push('اكتب اسم لكل لون');
       if (p.colorsOn && !(p.colors || []).length) errs.push('أضف لون واحد على الأقل أو أطفئ خاصية الألوان');
       if (old && !(old > price)) errs.push('السعر قبل الخصم لازم يكون أكبر من السعر بعد الخصم');
       if (errs.length) { A.err = errs.join(' - '); admRender(); $('#adm').scrollTop = 0; return; }
@@ -3757,7 +3758,8 @@
             let hex = ($('#pf-chex').value || '').trim(); if (hex[0] !== '#') hex = '#' + hex;
             if (/^#[0-9a-f]{3}$/i.test(hex)) hex = '#' + hex.slice(1).split('').map(c => c + c).join('');
             hex = hex.toUpperCase(); const nm = clean($('#pf-cname').value);
-            if (!/^#[0-9A-F]{6}$/.test(hex)) A.err = 'كود اللون غير صحيح، مثال: #C6567A';
+            if (!nm) A.err = 'اكتب اسم اللون (مثلاً: بنفسجي) عشان يظهر بالطلب';
+            else if (!/^#[0-9A-F]{6}$/.test(hex)) A.err = 'كود اللون غير صحيح، مثال: #C6567A';
             else if (p.colors.some(c => c.hex === hex)) A.err = 'هاد اللون مضاف من قبل';
             else if (p.colors.length >= 12) A.err = 'الحد الأقصى 12 لون';
             else { p.colors.push({ id: hex.slice(1), hex, img: '', name: nm }); A.err = ''; }
@@ -3836,11 +3838,12 @@
           const data = await compressImage(t.files[0], 400, 45000); admCollect(); const p = A.edit.p; p.colors = p.colors || [];
           if (t.id === 'pf-cimgnew') {
             if (p.colors.length >= 12) throw new Error('MAX');
+            if (!clean(($('#pf-cname') || {}).value || '')) throw new Error('NAME');
             let id; do { id = 'i' + Math.random().toString(36).slice(2, 7); } while (p.colors.some(c => c.id === id));
             p.colors.push({ id, hex: '', img: data, name: clean(($('#pf-cname') || {}).value || '') });
           } else if (p.colors[+t.dataset.ci]) p.colors[+t.dataset.ci].img = data;
           A.err = ''; admRender();
-        } catch (err) { A.err = err.message === 'MAX' ? 'الحد الأقصى 12 لون' : err.message === 'BIG' ? 'صورة اللون كبيرة، جرّب صورة أصغر' : 'ما قدرنا نقرأ الصورة'; admRender(); $('#adm').scrollTop = 0; }
+        } catch (err) { A.err = err.message === 'NAME' ? 'اكتب اسم اللون أولاً بالخانة، وبعدها اختر الصورة' : err.message === 'MAX' ? 'الحد الأقصى 12 لون' : err.message === 'BIG' ? 'صورة اللون كبيرة، جرّب صورة أصغر' : 'ما قدرنا نقرأ الصورة'; admRender(); $('#adm').scrollTop = 0; }
       }
       if ((t.id === 'pf-file' || t.id === 'hero-file') && t.files && t.files[0]) {
         const hero = t.id === 'hero-file';
