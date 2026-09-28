@@ -517,6 +517,23 @@
       }
     }
 
+    /* موبايل: صورة أطول بدون كلام، وزر تسوّق الآن بأسفلها */
+    @media(max-width:759px) {
+      .hero-card.has-photo {
+        min-height: min(150vw, 720px)
+      }
+
+      .hero-card.has-photo .hero-copy h1,
+      .hero-card.has-photo .hero-copy p {
+        display: none
+      }
+
+      .hero-card.has-photo .hero-copy {
+        padding: 60px 22px calc(22px + env(safe-area-inset-bottom, 0px));
+        background: linear-gradient(to top, rgba(28, 18, 12, .35), rgba(28, 18, 12, 0))
+      }
+    }
+
     /* brand + chips */
     .row-scroll {
       display: flex;
@@ -2023,6 +2040,9 @@
     .clr-item{display:flex;align-items:center;gap:8px;margin:8px 0}
     .clr-item .chip{background-size:cover;background-position:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);flex:none}
     .clr-item .input{min-width:0;flex:1}
+    .clr-item{flex-wrap:wrap;padding-bottom:10px;border-bottom:1px dashed var(--line)}
+    .clr-prow{flex-basis:100%;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .clr-prow .pv{width:44px;height:44px;border-radius:10px;border:1px solid var(--line);object-fit:cover;background:#fff}
   </style>
 </head>
 
@@ -2116,7 +2136,7 @@
       firebase: { projectId: 'doniastore-cee4a', apiKey: 'AIzaSyBOsxlTBcKtcH_v1SXDAC3_0eXB4nqTV3E' },  // من إعدادات مشروع Firebase (فاضيين = تجربة محلية)
       moderateReviews: false,                   // false: الرأي بينشر فوراً بدون موافقة (بس تقدر تشوفه وتحذفه من لوحة التحكم)
       freeShipping: 35,                   // الحد الأدنى للشحن المجاني (JD)
-      delivery: { amman: 2, other: 3 },   // أجرة التوصيل (JD)
+      delivery: { amman: 2, other: 3 },   // أجرة التوصيل (JD): amman = إربد (اسم المفتاح قديم)، other = كل المحافظات الباقية بما فيها عمّان
       coupons: {                          // أكواد الخصم (بتتحكم فيها انت)
         WELCOME10: { type: 'percent', value: 10 },
         SAVE3: { type: 'fixed', value: 3, min: 20 }
@@ -2419,11 +2439,7 @@
       state.color = cid;
       document.querySelectorAll('#sheet .clr-sw').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.c === cid)));
       const n = $('#clrName'); if (n) n.textContent = colName(p, cid);
-      const im = $('#sheet .sheet-img .ph'), box = $('#sheet .sheet-img');
-      if (box && (c.img || im)) {
-        const src = c.img || p.image, cur = box.querySelector('.ph, svg:not(.x)');
-        if (src) { const h = `<img class="ph" src="${src}" alt="${esc(pName(p))}">`; if (im) im.src = src; else if (cur && !cur.closest('button')) cur.outerHTML = h; }
-      }
+      const w = $('#sheet .sheet-pic'); if (w) w.innerHTML = picFor(p, c);
     }
     function reopenModal() {
       const g = id => { const e = $(id); return e ? e.value : ''; };
@@ -2534,6 +2550,8 @@
     const cKey = (id, cid) => cid ? id + '~' + cid : id;
     const colObj = (p, cid) => (p.colors || []).find(x => x.id === cid);
     const colName = (p, cid) => { const c = colObj(p, cid); return c ? (c.name || ('لون ' + (p.colors.indexOf(c) + 1))) : ''; };
+    const colSrc = c => (c && (c.pimg || c.img)) || '';
+    const picFor = (p, c) => colSrc(c) ? `<img class="ph" src="${colSrc(c)}" alt="${pName(p)}">` : pic(p);
     const swStyle = c => c && c.img ? `background-image:url('${c.img}')` : `background:${c && c.hex || '#ddd'}`;
     const cartItems = () => Object.keys(state.cart).filter(k => byId(kid(k))).map(k => { const p = byId(kid(k)), hex = kcol(k); return { p, q: state.cart[k], k, hex, cn: hex ? colName(p, hex) : '', co: hex ? colObj(p, hex) : null }; });
     const cartCount = () => cartItems().reduce((a, i) => a + i.q, 0);
@@ -2556,7 +2574,7 @@
       const free = after >= CONFIG.freeShipping;
       let fee = null;
       if (free) fee = 0;
-      else if (city) fee = city === 'عمّان' ? CONFIG.delivery.amman : CONFIG.delivery.other;
+      else if (city) fee = city === 'إربد' ? CONFIG.delivery.amman : CONFIG.delivery.other;
       return { items, sub, auto, disc, belowMin, after, free, fee, total: after + (fee || 0) };
     }
     function autoHint(t) {
@@ -2691,7 +2709,7 @@
       const save = p.old - p.price;
       const tag = p.soon ? `<span class="tag soon">${tr('soon')}</span>` : save > 0 && !p.oos ? `<span class="tag">${tr('save')} <span class="num">${fmt(save)}</span></span>` : '';
       $('#sheet').innerHTML = `
-    <div class="sheet-img"><button class="sheet-close" data-act="close-modal" aria-label="${tr('close')}">${ic('close', 20)}</button>${pic(p)}${tag}</div>
+    <div class="sheet-img"><button class="sheet-close" data-act="close-modal" aria-label="${tr('close')}">${ic('close', 20)}</button><span class="sheet-pic" style="display:contents">${p.colorsOn ? picFor(p, p.colors[0]) : pic(p)}</span>${tag}</div>
     <div class="sheet-body">
       <span class="brand-l num">${p.brand}</span>
       <h3>${pName(p)}</h3>
@@ -2760,7 +2778,7 @@
           body = `<div class="empty" style="padding-top:60px">${ic('bag', 44)}<p>${tr('cartEmpty')}</p><button class="btn" data-act="close-all">${tr('browse')}</button></div>`;
         } else {
           const cmsg = state.coupon ? (t.belowMin ? `<div class="cmsg bad">${tr('cpnMin', state.coupon, fmt(CONFIG.coupons[state.coupon].min))}</div>` : `<div class="cmsg ok">${tr('cpnOk', state.coupon)}</div>`) : '<div class="cmsg" id="cmsg"></div>';
-          body = shipHTML(t) + autoHint(t) + t.items.map(({ p, q, k, hex, cn, co }) => `<div class="line"><div class="thumb">${co && co.img ? `<img class="ph" src="${co.img}" alt="">` : pic(p)}</div><div>
+          body = shipHTML(t) + autoHint(t) + t.items.map(({ p, q, k, hex, cn, co }) => `<div class="line"><div class="thumb">${colSrc(co) ? `<img class="ph" src="${colSrc(co)}" alt="">` : pic(p)}</div><div>
           <div class="l-top"><span class="l-name">${pName(p)}</span><button class="del" data-del="${k}" aria-label="${tr('removeAria', pName(p))}">${ic('trash', 19)}</button></div>
           ${hex ? `<div class="clr-sub"><i class="clr-dot" style="${swStyle(co)}"></i>${tr('color')}: ${esc(cn)}</div>` : ''}
           <div class="l-bot"><div class="qty"><button data-dec="${k}" aria-label="${tr('dec')}">${ic('minus', 18)}</button><span>${q}</span><button data-inc="${k}" aria-label="${tr('inc')}">${ic('plus', 18)}</button></div>
@@ -2964,7 +2982,7 @@
         if (!hex && !img) return;
         let id = typeof x.id === 'string' && /^[a-z0-9]{1,8}$/i.test(x.id) ? x.id : (hex ? hex.slice(1) : 'c' + n);
         if (colors.some(c => c.id === id)) id = 'c' + n + id.slice(0, 5);
-        colors.push({ id, hex, img, name: clean(x.name) });
+        colors.push({ id, hex, img, pimg: okImg(x.pimg) ? x.pimg : '', name: clean(x.name) });
       });
       const p = {
         id: clean(r.id), brand: clean(r.brand), name: clean(r.name), ar: clean(r.ar) || clean(r.name),
@@ -3593,7 +3611,7 @@
     <div class="chk"><label><input type="checkbox" id="pf-colorson"${p.colorsOn ? ' checked' : ''}>تفعيل اختيار اللون للزبون</label></div>
     <div id="pf-colors"${p.colorsOn ? '' : ' hidden'}>
       <p class="hint">اكتب اسم اللون أولاً (مطلوب، وهو اللي بيظهر بالطلب والسلة مو الكود)، بعدين أضفه بالمربع أو الكود، أو ارفع صورة للون.</p>
-      ${(p.colors || []).map((c, i) => `<div class="clr-item"><span class="chip" style="${swStyle(c)}"></span><input class="input" data-cname="${i}" value="${esc(c.name || '')}" placeholder="اسم اللون (مطلوب)"><label class="btn ghost sm" for="cimg-${i}" style="cursor:pointer">${c.img ? 'تغيير الصورة' : 'صورة'}</label><input type="file" id="cimg-${i}" data-ci="${i}" accept="image/*" hidden><button class="btn ghost sm" data-a="clr-del" data-i="${i}">حذف</button></div>`).join('')}
+      ${(p.colors || []).map((c, i) => `<div class="clr-item"><span class="chip" style="${swStyle(c)}"></span><input class="input" data-cname="${i}" value="${esc(c.name || '')}" placeholder="اسم اللون (مطلوب)"><label class="btn ghost sm" for="cimg-${i}" style="cursor:pointer">${c.img ? 'تغيير الصورة' : 'صورة'}</label><input type="file" id="cimg-${i}" data-ci="${i}" accept="image/*" hidden><button class="btn ghost sm" data-a="clr-del" data-i="${i}">حذف</button><div class="clr-prow">${c.pimg ? `<img class="pv" src="${c.pimg}" alt="">` : ''}<label class="btn ghost sm" for="cpimg-${i}" style="cursor:pointer">${c.pimg ? 'تغيير صورة المنتج لهذا اللون' : 'اختيار صورة المنتج لهذا اللون'}</label><input type="file" id="cpimg-${i}" data-cp="${i}" accept="image/*" hidden>${c.pimg ? `<button class="btn ghost sm" data-a="clr-pdel" data-i="${i}">حذف الصورة</button>` : '<span class="hint">بدون صورة = بتظهر صورة المنتج الأساسية</span>'}</div></div>`).join('')}
       <div class="clr-add"><input type="color" class="clr-pick" id="pf-cpick" value="#c6567a" aria-label="اختيار اللون"><input class="input" id="pf-chex" dir="ltr" style="text-align:left" placeholder="#C6567A" value="#C6567A"></div>
       <div class="field" style="margin:8px 0"><input class="input" id="pf-cname" placeholder="اسم اللون (مطلوب) مثلاً: بنفسجي"></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" data-a="clr-add">إضافة اللون (مربع/كود)</button>
@@ -3613,7 +3631,7 @@
       const inp = (label, path, val, extra = '') => `<div class="field"><label>${label}</label><input class="input" data-s="${path}" type="number" inputmode="decimal" step="0.001" min="0" value="${val}" ${extra}></div>`;
       return `<div class="card-box"><h3>الشحن</h3>
       ${inp('الشحن المجاني للطلبات من (JD)', 'freeShipping', s.freeShipping)}
-      <div class="two">${inp('أجرة التوصيل: عمّان (JD)', 'deliveryAmman', s.deliveryAmman)}${inp('أجرة باقي المدن (JD)', 'deliveryOther', s.deliveryOther)}</div></div>
+      <div class="two">${inp('أجرة التوصيل: إربد (JD)', 'deliveryAmman', s.deliveryAmman)}${inp('أجرة كل المحافظات الباقية بما فيها عمّان (JD)', 'deliveryOther', s.deliveryOther)}</div></div>
     <div class="card-box"><h3>خصم تلقائي على السلة</h3>
       <div class="chk"><label><input type="checkbox" data-s="auto.on"${s.auto.on ? ' checked' : ''}>تفعيل الخصم التلقائي</label></div>
       <div class="two" style="margin-top:12px"><div class="field"><label>نوع الخصم</label><select class="input" data-s="auto.type"><option value="percent"${s.auto.type === 'percent' ? ' selected' : ''}>نسبة %</option><option value="fixed"${s.auto.type === 'fixed' ? ' selected' : ''}>مبلغ ثابت JD</option></select></div>${inp('قيمة الخصم', 'auto.value', s.auto.value)}</div>
@@ -3701,10 +3719,11 @@
       if (!clean(p.ar)) errs.push('اكتب اسم المنتج بالعربي');
       if (!(price > 0)) errs.push('اكتب السعر');
       if (p.colorsOn && (p.colors || []).some(c => !clean(c.name))) errs.push('اكتب اسم لكل لون');
+      if ((p.colors || []).reduce((n, c) => n + (c.img || '').length + (c.pimg || '').length, 0) > 500000) errs.push('صور الألوان كبيرة بالمجموع، قلّل عدد الصور أو استخدم صور أصغر');
       if (p.colorsOn && !(p.colors || []).length) errs.push('أضف لون واحد على الأقل أو أطفئ خاصية الألوان');
       if (old && !(old > price)) errs.push('السعر قبل الخصم لازم يكون أكبر من السعر بعد الخصم');
       if (errs.length) { A.err = errs.join(' - '); admRender(); $('#adm').scrollTop = 0; return; }
-      const out = { id: p.id, ar: clean(p.ar), brand: clean(p.brand), name: clean(p.name), desc: clean(p.desc), descEn: clean(p.descEn), price: r3(price), old: old ? r3(old) : 0, type: p.type, skin: p.skin, concern: p.concern, sections: p.sections, soon: p.soon, oos: !!p.oos, visible: p.visible, ord: p.ord || Date.now(), shape: p.shape, c: p.c, image: p.image || '', colorsOn: !!p.colorsOn && (p.colors || []).length > 0, colors: (p.colors || []).map(c => ({ id: c.id, hex: c.hex || '', img: c.img || '', name: clean(c.name) })) };
+      const out = { id: p.id, ar: clean(p.ar), brand: clean(p.brand), name: clean(p.name), desc: clean(p.desc), descEn: clean(p.descEn), price: r3(price), old: old ? r3(old) : 0, type: p.type, skin: p.skin, concern: p.concern, sections: p.sections, soon: p.soon, oos: !!p.oos, visible: p.visible, ord: p.ord || Date.now(), shape: p.shape, c: p.c, image: p.image || '', colorsOn: !!p.colorsOn && (p.colors || []).length > 0, colors: (p.colors || []).map(c => ({ id: c.id, hex: c.hex || '', img: c.img || '', pimg: c.pimg || '', name: clean(c.name) })) };
       A.saving = true; A.err = ''; admRender();
       try {
         await ADB.saveProduct(out);
@@ -3765,6 +3784,7 @@
             else { p.colors.push({ id: hex.slice(1), hex, img: '', name: nm }); A.err = ''; }
             rerender(); if (A.err) $('#adm').scrollTop = 0; break;
           }
+          case 'clr-pdel': admCollect(); A.edit.p.colors[+el.dataset.i].pimg = ''; rerender(); break;
           case 'clr-del': admCollect(); A.edit.p.colors.splice(+el.dataset.i, 1); rerender(); break;
           case 'save': admSaveProduct(); break;
           case 'oos': {
@@ -3833,6 +3853,12 @@
       }
       if (t.id === 'pf-colorson') { const b = $('#pf-colors'); if (b) b.hidden = !t.checked; }
       if (t.dataset && t.dataset.a === 'cp-toggle') { A.settings.coupons[+t.dataset.i].active = t.checked; await admSaveSettings(true); }
+      if (t.dataset && t.dataset.cp !== undefined && t.files && t.files[0]) {
+        try {
+          const data = await compressImage(t.files[0], 720, 90000); admCollect(); const c = (A.edit.p.colors || [])[+t.dataset.cp];
+          if (c) c.pimg = data; A.err = ''; admRender();
+        } catch (err) { A.err = err.message === 'BIG' ? 'صورة المنتج كبيرة، جرّب صورة أصغر' : 'ما قدرنا نقرأ الصورة'; admRender(); $('#adm').scrollTop = 0; }
+      }
       if ((t.id === 'pf-cimgnew' || (t.dataset && t.dataset.ci !== undefined)) && t.files && t.files[0]) {
         try {
           const data = await compressImage(t.files[0], 400, 45000); admCollect(); const p = A.edit.p; p.colors = p.colors || [];
