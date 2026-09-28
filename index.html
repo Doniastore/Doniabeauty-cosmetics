@@ -1541,14 +1541,25 @@
       background: var(--tile);
       height: min(46vh, 320px);
       display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
       place-items: center;
-      padding: 20px
+      padding: 20px;
+      overflow: hidden
     }
 
     .sheet-img svg,
     .sheet-img img {
       height: 100%;
-      width: auto
+      width: auto;
+      max-width: 100%;
+      object-fit: contain
+    }
+
+    .sheet-body .tag {
+      position: static;
+      justify-self: start;
+      display: inline-block
     }
 
     .sheet-close {
@@ -2031,6 +2042,10 @@
     /* ألوان المنتج */
     .clr-lab{font-size:14px;margin:14px 0 0}
     .clr-row{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 6px}
+    .clr-sw,.clr-item .chip{position:relative}
+    .sold::after{content:'';position:absolute;inset:0;border-radius:50%;background:linear-gradient(to top right,transparent calc(50% - 1.5px),#D32F2F calc(50% - 1.5px),#D32F2F calc(50% + 1.5px),transparent calc(50% + 1.5px))}
+    .clr-sw.sold{opacity:.5;cursor:not-allowed}
+    .clr-note{font-size:12.5px;color:#D32F2F;margin:0 0 6px}
     .clr-sw{background-size:cover;background-position:center;width:38px;height:38px;min-width:38px;border-radius:50%;border:1px solid var(--line);padding:0;cursor:pointer;outline:2px solid transparent;outline-offset:3px}
     .clr-sw[aria-pressed="true"]{outline-color:var(--ink)}
     .clr-dot{background-size:cover;background-position:center;display:inline-block;width:12px;height:12px;border-radius:50%;border:1px solid var(--line);vertical-align:middle;margin-inline-end:6px}
@@ -2268,7 +2283,7 @@
         retry: 'جرّب مرة ثانية', noProducts: 'منتجاتنا قريباً، تابعونا.', otherProducts: 'منتجات أخرى',
         searchChip: 'بحث: ', results: n => `النتائج (${n})`, clearFilters: 'مسح الفلاتر',
         noResults: 'ما لقينا منتجات بهالبحث. جرّب كلمة ثانية أو امسح الفلاتر.',
-        allSkins: 'كل أنواع البشرة', dec: 'أنقص', inc: 'زد', addToCart: 'أضف للسلة', color: 'اللون', rateIt: 'اشتريته؟ قيّمه',
+        allSkins: 'كل أنواع البشرة', dec: 'أنقص', inc: 'زد', addToCart: 'أضف للسلة', color: 'اللون', pickColor: 'اختر اللون أولاً', rateIt: 'اشتريته؟ قيّمه',
         shopSkin: 'التسوق حسب نوع البشرة', shopConcern: 'التسوق حسب مشاكل البشرة', shopType: 'التسوق حسب نوع المنتج',
         /* السلة والدفع */
         shipRem: x => `أنت على بعد ${x} من الشحن المجاني`, shipFree: 'مبروك، شحن طلبك مجاني',
@@ -2334,7 +2349,7 @@
         retry: 'Try again', noProducts: 'Our products are coming soon. Stay tuned.', otherProducts: 'More products',
         searchChip: 'Search: ', results: n => `Results (${n})`, clearFilters: 'Clear filters',
         noResults: 'No products found. Try another word or clear the filters.',
-        allSkins: 'All skin types', dec: 'Decrease', inc: 'Increase', addToCart: 'Add to cart', color: 'Color', rateIt: 'Bought it? Rate it',
+        allSkins: 'All skin types', dec: 'Decrease', inc: 'Increase', addToCart: 'Add to cart', color: 'Color', pickColor: 'Please choose a color first', rateIt: 'Bought it? Rate it',
         shopSkin: 'Shop by skin type', shopConcern: 'Shop by skin concern', shopType: 'Shop by product type',
         shipRem: x => `You're ${x} away from free shipping`, shipFree: 'Congrats, your order ships free',
         autoHint: (x, y) => `Add ${x} more to get ${y} off`,
@@ -2435,11 +2450,12 @@
     }
     /* إعادة فتح النافذة المفتوحة باللغة الجديدة، مع حفظ اللي كتبه الزبون */
     function pickColor(cid) {
-      const p = byId(state.openId), c = p && colObj(p, cid); if (!c) return;
+      const p = byId(state.openId); if (!p) return;
+      const c = cid ? colObj(p, cid) : null; if (cid && (!c || c.oos)) return;
       state.color = cid;
-      document.querySelectorAll('#sheet .clr-sw').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.c === cid)));
-      const n = $('#clrName'); if (n) n.textContent = colName(p, cid);
-      const w = $('#sheet .sheet-pic'); if (w) w.innerHTML = picFor(p, c);
+      document.querySelectorAll('#sheet .clr-sw').forEach(b => b.setAttribute('aria-pressed', String(!!cid && b.dataset.c === cid)));
+      const n = $('#clrName'); if (n) n.textContent = c ? colName(p, cid) : '—';
+      const w = $('#sheet .sheet-pic'); if (w) w.innerHTML = c ? picFor(p, c) : pic(p);
     }
     function reopenModal() {
       const g = id => { const e = $(id); return e ? e.value : ''; };
@@ -2542,7 +2558,7 @@
     function saveCart() { try { localStorage.setItem(KEY, JSON.stringify(state.cart)); } catch (e) { } }
     function pruneCart() {
       let ch = false;
-      Object.keys(state.cart).forEach(k => { const p = byId(kid(k)), c = kcol(k); if (!p || p.soon || p.oos || (p.colorsOn ? !p.colors.some(x => x.id === c) : !!c)) { delete state.cart[k]; ch = true; } });
+      Object.keys(state.cart).forEach(k => { const p = byId(kid(k)), c = kcol(k); if (!p || p.soon || p.oos || (p.colorsOn ? !p.colors.some(x => x.id === c && !x.oos) : !!c)) { delete state.cart[k]; ch = true; } });
       if (ch) saveCart();
     }
     const kid = k => String(k).split('~')[0];
@@ -2550,6 +2566,7 @@
     const cKey = (id, cid) => cid ? id + '~' + cid : id;
     const colObj = (p, cid) => (p.colors || []).find(x => x.id === cid);
     const colName = (p, cid) => { const c = colObj(p, cid); return c ? (c.name || ('لون ' + (p.colors.indexOf(c) + 1))) : ''; };
+    const firstCol = p => p.colors.find(c => !c.oos) || p.colors[0];
     const colSrc = c => (c && (c.pimg || c.img)) || '';
     const picFor = (p, c) => colSrc(c) ? `<img class="ph" src="${colSrc(c)}" alt="${pName(p)}">` : pic(p);
     const swStyle = c => c && c.img ? `background-image:url('${c.img}')` : `background:${c && c.hex || '#ddd'}`;
@@ -2626,7 +2643,7 @@
     }
     function addToCart(id, q = 1, hex = '') {
       const p = byId(id); if (!p || p.soon || p.oos) return;
-      if (p.colorsOn && !p.colors.some(x => x.id === hex)) return openModal(id);
+      if (p.colorsOn && !p.colors.some(x => x.id === hex && !x.oos)) return openModal(id);
       if (!p.colorsOn) hex = '';
       const k = cKey(id, hex);
       state.cart[k] = Math.min(20, (state.cart[k] || 0) + q);
@@ -2705,12 +2722,13 @@
 
     /* ====================== نافذة المنتج ====================== */
     function openModal(id) {
-      const p = byId(id); state.openId = id; state.qty = 1; state.modal = 'product'; state.color = p.colorsOn ? p.colors[0].id : '';
+      const p = byId(id); state.openId = id; state.qty = 1; state.modal = 'product'; state.color = p.colorsOn ? firstCol(p).id : '';
       const save = p.old - p.price;
       const tag = p.soon ? `<span class="tag soon">${tr('soon')}</span>` : save > 0 && !p.oos ? `<span class="tag">${tr('save')} <span class="num">${fmt(save)}</span></span>` : '';
       $('#sheet').innerHTML = `
-    <div class="sheet-img"><button class="sheet-close" data-act="close-modal" aria-label="${tr('close')}">${ic('close', 20)}</button><span class="sheet-pic" style="display:contents">${p.colorsOn ? picFor(p, p.colors[0]) : pic(p)}</span>${tag}</div>
+    <div class="sheet-img"><button class="sheet-close" data-act="close-modal" aria-label="${tr('close')}">${ic('close', 20)}</button><span class="sheet-pic" style="display:contents">${p.colorsOn ? picFor(p, firstCol(p)) : pic(p)}</span></div>
     <div class="sheet-body">
+      ${tag}
       <span class="brand-l num">${p.brand}</span>
       <h3>${pName(p)}</h3>
       ${LANG === 'en' ? '' : `<p class="latin num">${p.name}</p>`}
@@ -2718,7 +2736,7 @@
       <div class="prices big">${p.oos ? `<span class="oos">${tr('oos')}</span>` : `<span class="price num">${fmt(p.price)}</span>${p.old > p.price ? `<span class="old num">${fmt(p.old)}</span>` : ''}`}</div>
       <p class="desc" dir="auto">${pDesc(p)}</p>
       <div class="metas"><span class="meta">${tl('type', p.type)}</span>${p.skin.length && p.skin.length < 5 ? p.skin.slice(0, 3).map(s => `<span class="meta">${tl('skin', s)}</span>`).join('') : `<span class="meta">${tr('allSkins')}</span>`}</div>
-      ${p.colorsOn && !p.soon && !p.oos ? `<div class="clr-lab"><b>${tr('color')}:</b> <span id="clrName">${esc(colName(p, state.color))}</span></div><div class="clr-row">${p.colors.map(c => `<button class="clr-sw" data-act="pick-color" data-c="${c.id}" style="${swStyle(c)}" aria-label="${esc(colName(p, c.id))}" aria-pressed="${c.id === state.color}"></button>`).join('')}</div>` : ''}
+      ${p.colorsOn && !p.soon && !p.oos ? `<div class="clr-lab"><b>${tr('color')}:</b> <span id="clrName">${esc(colName(p, state.color))}</span></div><div class="clr-row">${p.colors.map(c => `<button class="clr-sw${c.oos ? ' sold' : ''}" data-act="pick-color" data-c="${c.id}" style="${swStyle(c)}" aria-label="${esc(colName(p, c.id))}${c.oos ? ' - ' + tr('oos') : ''}" aria-pressed="${c.id === state.color}"${c.oos ? ' disabled' : ''}></button>`).join('')}</div>${p.colors.some(c => c.oos) ? `<p class="clr-note">${tr('oos')}: ${p.colors.filter(c => c.oos).map(c => esc(colName(p, c.id))).join('، ')}</p>` : ''}` : ''}
       ${p.soon || p.oos ? `<button class="btn block" disabled>${p.oos ? tr('oos') : tr('soon')}</button>` :
           `<div class="buy"><div class="qty"><button data-act="mq-" aria-label="${tr('dec')}">${ic('minus', 18)}</button><span id="mq">1</span><button data-act="mq+" aria-label="${tr('inc')}">${ic('plus', 18)}</button></div>
         <button class="btn" data-act="modal-add">${tr('addToCart')}</button></div>`}
@@ -2982,7 +3000,7 @@
         if (!hex && !img) return;
         let id = typeof x.id === 'string' && /^[a-z0-9]{1,8}$/i.test(x.id) ? x.id : (hex ? hex.slice(1) : 'c' + n);
         if (colors.some(c => c.id === id)) id = 'c' + n + id.slice(0, 5);
-        colors.push({ id, hex, img, pimg: okImg(x.pimg) ? x.pimg : '', name: clean(x.name) });
+        colors.push({ id, hex, img, pimg: okImg(x.pimg) ? x.pimg : '', oos: !!x.oos, name: clean(x.name) });
       });
       const p = {
         id: clean(r.id), brand: clean(r.brand), name: clean(r.name), ar: clean(r.ar) || clean(r.name),
@@ -3083,7 +3101,7 @@
       try {
         const [items, settings] = ONLINE ? await Promise.all([FS.listProducts(), FS.getSettings()]) : [LOC.getProducts(), LOC.getSettings()];
         applySettings(settings);
-        if (items !== null) setProducts(items.map(i => normProduct(i.raw, i.image)).filter(p => p && p.visible));
+        if (items !== null) setProducts(items.map(i => normProduct(i.raw, i.image)).filter(p => p && p.visible).map(p => { if (p.colorsOn && p.colors.every(c => c.oos)) p.oos = true; return p; }));
         state.catStatus = 'ok';
       } catch (e) {
         console.error('[DONIA] products:', e); state.catErr = String((e && e.message) || e);
@@ -3295,8 +3313,8 @@
         case 'home': closeAll(); closeDnav(); state.q = state.type = state.skin = state.concern = state.brand = ''; $('#q').value = ''; refresh(); window.scrollTo(0, 0); break;
         case 'mq+': state.qty = Math.min(20, state.qty + 1); $('#mq').textContent = state.qty; break;
         case 'mq-': state.qty = Math.max(1, state.qty - 1); $('#mq').textContent = state.qty; break;
-        case 'pick-color': pickColor(d.c); break;
-        case 'modal-add': addToCart(state.openId, state.qty, state.color); closeAll(); break;
+        case 'pick-color': pickColor(d.c === state.color ? '' : d.c); break;
+        case 'modal-add': { const pm = byId(state.openId); if (pm && pm.colorsOn && !state.color) { toast(tr('pickColor')); break; } addToCart(state.openId, state.qty, state.color); closeAll(); break; }
         case 'apply': {
           const code = ($('#cpn').value || '').trim().toUpperCase();
           if (!code) return;
@@ -3611,7 +3629,7 @@
     <div class="chk"><label><input type="checkbox" id="pf-colorson"${p.colorsOn ? ' checked' : ''}>تفعيل اختيار اللون للزبون</label></div>
     <div id="pf-colors"${p.colorsOn ? '' : ' hidden'}>
       <p class="hint">اكتب اسم اللون أولاً (مطلوب، وهو اللي بيظهر بالطلب والسلة مو الكود)، بعدين أضفه بالمربع أو الكود، أو ارفع صورة للون.</p>
-      ${(p.colors || []).map((c, i) => `<div class="clr-item"><span class="chip" style="${swStyle(c)}"></span><input class="input" data-cname="${i}" value="${esc(c.name || '')}" placeholder="اسم اللون (مطلوب)"><label class="btn ghost sm" for="cimg-${i}" style="cursor:pointer">${c.img ? 'تغيير الصورة' : 'صورة'}</label><input type="file" id="cimg-${i}" data-ci="${i}" accept="image/*" hidden><button class="btn ghost sm" data-a="clr-del" data-i="${i}">حذف</button><div class="clr-prow">${c.pimg ? `<img class="pv" src="${c.pimg}" alt="">` : ''}<label class="btn ghost sm" for="cpimg-${i}" style="cursor:pointer">${c.pimg ? 'تغيير صورة المنتج لهذا اللون' : 'اختيار صورة المنتج لهذا اللون'}</label><input type="file" id="cpimg-${i}" data-cp="${i}" accept="image/*" hidden>${c.pimg ? `<button class="btn ghost sm" data-a="clr-pdel" data-i="${i}">حذف الصورة</button>` : '<span class="hint">بدون صورة = بتظهر صورة المنتج الأساسية</span>'}</div></div>`).join('')}
+      ${(p.colors || []).map((c, i) => `<div class="clr-item"><span class="chip${c.oos ? ' sold' : ''}" style="${swStyle(c)}"></span><input class="input" data-cname="${i}" value="${esc(c.name || '')}" placeholder="اسم اللون (مطلوب)"><label class="btn ghost sm" for="cimg-${i}" style="cursor:pointer">${c.img ? 'تغيير الصورة' : 'صورة'}</label><input type="file" id="cimg-${i}" data-ci="${i}" accept="image/*" hidden><button class="btn ghost sm" data-a="clr-del" data-i="${i}">حذف</button><div class="clr-prow"><label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;color:#D32F2F"><input type="checkbox" data-coos="${i}"${c.oos ? ' checked' : ''} style="width:18px;height:18px;margin:0;accent-color:#D32F2F">نفد (سولد أوت)</label>${c.pimg ? `<img class="pv" src="${c.pimg}" alt="">` : ''}<label class="btn ghost sm" for="cpimg-${i}" style="cursor:pointer">${c.pimg ? 'تغيير صورة المنتج لهذا اللون' : 'اختيار صورة المنتج لهذا اللون'}</label><input type="file" id="cpimg-${i}" data-cp="${i}" accept="image/*" hidden>${c.pimg ? `<button class="btn ghost sm" data-a="clr-pdel" data-i="${i}">حذف الصورة</button>` : '<span class="hint">بدون صورة = بتظهر صورة المنتج الأساسية</span>'}</div></div>`).join('')}
       <div class="clr-add"><input type="color" class="clr-pick" id="pf-cpick" value="#c6567a" aria-label="اختيار اللون"><input class="input" id="pf-chex" dir="ltr" style="text-align:left" placeholder="#C6567A" value="#C6567A"></div>
       <div class="field" style="margin:8px 0"><input class="input" id="pf-cname" placeholder="اسم اللون (مطلوب) مثلاً: بنفسجي"></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" data-a="clr-add">إضافة اللون (مربع/كود)</button>
@@ -3680,6 +3698,7 @@
       if (!$('#pf-ar')) return;
       if ($('#pf-colorson')) p.colorsOn = !!$('#pf-colorson').checked;
       document.querySelectorAll('[data-cname]').forEach(x => { const c = (p.colors || [])[+x.dataset.cname]; if (c) c.name = x.value; });
+      document.querySelectorAll('[data-coos]').forEach(x => { const c = (p.colors || [])[+x.dataset.coos]; if (c) c.oos = x.checked; });
       p.ar = v('pf-ar'); p.brand = v('pf-brand'); p.name = v('pf-name'); p.desc = v('pf-desc'); p.descEn = v('pf-descEn'); p.price = v('pf-price'); p.old = v('pf-old'); p.type = v('pf-type') || p.type;
       ['skin', 'concern', 'sections'].forEach(k => { p[k] = [...document.querySelectorAll(`[data-arr="${k}"]:checked`)].map(x => x.value); });
       p.soon = !!$('#pf-soon').checked; p.oos = !!$('#pf-oos').checked; p.visible = !!$('#pf-visible').checked;
@@ -3723,7 +3742,7 @@
       if (p.colorsOn && !(p.colors || []).length) errs.push('أضف لون واحد على الأقل أو أطفئ خاصية الألوان');
       if (old && !(old > price)) errs.push('السعر قبل الخصم لازم يكون أكبر من السعر بعد الخصم');
       if (errs.length) { A.err = errs.join(' - '); admRender(); $('#adm').scrollTop = 0; return; }
-      const out = { id: p.id, ar: clean(p.ar), brand: clean(p.brand), name: clean(p.name), desc: clean(p.desc), descEn: clean(p.descEn), price: r3(price), old: old ? r3(old) : 0, type: p.type, skin: p.skin, concern: p.concern, sections: p.sections, soon: p.soon, oos: !!p.oos, visible: p.visible, ord: p.ord || Date.now(), shape: p.shape, c: p.c, image: p.image || '', colorsOn: !!p.colorsOn && (p.colors || []).length > 0, colors: (p.colors || []).map(c => ({ id: c.id, hex: c.hex || '', img: c.img || '', pimg: c.pimg || '', name: clean(c.name) })) };
+      const out = { id: p.id, ar: clean(p.ar), brand: clean(p.brand), name: clean(p.name), desc: clean(p.desc), descEn: clean(p.descEn), price: r3(price), old: old ? r3(old) : 0, type: p.type, skin: p.skin, concern: p.concern, sections: p.sections, soon: p.soon, oos: !!p.oos, visible: p.visible, ord: p.ord || Date.now(), shape: p.shape, c: p.c, image: p.image || '', colorsOn: !!p.colorsOn && (p.colors || []).length > 0, colors: (p.colors || []).map(c => ({ id: c.id, hex: c.hex || '', img: c.img || '', pimg: c.pimg || '', oos: !!c.oos, name: clean(c.name) })) };
       A.saving = true; A.err = ''; admRender();
       try {
         await ADB.saveProduct(out);
@@ -3851,6 +3870,7 @@
         catch (err) { A.err = admErrMsg(err); if (o) o.status = prev; }
         admRender();
       }
+      if (t.dataset && t.dataset.coos !== undefined) { const ch = t.closest('.clr-item') && t.closest('.clr-item').querySelector('.chip'); if (ch) ch.classList.toggle('sold', t.checked); }
       if (t.id === 'pf-colorson') { const b = $('#pf-colors'); if (b) b.hidden = !t.checked; }
       if (t.dataset && t.dataset.a === 'cp-toggle') { A.settings.coupons[+t.dataset.i].active = t.checked; await admSaveSettings(true); }
       if (t.dataset && t.dataset.cp !== undefined && t.files && t.files[0]) {
