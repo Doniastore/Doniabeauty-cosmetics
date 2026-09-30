@@ -3556,6 +3556,12 @@
     ${body}
   </div>`;
     }
+    function admRvLink(o) {
+      const ids = [...new Set((o.det.items || []).map(i => String(i.id || '')).filter(Boolean))].join(',');
+      const u = new URL('review.html', location.href.split('#')[0].split('?')[0]);
+      if (ids) u.searchParams.set('p', ids); u.searchParams.set('n', (o.name || '').split(' ')[0]); u.searchParams.set('o', o.orderNo || '');
+      return u.href;
+    }
     function admOrdersHTML() {
       const f = A.ofilter, list = A.orders.filter(o => !f || o.status === f).sort((a, b) => b.createdAt - a.createdAt);
       const cnt = k => A.orders.filter(o => o.status === k).length;
@@ -3578,6 +3584,8 @@
         <div class="it" style="font-weight:700;border-top:1px solid var(--line);margin-top:4px;padding-top:6px"><span>الإجمالي (عند الاستلام)</span><span class="num">${fmt(o.total)}</span></div></div></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
         <a class="btn ghost sm" href="tel:${esc(o.phone)}">اتصال</a>
+        <button class="btn ghost sm" data-a="ord-rvlink" data-id="${esc(o.id)}">نسخ رابط التقييم</button>
+        <button class="btn ghost sm" data-a="ord-rvwa" data-id="${esc(o.id)}">إرسال التقييم واتساب</button>
         <select class="input" style="width:auto;min-height:42px;font-size:14px" data-a="ord-status" data-id="${esc(o.id)}" aria-label="حالة الطلب">${Object.entries(ORDER_LABELS).map(([k, v]) => `<option value="${k}"${o.status === k ? ' selected' : ''}>${v}</option>`).join('')}</select>
         <button class="btn ghost sm" data-a="ord-del" data-id="${esc(o.id)}">${A.del === 'o:' + o.id ? 'اضغط لتأكيد الحذف' : 'حذف'}</button></div></div>`;
       }).join('');
@@ -3833,6 +3841,19 @@
           }
           case 'hero-clear': A.settings.heroImage = ''; rerender(); break;
           case 'ofilter': A.ofilter = el.dataset.k; rerender(); break;
+          case 'ord-rvlink': case 'ord-rvwa': {
+            const o = A.orders.find(x => x.id === id); if (!o) break;
+            const url = admRvLink(o);
+            if (a === 'ord-rvwa') {
+              let ph = String(o.phone || '').replace(/\D/g, ''); if (ph.startsWith('00')) ph = ph.slice(2); else if (ph.startsWith('0')) ph = '962' + ph.slice(1);
+              const msg = `أهلاً ${(o.name || '').split(' ')[0]} 🌸\nشكراً لطلبك من DONIA. يهمنا رأيك، قيّم طلبك من هون:\n${url}`;
+              window.open('https://wa.me/' + ph + '?text=' + encodeURIComponent(msg), '_blank');
+            } else {
+              try { await navigator.clipboard.writeText(url); toast('تم نسخ رابط التقييم'); }
+              catch (err) { window.prompt('انسخ الرابط:', url); }
+            }
+            break;
+          }
           case 'ord-reload': admReloadOrders(false); break;
           case 'ord-del':
             if (A.del !== 'o:' + id) { A.del = 'o:' + id; rerender(); break; }
