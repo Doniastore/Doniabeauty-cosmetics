@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>قيّم طلبك | DONIA</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#3A222A;--muted:#8C6C74;--line:#F0D7DE;--rose:#C6567A;--soft:#FBEEF1;--tile:#FDF2F4;--star:#D6A93B;--bg:#FFF8F9;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0}
+body{font-family:'Readex Pro',Tahoma,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
+body.lock{overflow:hidden}
+.wrap{max-width:520px;margin:0 auto;padding:22px 16px calc(40px + env(safe-area-inset-bottom,0px))}
+.brand{display:flex;justify-content:center;margin-bottom:14px}
+.brand img{width:60px;height:60px;border-radius:14px}
+h1{font-family:'Amiri',serif;font-size:26px;margin:0 0 4px;text-align:center}
+.sub{color:var(--muted);text-align:center;margin:0 0 18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px}
+label{display:block;font-weight:500;margin:0 0 6px}
+input,textarea{width:100%;font:inherit;color:inherit;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff;min-height:48px}
+textarea{min-height:84px;resize:vertical;margin-top:6px}
+input:focus,textarea:focus{outline:2px solid var(--rose);outline-offset:1px}
+.btn{display:block;width:100%;background:var(--rose);color:#fff;border:0;border-radius:999px;font:inherit;font-weight:600;padding:14px;min-height:50px;cursor:pointer;text-align:center;text-decoration:none}
+.btn:disabled{opacity:.6}
+.btn.ghost{background:#fff;color:var(--rose);border:1px solid var(--rose)}
+.err{color:#C0392B;font-size:14px;margin:6px 0 0;min-height:1em}
+.hint{color:var(--muted);font-size:13.5px}
+.done{text-align:center;padding:30px 10px}.done .big{font-size:56px}
+/* بطاقة المنتج المختار + التقييم */
+.rc{display:grid;gap:8px}
+.rc-top{display:flex;gap:12px;align-items:center}
+.rc-top .im{width:68px;height:68px;border-radius:14px;overflow:hidden;background:var(--tile);flex:none;display:grid;place-items:center}
+.rc-top img{width:100%;height:100%;object-fit:cover;display:block}
+.rc-top b{display:block;line-height:1.4}.rc-top small{color:var(--muted)}
+.rc-x{margin-inline-start:auto;background:none;border:0;color:var(--muted);font-size:22px;cursor:pointer;padding:6px}
+.stars{display:flex;gap:6px;direction:ltr;justify-content:center}
+.stars button{background:none;border:0;padding:2px;cursor:pointer;font-size:38px;line-height:1;color:#E5D3D8;transition:transform .12s}
+.stars button.on{color:var(--star)}
+.stars button:active{transform:scale(1.15)}
+/* شبكة المنتجات */
+.ov{position:fixed;inset:0;z-index:50;background:rgba(58,34,42,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:#fff;width:100%;max-width:560px;max-height:92%;display:flex;flex-direction:column;border-radius:26px 26px 0 0;animation:up .28s ease}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@media(min-width:700px){.ov{align-items:center}.sheet{border-radius:26px;max-height:88%}}
+.sh-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 8px}
+.sh-head h2{font-family:'Amiri',serif;font-size:22px;margin:0}
+.sh-x{background:var(--soft);border:0;border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer;color:var(--ink)}
+.sh-search{padding:0 18px 8px}
+.grid{overflow-y:auto;padding:8px 18px 12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(min-width:520px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tile{position:relative;background:#fff;border:2px solid var(--line);border-radius:18px;padding:8px;text-align:start;cursor:pointer;font:inherit;color:inherit;display:block;width:100%}
+.tile[aria-pressed="true"]{border-color:var(--rose);background:var(--soft)}
+.tile .sq{aspect-ratio:1/1;border-radius:12px;background:var(--tile);overflow:hidden;display:grid;place-items:center}
+.tile .sq img{width:100%;height:100%;object-fit:cover;display:block}
+.ph{font-family:'Amiri',serif;font-size:34px;color:var(--rose)}
+.tile small{display:block;color:var(--muted);margin-top:8px;font-size:12px;line-height:1.3}
+.tile b{display:block;font-size:14px;line-height:1.35;font-weight:600}
+.circ{position:absolute;top:14px;inset-inline-start:14px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.92);border:2px solid var(--rose);display:grid;place-items:center;color:#fff;font-size:16px;line-height:1}
+.tile[aria-pressed="true"] .circ{background:var(--rose)}
+.sh-foot{padding:12px 18px calc(14px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><img src="data:image/webp;base64,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" alt="DONIA"></div>
+  <div id="app"><p class="sub">جاري التحميل...</p></div>
+</div>
+<div class="ov" id="ov" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="اختيار المنتج">
+    <div class="sh-head"><h2>اختر المنتج</h2><button class="sh-x" id="shx" aria-label="إغلاق">✕</button></div>
+    <div class="sh-search"><input id="srch" placeholder="ابحث عن منتج" aria-label="بحث"></div>
+    <div class="grid" id="grid"></div>
+    <div class="sh-foot"><button class="btn" id="shdone">تم</button></div>
+  </div>
+</div>
+<script>
+/* نفس إعدادات الموقع الرئيسي. لازم تبقى مطابقة لـ CONFIG في index.html */
+const FB = { projectId: 'doniastore-cee4a', apiKey: 'AIzaSyBOsxlTBcKtcH_v1SXDAC3_0eXB4nqTV3E' };
+const MODERATE = false;   // نفس moderateReviews بالموقع: false = الرأي بينشر فوراً
+const BASE = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(FB.projectId)}/databases/(default)/documents`;
+const KEY = encodeURIComponent(FB.apiKey);
+const $ = s => document.querySelector(s);
+const esc = x => String(x == null ? '' : x).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const q = new URLSearchParams(location.search);
+const preIds = (q.get('p') || '').split(',').map(x => x.trim()).filter(x => /^[\w-]{1,40}$/.test(x)).slice(0, 8);
+const ordNo = (q.get('o') || '').replace(/[^\w-]/g, '').slice(0, 30);
+const doneKey = 'donia_rv_done_' + (ordNo || preIds.join('_') || 'any');
+const siteUrl = new URL('index.html#reviews', location.href.replace('review.html', 'index.html')).href;
+let prods = [], sel = [], tmp = [];
+const st = {}, cm = {}; let nm = (q.get('n') || '').slice(0, 40);
+
+const docToProd = d => { const f = d.fields || {}, raw = JSON.parse(f.json.stringValue); return { id: d.name.split('/').pop(), ar: raw.ar || raw.name || '', brand: raw.brand || '', image: (f.image && f.image.stringValue) || '', hide: raw.visible === false || !!raw.soon }; };
+async function getAll() {
+  const out = []; let tok = '';
+  for (let i = 0; i < 5; i++) {
+    const r = await fetch(`${BASE}/products?pageSize=200&key=${KEY}${tok ? '&pageToken=' + encodeURIComponent(tok) : ''}`);
+    if (!r.ok) throw new Error('load');
+    const j = await r.json();
+    (j.documents || []).forEach(d => { try { out.push(docToProd(d)); } catch (e) { } });
+    tok = j.nextPageToken; if (!tok) break;
+  }
+  return out;
+}
+const byId = id => prods.find(p => p.id === id);
+const imgOf = p => p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy">` : `<span class="ph">${esc((p.brand || p.ar || '?').trim().charAt(0).toUpperCase())}</span>`;
+
+function render() {
+  if (localStorage.getItem(doneKey)) return thanks(true);
+  const cards = sel.map(id => { const p = byId(id); if (!p) return ''; return `<div class="card rc" data-pid="${esc(id)}">
+    <div class="rc-top"><div class="im">${imgOf(p)}</div><div><b>${esc(p.ar)}</b><small>${esc(p.brand)}</small></div><button class="rc-x" data-rm="${esc(id)}" aria-label="إزالة">✕</button></div>
+    <div class="stars" role="radiogroup" aria-label="التقييم" data-id="${esc(id)}">${[1, 2, 3, 4, 5].map(n => `<button type="button" role="radio" class="${(st[id] || 0) >= n ? 'on' : ''}" aria-checked="${st[id] === n}" aria-label="${n} من 5" data-n="${n}">★</button>`).join('')}</div>
+    <textarea data-c="${esc(id)}" maxlength="400" placeholder="رأيك بالمنتج (اختياري)">${esc(cm[id] || '')}</textarea></div>`; }).join('');
+  $('#app').innerHTML = `<h1>كيف كانت تجربتك؟</h1><p class="sub">رأيك بيهمنا وبيظهر بموقع DONIA</p>
+    <div class="card"><label for="nm">اسمك</label><input id="nm" maxlength="40" autocomplete="name" value="${esc(nm)}"><p class="err" id="e-nm"></p></div>
+    ${cards}
+    <button class="btn ghost" id="pick" style="margin-bottom:14px">${sel.length ? '+ اختيار منتج آخر' : 'اختيار منتج'}</button>
+    <p class="err" id="e-all" style="text-align:center"></p>
+    <button class="btn" id="go"${sel.length ? '' : ' disabled'}>إرسال التقييم</button>`;
+}
+function drawGrid() {
+  const t = ($('#srch').value || '').trim().toLowerCase();
+  const list = prods.filter(p => (!p.hide || sel.includes(p.id)) && (!t || (p.ar + ' ' + p.brand).toLowerCase().includes(t)));
+  $('#grid').innerHTML = list.length ? list.map(p => `<button class="tile" data-t="${esc(p.id)}" aria-pressed="${tmp.includes(p.id)}"><div class="sq">${imgOf(p)}</div><span class="circ" aria-hidden="true">${tmp.includes(p.id) ? '✓' : ''}</span><small>${esc(p.brand)}</small><b>${esc(p.ar)}</b></button>`).join('') : '<p class="hint" style="grid-column:1/-1;text-align:center">ما في منتجات</p>';
+  $('#shdone').textContent = tmp.length ? `تم (${tmp.length})` : 'تم';
+}
+function openSheet() { tmp = sel.slice(); $('#srch').value = ''; $('#ov').hidden = false; document.body.classList.add('lock'); drawGrid(); }
+function closeSheet() { $('#ov').hidden = true; document.body.classList.remove('lock'); }
+function thanks(again) {
+  $('#app').innerHTML = `<div class="card done"><div class="big">💗</div><h1>${again ? 'وصلنا رأيك من قبل' : 'شكراً لك!'}</h1><p class="sub">${again ? 'شكراً لوقتك.' : 'رأيك وصلنا وبيظهر بالموقع.'}</p><a class="btn" href="${esc(siteUrl)}">شوف آراء الزبائن بالموقع</a></div>`;
+}
+document.addEventListener('input', e => {
+  if (e.target.id === 'nm') nm = e.target.value;
+  else if (e.target.dataset && e.target.dataset.c) cm[e.target.dataset.c] = e.target.value;
+  else if (e.target.id === 'srch') drawGrid();
+});
+document.addEventListener('click', async e => {
+  const t = e.target;
+  const star = t.closest('.stars button');
+  if (star) { const g = star.parentElement, n = +star.dataset.n; st[g.dataset.id] = n; g.querySelectorAll('button').forEach(x => { x.classList.toggle('on', +x.dataset.n <= n); x.setAttribute('aria-checked', String(+x.dataset.n === n)); }); return; }
+  const tile = t.closest('.tile');
+  if (tile) { const id = tile.dataset.t; tmp = tmp.includes(id) ? tmp.filter(x => x !== id) : tmp.concat(id); drawGrid(); return; }
+  const rm = t.closest('[data-rm]');
+  if (rm) { sel = sel.filter(x => x !== rm.dataset.rm); render(); return; }
+  if (t.id === 'pick') return openSheet();
+  if (t.id === 'shx' || t.id === 'ov') return closeSheet();
+  if (t.id === 'shdone') { sel = sel.filter(x => tmp.includes(x)).concat(tmp.filter(x => !sel.includes(x))); closeSheet(); render(); return; }
+  if (t.id !== 'go') return;
+  const name = nm.trim(); $('#e-nm').textContent = ''; $('#e-all').textContent = '';
+  const rated = sel.filter(id => st[id]);
+  if (name.length < 2) return void ($('#e-nm').textContent = 'اكتب اسمك (حرفين على الأقل)');
+  if (!rated.length) return void ($('#e-all').textContent = 'اختر عدد النجوم لمنتج واحد على الأقل');
+  t.disabled = true; t.textContent = 'جاري الإرسال...';
+  try {
+    for (const id of rated) {
+      const r = await fetch(`${BASE}/reviews?key=${KEY}`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: {
+          name: { stringValue: name }, productId: { stringValue: id }, rating: { integerValue: String(st[id]) },
+          comment: { stringValue: (cm[id] || '').trim().slice(0, 400) }, createdAt: { timestampValue: new Date().toISOString() },
+          status: { stringValue: MODERATE ? 'pending' : 'approved' } } })
+      });
+      if (!r.ok) throw new Error('send');
+    }
+    try { localStorage.setItem(doneKey, '1'); } catch (x) { }
+    thanks(false);
+  } catch (err) { t.disabled = false; t.textContent = 'إرسال التقييم'; $('#e-all').textContent = 'ما قدرنا نرسل رأيك، جرّب مرة ثانية'; }
+});
+(async () => {
+  try {
+    prods = await getAll();
+    sel = preIds.filter(id => byId(id));
+    render();
+  } catch (e) { $('#app').innerHTML = '<p class="sub">ما قدرنا نحمّل الصفحة، جرّب مرة ثانية.</p>'; }
+})();
+</script>
+</body>
+</html>
