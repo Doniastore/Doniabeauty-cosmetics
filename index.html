@@ -2857,7 +2857,7 @@
 
     /* أقل تاريخ توصيل مسموح: بعد يومين من اليوم */
     function minDeliveryDateStr() {
-      const d = new Date(); d.setDate(d.getDate() + 2);
+      const d = new Date(); d.setDate(d.getDate() + 1);
       return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
     }
 
