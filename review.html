@@ -94,7 +94,7 @@ const siteUrl = new URL('index.html#reviews', location.href.replace('review.html
 let prods = [], sel = [], tmp = [];
 const st = {}, cm = {}; let nm = (q.get('n') || '').slice(0, 40);
 
-const docToProd = d => { const f = d.fields || {}, raw = JSON.parse(f.json.stringValue); return { id: d.name.split('/').pop(), ar: raw.ar || raw.name || '', brand: raw.brand || '', image: (f.image && f.image.stringValue) || '', hide: raw.visible === false || !!raw.soon }; };
+const docToProd = d => { const f = d.fields || {}, raw = JSON.parse(f.json.stringValue); return { id: d.name.split('/').pop(), ar: raw.ar || raw.name || '', brand: raw.brand || '', image: (f.image && f.image.stringValue) || '', hide: raw.visible === false }; };
 async function getAll() {
   const out = []; let tok = '';
   for (let i = 0; i < 5; i++) {
