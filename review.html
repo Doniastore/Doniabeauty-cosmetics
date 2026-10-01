@@ -89,7 +89,6 @@ const esc = x => String(x == null ? '' : x).replace(/[&<>"']/g, c => ({ '&': '&a
 const q = new URLSearchParams(location.search);
 const preIds = (q.get('p') || '').split(',').map(x => x.trim()).filter(x => /^[\w-]{1,40}$/.test(x)).slice(0, 8);
 const ordNo = (q.get('o') || '').replace(/[^\w-]/g, '').slice(0, 30);
-const doneKey = 'donia_rv_done_' + (ordNo || preIds.join('_') || 'any');
 const siteUrl = new URL('index.html#reviews', location.href.replace('review.html', 'index.html')).href;
 let prods = [], sel = [], tmp = [];
 const st = {}, cm = {}; let nm = (q.get('n') || '').slice(0, 40);
@@ -110,7 +109,6 @@ const byId = id => prods.find(p => p.id === id);
 const imgOf = p => p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy">` : `<span class="ph">${esc((p.brand || p.ar || '?').trim().charAt(0).toUpperCase())}</span>`;
 
 function render() {
-  if (localStorage.getItem(doneKey)) return thanks(true);
   const cards = sel.map(id => { const p = byId(id); if (!p) return ''; return `<div class="card rc" data-pid="${esc(id)}">
     <div class="rc-top"><div class="im">${imgOf(p)}</div><div><b>${esc(p.ar)}</b><small>${esc(p.brand)}</small></div><button class="rc-x" data-rm="${esc(id)}" aria-label="إزالة">✕</button></div>
     <div class="stars" role="radiogroup" aria-label="التقييم" data-id="${esc(id)}">${[1, 2, 3, 4, 5].map(n => `<button type="button" role="radio" class="${(st[id] || 0) >= n ? 'on' : ''}" aria-checked="${st[id] === n}" aria-label="${n} من 5" data-n="${n}">★</button>`).join('')}</div>
@@ -130,8 +128,8 @@ function drawGrid() {
 }
 function openSheet() { tmp = sel.slice(); $('#srch').value = ''; $('#ov').hidden = false; document.body.classList.add('lock'); drawGrid(); }
 function closeSheet() { $('#ov').hidden = true; document.body.classList.remove('lock'); }
-function thanks(again) {
-  $('#app').innerHTML = `<div class="card done"><div class="big">💗</div><h1>${again ? 'وصلنا رأيك من قبل' : 'شكراً لك!'}</h1><p class="sub">${again ? 'شكراً لوقتك.' : 'رأيك وصلنا وبيظهر بالموقع.'}</p><a class="btn" href="${esc(siteUrl)}">شوف آراء الزبائن بالموقع</a></div>`;
+function thanks() {
+  $('#app').innerHTML = `<div class="card done"><div class="big">💗</div><h1>شكراً لك!</h1><p class="sub">رأيك وصلنا وبيظهر بالموقع.</p><a class="btn" href="${esc(siteUrl)}">شوف آراء الزبائن بالموقع</a><button class="btn ghost" id="again" style="margin-top:10px">تقييم منتج آخر</button></div>`;
 }
 document.addEventListener('input', e => {
   if (e.target.id === 'nm') nm = e.target.value;
@@ -146,6 +144,7 @@ document.addEventListener('click', async e => {
   if (tile) { const id = tile.dataset.t; tmp = tmp.includes(id) ? tmp.filter(x => x !== id) : tmp.concat(id); drawGrid(); return; }
   const rm = t.closest('[data-rm]');
   if (rm) { sel = sel.filter(x => x !== rm.dataset.rm); render(); return; }
+  if (t.id === 'again') { sel = []; Object.keys(st).forEach(k => delete st[k]); Object.keys(cm).forEach(k => delete cm[k]); render(); openSheet(); return; }
   if (t.id === 'pick') return openSheet();
   if (t.id === 'shx' || t.id === 'ov') return closeSheet();
   if (t.id === 'shdone') { sel = sel.filter(x => tmp.includes(x)).concat(tmp.filter(x => !sel.includes(x))); closeSheet(); render(); return; }
@@ -166,7 +165,6 @@ document.addEventListener('click', async e => {
       });
       if (!r.ok) throw new Error('send');
     }
-    try { localStorage.setItem(doneKey, '1'); } catch (x) { }
     thanks(false);
   } catch (err) { t.disabled = false; t.textContent = 'إرسال التقييم'; $('#e-all').textContent = 'ما قدرنا نرسل رأيك، جرّب مرة ثانية'; }
 });
