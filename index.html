@@ -2040,24 +2040,405 @@
     }
 
     /* ألوان المنتج */
-    .clr-lab{font-size:14px;margin:14px 0 0}
-    .clr-row{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 6px}
-    .clr-sw,.clr-item .chip{position:relative}
-    .sold::after{content:'';position:absolute;inset:0;border-radius:50%;background:linear-gradient(to top right,transparent calc(50% - 1.5px),#D32F2F calc(50% - 1.5px),#D32F2F calc(50% + 1.5px),transparent calc(50% + 1.5px))}
-    .clr-sw.sold{opacity:.5;cursor:not-allowed}
-    .clr-note{font-size:12.5px;color:#D32F2F;margin:0 0 6px}
-    .clr-sw{background-size:cover;background-position:center;width:38px;height:38px;min-width:38px;border-radius:50%;border:1px solid var(--line);padding:0;cursor:pointer;outline:2px solid transparent;outline-offset:3px}
-    .clr-sw[aria-pressed="true"]{outline-color:var(--ink)}
-    .clr-dot{background-size:cover;background-position:center;display:inline-block;width:12px;height:12px;border-radius:50%;border:1px solid var(--line);vertical-align:middle;margin-inline-end:6px}
-    .clr-sub{font-size:12.5px;color:var(--muted);margin:2px 0 4px}
-    .clr-add{display:grid;grid-template-columns:56px 1fr;gap:8px;align-items:center;margin-top:10px}
-    .clr-pick{width:56px;height:46px;padding:3px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer}
-    .clr-item{display:flex;align-items:center;gap:8px;margin:8px 0}
-    .clr-item .chip{background-size:cover;background-position:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);flex:none}
-    .clr-item .input{min-width:0;flex:1}
-    .clr-item{flex-wrap:wrap;padding-bottom:10px;border-bottom:1px dashed var(--line)}
-    .clr-prow{flex-basis:100%;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-    .clr-prow .pv{width:44px;height:44px;border-radius:10px;border:1px solid var(--line);object-fit:cover;background:#fff}
+    .clr-lab {
+      font-size: 14px;
+      margin: 14px 0 0
+    }
+
+    .clr-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 12px 0 6px
+    }
+
+    .clr-sw,
+    .clr-item .chip {
+      position: relative
+    }
+
+    .sold::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: linear-gradient(to top right, transparent calc(50% - 1.5px), #D32F2F calc(50% - 1.5px), #D32F2F calc(50% + 1.5px), transparent calc(50% + 1.5px))
+    }
+
+    .clr-sw.sold {
+      opacity: .5;
+      cursor: not-allowed
+    }
+
+    .clr-note {
+      font-size: 12.5px;
+      color: #D32F2F;
+      margin: 0 0 6px
+    }
+
+    .clr-sw {
+      background-size: cover;
+      background-position: center;
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      padding: 0;
+      cursor: pointer;
+      outline: 2px solid transparent;
+      outline-offset: 3px
+    }
+
+    .clr-sw[aria-pressed="true"] {
+      outline-color: var(--ink)
+    }
+
+    .clr-dot {
+      background-size: cover;
+      background-position: center;
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      vertical-align: middle;
+      margin-inline-end: 6px
+    }
+
+    .clr-sub {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin: 2px 0 4px
+    }
+
+    .clr-add {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px
+    }
+
+    .clr-pick {
+      width: 56px;
+      height: 46px;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer
+    }
+
+    .clr-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0
+    }
+
+    .clr-item .chip {
+      background-size: cover;
+      background-position: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      flex: none
+    }
+
+    .clr-item .input {
+      min-width: 0;
+      flex: 1
+    }
+
+    .clr-item {
+      flex-wrap: wrap;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--line)
+    }
+
+    .clr-prow {
+      flex-basis: 100%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .clr-prow .pv {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      object-fit: cover;
+      background: #fff
+    }
+
+    /* إحصائيات */
+    .st-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px
+    }
+
+    .st-k {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px
+    }
+
+    .st-k b {
+      display: block;
+      font-size: 24px;
+      line-height: 1.2
+    }
+
+    .st-k span {
+      font-size: 12.5px;
+      color: var(--muted)
+    }
+
+    .st-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 110px;
+      direction: ltr;
+      margin-top: 8px
+    }
+
+    .st-bars div {
+      flex: 1;
+      background: var(--rose, #C6567A);
+      border-radius: 4px 4px 0 0;
+      min-height: 2px;
+      opacity: .85
+    }
+
+    .st-lab {
+      display: flex;
+      justify-content: space-between;
+      direction: ltr;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px
+    }
+
+    .st-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px dashed var(--line);
+      font-size: 14px
+    }
+
+    .st-row:last-child {
+      border: 0
+    }
+
+    /* باقات */
+    .bd-note {
+      background: var(--sage);
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 13px;
+      margin: 4px 0 6px
+    }
+
+    .bd-hint {
+      background: var(--sage);
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 13px;
+      margin: 0 0 8px;
+      text-align: center
+    }
+
+    .bp-list {
+      max-height: 280px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 6px;
+      display: grid;
+      gap: 4px
+    }
+
+    .bp-i {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px
+    }
+
+    .bp-i:hover {
+      background: var(--sage)
+    }
+
+    .bp-i input {
+      width: 20px;
+      height: 20px;
+      margin: 0;
+      accent-color: var(--rose)
+    }
+
+    .bp-th {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--tile);
+      flex: none;
+      display: grid;
+      place-items: center
+    }
+
+    .bp-th img,
+    .bp-th svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .rvc {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      margin-top: 10px;
+      display: grid;
+      gap: 8px;
+      background: var(--surface)
+    }
+
+    .rvc-top {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .rvc-top b {
+      font-size: 14px;
+      line-height: 1.35
+    }
+
+    .rvc-im {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--tile);
+      flex: none;
+      display: grid;
+      place-items: center
+    }
+
+    .rvc-im img,
+    .rvc-im svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .rvc-x {
+      margin-inline-start: auto;
+      background: none;
+      border: 0;
+      color: var(--muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px
+    }
+
+    /* اختيار المنتج بنموذج الرأي */
+    .rp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      max-height: 260px;
+      overflow-y: auto;
+      padding: 2px
+    }
+
+    @media(min-width:480px) {
+      .rp-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr))
+      }
+    }
+
+    .rp-t {
+      position: relative;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      padding: 5px;
+      text-align: start;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      font: inherit;
+      color: inherit
+    }
+
+    .rp-t[aria-pressed="true"] {
+      border-color: var(--rose);
+      background: var(--sage)
+    }
+
+    .rp-t .sq {
+      aspect-ratio: 1/1;
+      border-radius: 10px;
+      background: var(--tile);
+      overflow: hidden;
+      display: grid;
+      place-items: center
+    }
+
+    .rp-t .sq img,
+    .rp-t .sq svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    .rp-t b {
+      display: block;
+      font-size: 11.5px;
+      line-height: 1.3;
+      font-weight: 600;
+      margin-top: 5px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical
+    }
+
+    .rp-t .circ {
+      position: absolute;
+      top: 9px;
+      inset-inline-start: 9px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .92);
+      border: 2px solid var(--rose);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 13px;
+      line-height: 1
+    }
+
+    .rp-t[aria-pressed="true"] .circ {
+      background: var(--rose)
+    }
   </style>
 </head>
 
@@ -2289,6 +2670,8 @@
         shipRem: x => `أنت على بعد ${x} من الشحن المجاني`, shipFree: 'مبروك، شحن طلبك مجاني',
         autoHint: (x, y) => `أضف ${x} واحصل على خصم ${y}`,
         feeByCity: 'يُحسب حسب المدينة', free: 'مجاني', subtotal: 'المجموع الفرعي',
+        bundleDef: 'عرض الباقة', bundleWith: o => `اشتريه مع ${o}`, bundlePrice: x => `بسعر ${x} للمجموعة`, bundleSave: x => `وفّر ${x}`,
+        bundleHint: (m, sv, n) => `أضف ${m} للسلة ووفّر ${sv} (${n})`,
         discAuto: l => `خصم ${l || 'على السلة'}`, discCoupon: c => `خصم الكوبون (${c})`,
         delivery: 'التوصيل', total: 'الإجمالي',
         cartTitle: n => `سلتك (${n})`, checkoutTitle: 'إتمام الطلب', doneTitle: 'تأكيد الطلب', failTitle: 'تعذّر إرسال الطلب',
@@ -2322,7 +2705,7 @@
         noProdRev: 'ما في آراء لهذا المنتج لسا.', firstRev: 'كون أول واحد بيقيّم.',
         dproduct: 'منتج من DONIA', showMore: 'عرض المزيد',
         rvNoAcct: 'ما بتحتاج حساب: اكتب اسمك، اختر المنتج اللي اشتريته، وحط تقييمك.',
-        rvName: 'اسمك', rvProduct: 'المنتج اللي اشتريته', rvSelect: 'اختر المنتج', rvRating: 'تقييمك', rvRatingAria: 'التقييم',
+        rvName: 'اسمك', rvProduct: 'المنتجات اللي اشتريتها (اختر منتج أو أكثر)', rvSelect: 'اختر المنتج', rvRating: 'تقييمك', rvRatingAria: 'التقييم',
         rvText: 'رأيك (اختياري)', rvTextPh: 'شو رأيك بالمنتج؟', rvSubmit: 'إرسال الرأي', rvSending: 'جاري الإرسال...',
         vRvName: 'اكتب اسمك (حرفين على الأقل)', vRvPid: 'اختر المنتج اللي اشتريته', vRvStar: 'اختر عدد النجوم',
         waitReview: 'استنى شوي قبل ما ترسل رأي ثاني', reviewAdded: 'شكراً لك، تمت إضافة رأيك',
@@ -2354,6 +2737,8 @@
         shipRem: x => `You're ${x} away from free shipping`, shipFree: 'Congrats, your order ships free',
         autoHint: (x, y) => `Add ${x} more to get ${y} off`,
         feeByCity: 'Calculated by city', free: 'Free', subtotal: 'Subtotal',
+        bundleDef: 'Bundle offer', bundleWith: o => `Buy together with ${o}`, bundlePrice: x => `${x} for the set`, bundleSave: x => `save ${x}`,
+        bundleHint: (m, sv, n) => `Add ${m} to your cart and save ${sv} (${n})`,
         discAuto: l => l ? `Discount: ${l}` : 'Cart discount', discCoupon: c => `Coupon discount (${c})`,
         delivery: 'Delivery', total: 'Total',
         cartTitle: n => `Your cart (${n})`, checkoutTitle: 'Checkout', doneTitle: 'Order confirmed', failTitle: "Order couldn't be sent",
@@ -2385,7 +2770,7 @@
         noProdRev: 'No reviews for this product yet.', firstRev: 'Be the first to review.',
         dproduct: 'A DONIA product', showMore: 'Show more',
         rvNoAcct: 'No account needed: enter your name, pick the product you bought, and add your rating.',
-        rvName: 'Your name', rvProduct: 'Product you bought', rvSelect: 'Select product', rvRating: 'Your rating', rvRatingAria: 'Rating',
+        rvName: 'Your name', rvProduct: 'Products you bought (pick one or more)', rvSelect: 'Select product', rvRating: 'Your rating', rvRatingAria: 'Rating',
         rvText: 'Your review (optional)', rvTextPh: 'What do you think of the product?', rvSubmit: 'Submit review', rvSending: 'Sending...',
         vRvName: 'Enter your name (at least 2 characters)', vRvPid: 'Select the product you bought', vRvStar: 'Choose a star rating',
         waitReview: 'Please wait a moment before sending another review', reviewAdded: 'Thank you, your review was added',
@@ -2463,9 +2848,7 @@
         const q = state.qty, c0 = state.color; openModal(state.openId); state.qty = q; if (c0) pickColor(c0);
         const m = $('#mq'); if (m) m.textContent = q;
       } else if (state.modal === 'review') {
-        const v = { name: g('#rv-name'), pid: g('#rv-pid'), text: g('#rv-text'), rating: state.rv.rating };
-        openReviewForm(v.pid);
-        $('#rv-name').value = v.name; $('#rv-text').value = v.text; if (v.rating) setStars(v.rating);
+        openReviewForm(null, true);
       } else if (state.modal === 'thanks') showThanks();
     }
     function setLang(l) {
@@ -2574,9 +2957,44 @@
     const cartCount = () => cartItems().reduce((a, i) => a + i.q, 0);
 
     const r3 = n => Math.round(n * 1000) / 1000;
+    const bLabel = b => (LANG === 'en' && b.nameEn) || b.name || tr('bundleDef');
+    const bPer = (b, sum) => r3(b.type === 'price' ? Math.max(0, sum - b.value) : b.type === 'fixed' ? Math.min(b.value, sum) : sum * Math.min(100, b.value) / 100);
+    const bProds = b => b.ids.map(id => byId(id));
+    const bOk = b => bProds(b).every(p => p && !p.soon && !p.oos);
+    function bundleCalc(items) {
+      const left = {}; items.forEach(i => { left[i.p.id] = (left[i.p.id] || 0) + i.q; });
+      let amt = 0; const list = [];
+      (CONFIG.bundles || []).forEach(b => {
+        if (!bOk(b)) return;
+        const sets = Math.min(...b.ids.map(id => left[id] || 0)); if (sets < 1) return;
+        const sum = bProds(b).reduce((n, p) => n + p.price, 0), a = r3(bPer(b, sum) * sets);
+        b.ids.forEach(id => { left[id] -= sets; });
+        if (a > 0) { amt += a; list.push({ label: bLabel(b), sets, amt: a }); }
+      });
+      return { amt: r3(amt), list };
+    }
+    function bundleHints(t) {
+      const inCart = new Set(t.items.map(i => i.p.id)), out = [];
+      (CONFIG.bundles || []).forEach(b => {
+        if (!bOk(b)) return;
+        const miss = b.ids.filter(id => !inCart.has(id));
+        if (!miss.length || miss.length === b.ids.length) return;
+        const sv = bPer(b, bProds(b).reduce((n, p) => n + p.price, 0)); if (!(sv > 0)) return;
+        out.push(`<div class="bd-hint">🎁 ${tr('bundleHint', miss.map(id => esc(pName(byId(id)))).join(' + '), `<b class="num">${fmt(sv)}</b>`, esc(bLabel(b)))}</div>`);
+      });
+      return out.slice(0, 2).join('');
+    }
+    function bundleNote(p) {
+      return (CONFIG.bundles || []).filter(b => b.ids.includes(p.id) && bOk(b)).slice(0, 2).map(b => {
+        const sum = bProds(b).reduce((n, q) => n + q.price, 0), others = b.ids.filter(id => id !== p.id).map(id => esc(pName(byId(id)))).join(' + ');
+        const d = b.type === 'price' ? tr('bundlePrice', fmt(b.value)) : tr('bundleSave', b.type === 'percent' ? b.value + '%' : fmt(Math.min(b.value, sum)));
+        return `<div class="bd-note">🎁 <b>${esc(bLabel(b))}</b>: ${tr('bundleWith', others)} - ${d}</div>`;
+      }).join('');
+    }
     function totals(city) {
       const items = cartItems();
-      const sub = items.reduce((s, i) => s + i.p.price * i.q, 0);
+      const sub0 = items.reduce((s, i) => s + i.p.price * i.q, 0);
+      const bd = bundleCalc(items), bund = Math.min(bd.amt, sub0), sub = sub0 - bund;
       let auto = 0, disc = 0, belowMin = false;
       const A0 = CONFIG.auto;
       if (A0 && sub >= A0.min) auto = A0.type === 'percent' ? r3(sub * Math.min(100, A0.value) / 100) : Math.min(A0.value, sub);
@@ -2592,13 +3010,14 @@
       let fee = null;
       if (free) fee = 0;
       else if (city) fee = city === 'إربد' ? CONFIG.delivery.amman : CONFIG.delivery.other;
-      return { items, sub, auto, disc, belowMin, after, free, fee, total: after + (fee || 0) };
+      return { items, sub: sub0, bund, bundles: bd.list, auto, disc, belowMin, after, free, fee, total: after + (fee || 0) };
     }
     function autoHint(t) {
       const a = CONFIG.auto;
-      if (!a || t.sub >= a.min || !t.items.length) return '';
+      const net = t.sub - (t.bund || 0);
+      if (!a || net >= a.min || !t.items.length) return '';
       const lab = autoLabel();
-      return `<p class="hint" style="text-align:center;margin:-2px 0 8px">${tr('autoHint', `<b class="num">${fmt(a.min - t.sub)}</b>`, a.type === 'percent' ? a.value + '%' : fmt(a.value))}${lab ? ' (' + esc(lab) + ')' : ''}</p>`;
+      return `<p class="hint" style="text-align:center;margin:-2px 0 8px">${tr('autoHint', `<b class="num">${fmt(a.min - net)}</b>`, a.type === 'percent' ? a.value + '%' : fmt(a.value))}${lab ? ' (' + esc(lab) + ')' : ''}</p>`;
     }
 
     /* ====================== واجهة عامة ====================== */
@@ -2645,6 +3064,7 @@
       const p = byId(id); if (!p || p.soon || p.oos) return;
       if (p.colorsOn && !p.colors.some(x => x.id === hex && !x.oos)) return openModal(id);
       if (!p.colorsOn) hex = '';
+      TRK.send('cart', id);
       const k = cKey(id, hex);
       state.cart[k] = Math.min(20, (state.cart[k] || 0) + q);
       saveCart(); updateBadge(true); toast(tr('added'));
@@ -2722,7 +3142,7 @@
 
     /* ====================== نافذة المنتج ====================== */
     function openModal(id) {
-      const p = byId(id); state.openId = id; state.qty = 1; state.modal = 'product'; state.color = p.colorsOn ? firstCol(p).id : '';
+      const p = byId(id); if (TRK.once('pv_' + id)) TRK.send('view', id); state.openId = id; state.qty = 1; state.modal = 'product'; state.color = p.colorsOn ? firstCol(p).id : '';
       const save = p.old - p.price;
       const tag = p.soon ? `<span class="tag soon">${tr('soon')}</span>` : save > 0 && !p.oos ? `<span class="tag">${tr('save')} <span class="num">${fmt(save)}</span></span>` : '';
       $('#sheet').innerHTML = `
@@ -2735,6 +3155,7 @@
       <div class="cr">${miniRate(p.id)}</div>
       <div class="prices big">${p.oos ? `<span class="oos">${tr('oos')}</span>` : `<span class="price num">${fmt(p.price)}</span>${p.old > p.price ? `<span class="old num">${fmt(p.old)}</span>` : ''}`}</div>
       <p class="desc" dir="auto">${pDesc(p)}</p>
+      ${bundleNote(p)}
       <div class="metas"><span class="meta">${tl('type', p.type)}</span>${p.skin.length && p.skin.length < 5 ? p.skin.slice(0, 3).map(s => `<span class="meta">${tl('skin', s)}</span>`).join('') : `<span class="meta">${tr('allSkins')}</span>`}</div>
       ${p.colorsOn && !p.soon && !p.oos ? `<div class="clr-lab"><b>${tr('color')}:</b> <span id="clrName">${esc(colName(p, state.color))}</span></div><div class="clr-row">${p.colors.map(c => `<button class="clr-sw${c.oos ? ' sold' : ''}" data-act="pick-color" data-c="${c.id}" style="${swStyle(c)}" aria-label="${esc(colName(p, c.id))}${c.oos ? ' - ' + tr('oos') : ''}" aria-pressed="${c.id === state.color}"${c.oos ? ' disabled' : ''}></button>`).join('')}</div>${p.colors.some(c => c.oos) ? `<p class="clr-note">${tr('oos')}: ${p.colors.filter(c => c.oos).map(c => esc(colName(p, c.id))).join('، ')}</p>` : ''}` : ''}
       ${p.soon || p.oos ? `<button class="btn block" disabled>${p.oos ? tr('oos') : tr('soon')}</button>` :
@@ -2778,6 +3199,7 @@
       const feeTxt = t.fee === null ? tr('feeByCity') : t.fee === 0 ? tr('free') : fmt(t.fee);
       return `<div class="tot">
     <div class="r"><span>${tr('subtotal')}</span><span class="num">${fmt(t.sub)}</span></div>
+    ${(t.bundles || []).map(b => `<div class="r disc"><span>${esc(b.label)}${b.sets > 1 ? ' ×' + b.sets : ''}</span><span class="num">- ${fmt(b.amt)}</span></div>`).join('')}
     ${t.auto > 0 ? `<div class="r disc"><span>${tr('discAuto', esc(autoLabel()))}</span><span class="num">- ${fmt(t.auto)}</span></div>` : ''}
     ${t.disc > 0 ? `<div class="r disc"><span>${tr('discCoupon', state.coupon)}</span><span class="num">- ${fmt(t.disc)}</span></div>` : ''}
     <div class="r"><span>${tr('delivery')}</span><span class="${t.fee === null ? '' : 'num'}">${feeTxt}</span></div>
@@ -2796,7 +3218,7 @@
           body = `<div class="empty" style="padding-top:60px">${ic('bag', 44)}<p>${tr('cartEmpty')}</p><button class="btn" data-act="close-all">${tr('browse')}</button></div>`;
         } else {
           const cmsg = state.coupon ? (t.belowMin ? `<div class="cmsg bad">${tr('cpnMin', state.coupon, fmt(CONFIG.coupons[state.coupon].min))}</div>` : `<div class="cmsg ok">${tr('cpnOk', state.coupon)}</div>`) : '<div class="cmsg" id="cmsg"></div>';
-          body = shipHTML(t) + autoHint(t) + t.items.map(({ p, q, k, hex, cn, co }) => `<div class="line"><div class="thumb">${colSrc(co) ? `<img class="ph" src="${colSrc(co)}" alt="">` : pic(p)}</div><div>
+          body = shipHTML(t) + autoHint(t) + bundleHints(t) + t.items.map(({ p, q, k, hex, cn, co }) => `<div class="line"><div class="thumb">${colSrc(co) ? `<img class="ph" src="${colSrc(co)}" alt="">` : pic(p)}</div><div>
           <div class="l-top"><span class="l-name">${pName(p)}</span><button class="del" data-del="${k}" aria-label="${tr('removeAria', pName(p))}">${ic('trash', 19)}</button></div>
           ${hex ? `<div class="clr-sub"><i class="clr-dot" style="${swStyle(co)}"></i>${tr('color')}: ${esc(cn)}</div>` : ''}
           <div class="l-bot"><div class="qty"><button data-dec="${k}" aria-label="${tr('dec')}">${ic('minus', 18)}</button><span>${q}</span><button data-inc="${k}" aria-label="${tr('inc')}">${ic('plus', 18)}</button></div>
@@ -2943,6 +3365,7 @@
         tr('ordItems'),
         ...t.items.map(({ p, q, hex, cn }) => `- ${p.brand} ${pName(p)}${hex ? ` (${tr('color')}: ${cn})` : ''} × ${q} = ${iso(p.price * q)}`), '',
         `${tr('ordSub')}: ${iso(t.sub)}`,
+        ...(t.bundles || []).map(b => `${b.label}${b.sets > 1 ? ' ×' + b.sets : ''}: -${iso(b.amt)}`),
         ...(t.auto > 0 ? [`${tr('discAuto', lab)}: -${iso(t.auto)}`] : []),
         ...(t.disc > 0 ? [`${tr('ordCpn', state.coupon)}: -${iso(t.disc)}`] : []),
         `${tr('ordDelivery')}: ${t.fee === 0 ? tr('free') : iso(t.fee)}`,
@@ -2954,7 +3377,7 @@
         orderNo: no, name: `${f.fn.trim()} ${f.ln.trim()}`, phone: normPhone(f.phone), city: f.city, area: f.area.trim(),
         address: f.addr.trim(), deliveryDate: f.deliveryDate, note: (f.note || '').trim(),
         itemsJson: JSON.stringify({ items: t.items.map(({ p, q, hex, cn, co }) => ({ id: p.id, b: p.brand, n: p.ar, q, pr: p.price, ...(hex ? { col: (co && co.hex) || '', cn } : {}) })), auto: t.auto, autoLabel: CONFIG.auto ? CONFIG.auto.label : '', couponDisc: t.disc }),
-        subtotal: t.sub, discount: r3(t.auto + t.disc), delivery: t.fee || 0, total: t.total,
+        subtotal: t.sub, discount: r3(t.auto + t.disc + t.bund), delivery: t.fee || 0, total: t.total,
         coupon: state.coupon && !t.belowMin ? state.coupon : '', createdAt: Date.now(), status: 'new'
       };
       state.order = { no, msg, link: igDM() };
@@ -2966,7 +3389,7 @@
       if (!saved) console.error('[DONIA] order save FAILED:', savedRes.reason);
       if (!tgOk) console.error('[DONIA] order was NOT delivered to Telegram (see error above).');
       if (saved) {
-        setLS('donia_ord_last', String(Date.now()));
+        setLS('donia_ord_last', String(Date.now())); TRK.send('order');
         state.cart = {}; state.coupon = null; state.form.note = ''; state.form.deliveryDate = ''; saveCart(); updateBadge();
         state.view = 'done';
       } else {
@@ -3025,13 +3448,14 @@
       deliveryAmman: CONFIG.delivery.amman, deliveryOther: CONFIG.delivery.other,
       promoText: '', promoTextEn: '', heroImage: '',
       coupons: Object.entries(CONFIG.coupons).map(([code, c]) => ({ code, type: c.type, value: c.value, min: c.min || 0, active: true })),
-      auto: { on: false, type: 'percent', value: 10, min: 0, label: '', labelEn: '' }
+      auto: { on: false, type: 'percent', value: 10, min: 0, label: '', labelEn: '' },
+      bundles: []
     });
     const BASE_SETTINGS = DEFAULT_SETTINGS();
     function mergeSettings(s) {
       const d = DEFAULT_SETTINGS();
       if (!s || typeof s !== 'object') return d;
-      return Object.assign(d, s, { auto: Object.assign(d.auto, s.auto || {}), coupons: Array.isArray(s.coupons) ? s.coupons : d.coupons });
+      return Object.assign(d, s, { auto: Object.assign(d.auto, s.auto || {}), coupons: Array.isArray(s.coupons) ? s.coupons : d.coupons, bundles: Array.isArray(s.bundles) ? s.bundles : [] });
     }
     function setContactLinks() {
       const dm = igDM();
@@ -3058,6 +3482,11 @@
       });
       CONFIG.auto = s.auto && s.auto.on && num(s.auto.value) > 0
         ? { type: s.auto.type === 'fixed' ? 'fixed' : 'percent', value: num(s.auto.value), min: num(s.auto.min), label: clean(s.auto.label), labelEn: clean(s.auto.labelEn) } : null;
+      CONFIG.bundles = (s.bundles || []).map(b => {
+        const ids = [...new Set((Array.isArray(b.ids) ? b.ids : []).map(String).filter(x => /^[\w-]{1,40}$/.test(x)))].slice(0, 6);
+        const type = ['price', 'fixed', 'percent'].includes(b.type) ? b.type : 'price', value = num(b.value);
+        return { id: clean(b.id), name: clean(b.name), nameEn: clean(b.nameEn), ids, type, value, active: b.active !== false };
+      }).filter(b => b.active && b.ids.length >= 2 && b.value > 0 && !(b.type === 'percent' && b.value > 100));
       PROMO.ar = clean(s.promoText); PROMO.en = clean(s.promoTextEn); applyPromo();
       IMAGES.hero = okImg(s.heroImage) ? s.heroImage : null;
       applyHero(); setContactLinks();
@@ -3135,6 +3564,24 @@
 
     /* مخزن الآراء: محلي للتجربة، أو Firestore (REST) لما تعبّي إعدادات Firebase */
     const okRev = r => r && typeof r.name === 'string' && typeof r.productId === 'string' && Number.isInteger(r.rating) && r.rating >= 1 && r.rating <= 5 && Number.isFinite(r.createdAt);
+    /* تتبع الزيارات (خفيف، بدون كوكيز طرف ثالث) */
+    const TRK = {
+      vid() { let v = getLS('donia_vid'); if (!v) { v = Math.random().toString(36).slice(2, 10) + Date.now().toString(36); setLS('donia_vid', v); } return v; },
+      once(k) { try { if (sessionStorage.getItem('trk_' + k)) return false; sessionStorage.setItem('trk_' + k, '1'); } catch (e) { } return true; },
+      send(t, pid) {
+        try {
+          if (!REV.online() || location.hash === '#admin' || document.body.classList.contains('is-admin')) return;
+          if (getLS('donia_notrack') || sessionStorage.getItem('donia_rt')) return;
+          const d = new Date(), day = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+          let ref = ''; try { ref = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, '') : ''; } catch (e) { }
+          if (ref === location.hostname) ref = '';
+          const f = { t: { stringValue: t }, vid: { stringValue: this.vid() }, day: { stringValue: day }, ts: { timestampValue: d.toISOString() }, dev: { stringValue: /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'desktop' } };
+          if (t === 'visit') f.ref = { stringValue: ref.slice(0, 60) };
+          if (pid) f.pid = { stringValue: String(pid).slice(0, 40) };
+          fetch(`${REV.base()}/stats?key=${REV.key()}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fields: f }), keepalive: true }).catch(() => { });
+        } catch (e) { }
+      }
+    };
     const REV = {
       online() { return !!(CONFIG.firebase.projectId && CONFIG.firebase.apiKey); },
       base() { return `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(CONFIG.firebase.projectId)}/databases/(default)/documents`; },
@@ -3227,53 +3674,82 @@
       computeStats(); renderReviews(); renderProducts();
     }
 
-    function openReviewForm(pid) {
+    function openReviewForm(pid, keep) {
       state.modal = 'review';
-      state.rv = { rating: 0 };
-      const opts = PRODUCTS.filter(p => !p.soon).map(p => `<option value="${p.id}"${p.id === pid ? ' selected' : ''}>${esc(p.brand)} - ${esc(pName(p))}</option>`).join('');
+      if (!keep || !state.rv || !state.rv.sel) state.rv = { sel: pid && byId(pid) ? [pid] : [], st: {}, cm: {}, name: '' };
+      const R = state.rv;
+      const tiles = PRODUCTS.map(p => `<button type="button" class="rp-t" data-act="rv-pick" data-p="${p.id}" aria-pressed="${R.sel.includes(p.id)}" aria-label="${esc(pName(p))}"><div class="sq">${pic(p)}</div><span class="circ" aria-hidden="true">${R.sel.includes(p.id) ? '✓' : ''}</span><b>${esc(pName(p))}</b></button>`).join('');
       $('#sheet').innerHTML = `
     <div class="rv-head"><h3>${tr('writeReview')}</h3><button class="icon-btn" data-act="close-modal" aria-label="${tr('close')}">${ic('close', 20)}</button></div>
     <div class="sheet-body" id="rvForm">
       <p class="latin" style="margin-bottom:8px">${tr('rvNoAcct')}</p>
-      <div class="field"><label for="rv-name">${tr('rvName')}</label><input class="input" id="rv-name" maxlength="40" autocomplete="name"><div class="err" id="e-rv-name"></div></div>
-      <div class="field"><label for="rv-pid">${tr('rvProduct')}</label><select class="input" id="rv-pid"><option value="">${tr('rvSelect')}</option>${opts}</select><div class="err" id="e-rv-pid"></div></div>
-      <div class="field"><label>${tr('rvRating')}</label><div class="starpick" role="radiogroup" aria-label="${tr('rvRatingAria')}">${[1, 2, 3, 4, 5].map(n => `<button type="button" role="radio" aria-checked="false" aria-label="${tr('outOf5', n)}" data-act="rv-star" data-v="${n}">★</button>`).join('')}</div><div class="err" id="e-rv-rating"></div></div>
-      <div class="field"><label for="rv-text">${tr('rvText')}</label><textarea class="input" id="rv-text" maxlength="400" placeholder="${tr('rvTextPh')}"></textarea></div>
+      <div class="field"><label for="rv-name">${tr('rvName')}</label><input class="input" id="rv-name" maxlength="40" autocomplete="name" value="${esc(R.name || '')}"><div class="err" id="e-rv-name"></div></div>
+      <div class="field"><label>${tr('rvProduct')}</label><div class="rp-grid" id="rvGrid">${tiles}</div><div class="err" id="e-rv-pid"></div></div>
+      <div id="rvCards"></div><div class="err" id="e-rv-rating"></div>
       <input type="text" id="rv-web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
-      <button class="btn block" data-act="rv-submit" id="rvSubmit">${tr('rvSubmit')}</button>
+      <button class="btn block" data-act="rv-submit" id="rvSubmit" style="margin-top:12px">${tr('rvSubmit')}</button>
     </div>`;
+      renderRvCards();
       $('#menuDrawer').classList.remove('open'); $('#cartDrawer').classList.remove('open');
       $('#modal').classList.add('open'); $('#scrim').classList.add('on'); lock(true);
+      const on = $('#rvGrid [aria-pressed="true"]'); if (on) on.scrollIntoView({ block: 'nearest' });
     }
-    function setStars(n) {
-      state.rv.rating = n;
-      document.querySelectorAll('.starpick button').forEach(b => { const on = +b.dataset.v <= n; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(+b.dataset.v === n)); });
+    function renderRvCards() {
+      const R = state.rv, box = $('#rvCards'); if (!box) return;
+      box.innerHTML = R.sel.map(id => {
+        const p = byId(id); if (!p) return '';
+        return `<div class="rvc" data-pid="${id}"><div class="rvc-top"><span class="rvc-im">${pic(p)}</span><b>${esc(pName(p))}</b><button type="button" class="rvc-x" data-act="rv-pick" data-p="${id}" aria-label="${tr('close')}">✕</button></div>
+        <div class="starpick" role="radiogroup" aria-label="${tr('rvRatingAria')}">${[1, 2, 3, 4, 5].map(n => `<button type="button" role="radio" class="${(R.st[id] || 0) >= n ? 'on' : ''}" aria-checked="${R.st[id] === n}" aria-label="${tr('outOf5', n)}" data-act="rv-star" data-p="${id}" data-v="${n}">★</button>`).join('')}</div>
+        <textarea class="input" data-rc="${id}" maxlength="400" aria-label="${tr('rvText')}" placeholder="${tr('rvTextPh')}">${esc(R.cm[id] || '')}</textarea></div>`;
+      }).join('');
+    }
+    function pickRvProduct(id) {
+      const R = state.rv, i = R.sel.indexOf(id);
+      if (i >= 0) R.sel.splice(i, 1); else R.sel.push(id);
+      document.querySelectorAll('#rvGrid .rp-t').forEach(b => { const on = R.sel.includes(b.dataset.p); b.setAttribute('aria-pressed', String(on)); b.querySelector('.circ').textContent = on ? '✓' : ''; });
+      const e = $('#e-rv-pid'); if (e) e.textContent = '';
+      renderRvCards();
+    }
+    function setStars(id, n) {
+      state.rv.st[id] = n;
+      const c = document.querySelector(`.rvc[data-pid="${id}"]`);
+      if (c) c.querySelectorAll('.starpick button').forEach(b => { const on = +b.dataset.v <= n; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(+b.dataset.v === n)); });
       const e = $('#e-rv-rating'); if (e) e.textContent = '';
     }
+    document.addEventListener('input', e => {
+      const t = e.target; if (!state.rv) return;
+      if (t.id === 'rv-name') state.rv.name = t.value;
+      else if (t.dataset && t.dataset.rc) state.rv.cm[t.dataset.rc] = t.value;
+    });
     async function submitReview() {
-      const name = $('#rv-name').value.trim().replace(/\s+/g, ' ');
-      const pid = $('#rv-pid').value, text = $('#rv-text').value.trim(), rating = state.rv.rating;
+      const R = state.rv, name = $('#rv-name').value.trim().replace(/\s+/g, ' ');
+      const sel = R.sel.filter(id => byId(id));
       const e = {};
       if (name.length < 2) e['rv-name'] = tr('vRvName');
-      if (!pid || !byId(pid)) e['rv-pid'] = tr('vRvPid');
-      if (!rating) e['rv-rating'] = tr('vRvStar');
+      if (!sel.length) e['rv-pid'] = tr('vRvPid');
+      else if (sel.some(id => !R.st[id])) e['rv-rating'] = tr('vRvStar');
       ['rv-name', 'rv-pid', 'rv-rating'].forEach(k => { const el = $('#e-' + k); if (el) el.textContent = e[k] || ''; });
-      if (Object.keys(e).length) return;
+      if (Object.keys(e).length) { const f = document.querySelector('.err:not(:empty)'); if (f) f.scrollIntoView({ block: 'center' }); return; }
       if ($('#rv-web').value) return closeAll();
-      if (Date.now() - (+getLS('donia_rv_last') || 0) < 60000) return toast(tr('waitReview'));
+      if (Date.now() - (+getLS('donia_rv_last') || 0) < 8000) return toast(tr('waitReview'));
       const btn = $('#rvSubmit'); btn.disabled = true; btn.textContent = tr('rvSending');
-      const review = { id: 'l' + Date.now(), name, productId: pid, rating, comment: text, createdAt: Date.now() };
+      const done = []; let status = 'approved';
       try {
-        const status = await REV.add(review);
+        for (const id of sel) {
+          const review = { id: 'l' + Date.now() + id.slice(0, 4), name, productId: id, rating: R.st[id], comment: (R.cm[id] || '').trim().slice(0, 400), createdAt: Date.now() };
+          status = await REV.add(review); done.push(review);
+        }
         setLS('donia_rv_last', String(Date.now()));
         if (status === 'approved') {
-          state.reviews.unshift(review); state.revStatus = 'ok'; computeStats(); renderReviews(); renderProducts();
+          done.reverse().forEach(r => state.reviews.unshift(r)); state.revStatus = 'ok'; computeStats(); renderReviews(); renderProducts();
           closeAll(); toast(tr('reviewAdded'));
         } else {
           showThanks();
         }
       } catch (err) {
-        btn.disabled = false; btn.textContent = tr('rvSubmit'); toast(tr('reviewFail'));
+        if (done.length && status === 'approved') { done.forEach(r => state.reviews.unshift(r)); computeStats(); renderReviews(); renderProducts(); }
+        R.sel = R.sel.filter(id => !done.some(r => r.productId === id));
+        btn.disabled = false; btn.textContent = tr('rvSubmit'); renderRvCards(); toast(tr('reviewFail'));
       }
     }
 
@@ -3322,7 +3798,7 @@
           else { state.coupon = null; renderCart(); const m = $('#cmsg'); if (m) { m.className = 'cmsg bad'; m.textContent = tr('cpnBad'); } }
           break;
         }
-        case 'checkout': state.view = 'checkout'; renderCart(); $('#cartBody').scrollTop = 0; break;
+        case 'checkout': if (TRK.once('co')) TRK.send('checkout'); state.view = 'checkout'; renderCart(); $('#cartBody').scrollTop = 0; break;
         case 'back': state.view = 'cart'; renderCart(); break;
         case 'submit': submitOrder(); break;
         case 'copy': {
@@ -3334,7 +3810,8 @@
         }
         case 'cat-retry': loadCatalog(); break;
         case 'rv-open': openReviewForm(d.p); break;
-        case 'rv-star': setStars(+d.v); break;
+        case 'rv-star': setStars(d.p, +d.v); break;
+        case 'rv-pick': pickRvProduct(d.p); break;
         case 'rv-submit': submitReview(); break;
         case 'rv-more': state.revShown += 6; renderReviews(); break;
         case 'rv-retry': loadReviews(); break;
@@ -3354,7 +3831,7 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
 
     /* ====================== لوحة التحكم (الرابط: الموقع/#admin) ====================== */
-    const A = { authed: false, tab: 'orders', view: 'list', products: [], settings: null, reviews: [], orders: [], ofilter: '', ordersErr: '', edit: null, err: '', busy: false, loaded: false, del: '', saving: false };
+    const A = { authed: false, tab: 'orders', view: 'list', products: [], settings: null, reviews: [], orders: [], stats: null, statsErr: '', srange: 7, ofilter: '', ordersErr: '', edit: null, err: '', busy: false, loaded: false, del: '', saving: false };
     const AUTH = { id: '', refresh: '', exp: 0 };
     const AUTH_ERRS = { INVALID_LOGIN_CREDENTIALS: 'الإيميل أو كلمة السر غلط', INVALID_PASSWORD: 'الإيميل أو كلمة السر غلط', EMAIL_NOT_FOUND: 'الإيميل أو كلمة السر غلط', INVALID_EMAIL: 'اكتب إيميل صحيح', TOO_MANY_ATTEMPTS_TRY_LATER: 'محاولات كثيرة، جرّب بعد شوي', USER_DISABLED: 'هذا الحساب موقوف' };
     const newId = () => 'n' + Date.now().toString(36) + Math.floor(Math.random() * 1296).toString(36);
@@ -3443,6 +3920,12 @@
         if (!REV.online()) return REV.readLocal().map(r => Object.assign({ status: 'approved' }, r));
         const rows = await authFetch(`${REV.base()}:runQuery?key=${REV.key()}`, { method: 'POST', body: JSON.stringify({ structuredQuery: { from: [{ collectionId: 'reviews' }], orderBy: [{ field: { fieldPath: 'createdAt' }, direction: 'DESCENDING' }], limit: 300 } }) });
         return (rows || []).filter(r => r.document).map(r => Object.assign(REV.fromDoc(r.document), { status: (r.document.fields.status && r.document.fields.status.stringValue) || 'pending' })).filter(okRev);
+      },
+      async listStats(days) {
+        if (!REV.online()) return [];
+        const since = new Date(Date.now() - days * 86400000).toISOString();
+        const rows = await authFetch(`${REV.base()}:runQuery?key=${REV.key()}`, { method: 'POST', body: JSON.stringify({ structuredQuery: { from: [{ collectionId: 'stats' }], where: { fieldFilter: { field: { fieldPath: 'ts' }, op: 'GREATER_THAN_OR_EQUAL', value: { timestampValue: since } } }, orderBy: [{ field: { fieldPath: 'ts' }, direction: 'DESCENDING' }], limit: 5000 } }) });
+        return (rows || []).filter(r => r.document).map(r => { const f = r.document.fields || {}, g = k => (f[k] && f[k].stringValue) || ''; return { t: g('t'), vid: g('vid'), day: g('day'), dev: g('dev'), ref: g('ref'), pid: g('pid'), ts: f.ts && f.ts.timestampValue ? Date.parse(f.ts.timestampValue) : 0 }; });
       },
       async setReview(id, status) {
         await authFetch(`${REV.base()}/reviews/${encodeURIComponent(id)}?updateMask.fieldPaths=status&key=${REV.key()}`, { method: 'PATCH', body: JSON.stringify({ fields: { status: { stringValue: status } } }) });
@@ -3540,14 +4023,14 @@
     <p style="margin-top:16px"><a href="#" class="hint" data-a="exit">رجوع للموقع</a></p></div></div>`;
     }
     function admPanelHTML() {
-      const tabs = [['orders', 'الطلبات'], ['products', 'المنتجات'], ['cart', 'السلة والشحن'], ['reviews', 'الآراء'], ['site', 'الموقع']];
+      const tabs = [['orders', 'الطلبات'], ['products', 'المنتجات'], ['cart', 'السلة والشحن'], ['bundles', 'العروض'], ['stats', 'الإحصائيات'], ['reviews', 'الآراء'], ['site', 'الموقع']];
       const pend = A.reviews.filter(r => r.status === 'pending').length, newOrd = A.orders.filter(o => o.status === 'new').length;
       const editing = A.view === 'edit';
       let body;
       if (A.busy && !A.loaded) body = '<div class="empty"><p>جاري التحميل...</p></div>';
       else if (editing) body = admEditHTML();
       else if (!A.loaded) body = `<div class="empty"><p>${esc(A.err) || 'ما قدرنا نحمّل البيانات.'}</p><button class="btn ghost" data-a="reload">جرّب مرة ثانية</button></div>`;
-      else body = A.tab === 'orders' ? admOrdersHTML() : A.tab === 'products' ? admProductsHTML() : A.tab === 'cart' ? admCartHTML() : A.tab === 'reviews' ? admReviewsHTML() : admSiteHTML();
+      else body = A.tab === 'orders' ? admOrdersHTML() : A.tab === 'products' ? admProductsHTML() : A.tab === 'cart' ? admCartHTML() : A.tab === 'bundles' ? admBundlesHTML() : A.tab === 'stats' ? admStatsHTML() : A.tab === 'reviews' ? admReviewsHTML() : admSiteHTML();
       return `<div class="adm-top"><div class="adm-top-in"><strong>لوحة التحكم</strong><div style="display:flex;gap:8px"><button class="btn ghost sm" data-a="exit">الموقع</button>${REV.online() ? '<button class="btn ghost sm" data-a="logout">خروج</button>' : ''}</div></div></div>
   <div class="adm-in">
     ${REV.online() ? '' : '<div class="card-box hint">وضع التجربة: التغييرات محفوظة على جهازك بس.</div>'}
@@ -3561,6 +4044,37 @@
       const u = new URL('review.html', location.href.split('#')[0].split('?')[0]);
       if (ids) u.searchParams.set('p', ids); u.searchParams.set('n', (o.name || '').split(' ')[0]); u.searchParams.set('o', o.orderNo || '');
       return u.href;
+    }
+    async function admLoadStats() {
+      A.statsErr = '';
+      try { A.stats = await ADB.listStats(30); } catch (e) { A.stats = []; A.statsErr = String(e.message) === 'DENIED' ? 'قواعد Firebase ما فيها صلاحية الإحصائيات. أضف قاعدة مجموعة stats (موجودة بالتعليمات) وجرّب مرة ثانية.' : 'ما قدرنا نحمّل الإحصائيات'; }
+      if (A.tab === 'stats') admRender();
+    }
+    function admStatsHTML() {
+      if (A.stats === null) { admLoadStats(); return '<div class="empty"><p>جاري تحميل الإحصائيات...</p></div>'; }
+      const R = A.srange, now = Date.now(), from = now - R * 86400000;
+      const ev = A.stats.filter(e => e.ts >= from), cnt = t => ev.filter(e => e.t === t).length;
+      const visits = ev.filter(e => e.t === 'visit'), uniq = new Set(visits.map(e => e.vid)).size;
+      const ords = A.orders.filter(o => o.createdAt >= from && o.status !== 'cancelled');
+      const rev = ords.reduce((n, o) => n + (+o.total || 0), 0);
+      const pct = (a, b) => b ? Math.round(a / b * 100) + '%' : '—';
+      const dayKey = ts => { const d = new Date(ts); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+      const nd = Math.min(R, 14), days = [];
+      for (let i = nd - 1; i >= 0; i--) days.push(dayKey(now - i * 86400000));
+      const perDay = days.map(d => visits.filter(e => e.day === d).length), mx = Math.max(1, ...perDay);
+      const top = {}; ev.filter(e => e.t === 'view').forEach(e => top[e.pid] = (top[e.pid] || 0) + 1);
+      const topH = Object.entries(top).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([id, n]) => { const p = PRODUCTS.find(x => x.id === id) || A.products.find(x => x.id === id); return `<div class="st-row"><span>${esc(p ? (p.brand + ' ' + p.ar) : id)}</span><b class="num">${n}</b></div>`; }).join('') || '<p class="hint">ما في بيانات بعد</p>';
+      const src = {}; visits.forEach(e => { const k = e.ref || 'مباشر'; src[k] = (src[k] || 0) + 1; });
+      const srcH = Object.entries(src).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([k, n]) => `<div class="st-row"><span>${esc(k)}</span><b class="num">${n}</b></div>`).join('') || '<p class="hint">ما في بيانات بعد</p>';
+      const mob = visits.filter(e => e.dev === 'mobile').length;
+      const K = (v, l) => `<div class="st-k"><b class="num">${v}</b><span>${l}</span></div>`;
+      return `<div class="tabs" style="margin-top:0">${[[1, 'اليوم'], [7, '7 أيام'], [30, '30 يوم']].map(([n, l]) => `<button class="pill" data-a="srange" data-n="${n}" aria-pressed="${R === n}">${l}</button>`).join('')}<button class="pill" data-a="stats-reload">تحديث</button></div>
+      ${A.statsErr ? `<div class="card-box err">${esc(A.statsErr)}</div>` : ''}
+      <div class="st-grid">${K(visits.length, 'زيارات')}${K(uniq, 'زوار مختلفين')}${K(cnt('view'), 'مشاهدات منتجات')}${K(cnt('cart'), 'إضافات للسلة')}${K(cnt('checkout'), 'فتحوا صفحة الطلب')}${K(ords.length, 'طلبات')}${K(rev.toFixed(2) + ' JD', 'مبيعات')}${K(pct(ords.length, visits.length), 'نسبة التحويل (طلبات/زيارات)')}</div>
+      <div class="card-box"><h3>الزيارات اليومية</h3><div class="st-bars">${perDay.map((n, i) => `<div style="height:${Math.round(n / mx * 100)}%" title="${days[i]}: ${n}"></div>`).join('')}</div><div class="st-lab"><span>${days[0].slice(5)}</span><span>${days[days.length - 1].slice(5)}</span></div></div>
+      <div class="card-box"><h3>أكثر المنتجات مشاهدة</h3>${topH}</div>
+      <div class="card-box"><h3>من وين جاؤوا</h3>${srcH}<div class="st-row"><span>موبايل / كمبيوتر</span><b class="num">${pct(mob, visits.length)} / ${pct(visits.length - mob, visits.length)}</b></div></div>
+      <p class="hint">زياراتك أنت (وإنت مسجّل دخول بلوحة التحكم) ما بتنحسب. الأرقام تقريبية (متصفحات بتمنع التتبع ما بتنحسب).</p>`;
     }
     function admOrdersHTML() {
       const f = A.ofilter, list = A.orders.filter(o => !f || o.status === f).sort((a, b) => b.createdAt - a.createdAt);
@@ -3675,6 +4189,25 @@
       <button class="btn ghost block" data-a="cp-add">إضافة الكود</button></div>
     <button class="btn block" data-a="save-settings"${A.saving ? ' disabled' : ''}>${A.saving ? 'جاري الحفظ...' : 'حفظ إعدادات السلة'}</button>`;
     }
+    const bDesc = b => b.type === 'price' ? 'سعر المجموعة ' + fmt(num(b.value)) : b.type === 'fixed' ? 'خصم ' + fmt(num(b.value)) : 'خصم ' + num(b.value) + '%';
+    function admBundlesHTML() {
+      const s = A.settings, list = s.bundles || [];
+      const pn = id => { const p = A.products.find(x => x.id === id); return p ? esc(p.ar) : 'منتج محذوف'; };
+      const rows = list.map((b, i) => `<div class="crow"><div><b>${esc(b.name || 'باقة')}</b><div class="hint">${b.ids.map(pn).join(' + ')}</div><div class="hint">${bDesc(b)}</div></div>
+        <div style="display:flex;gap:8px;align-items:center"><div class="chk"><label><input type="checkbox" data-a="bd-toggle" data-i="${i}"${b.active !== false ? ' checked' : ''}>فعّال</label></div><button class="btn ghost sm" data-a="bd-del" data-i="${i}">${A.del === 'b:' + i ? 'تأكيد' : 'حذف'}</button></div></div>`).join('');
+      const plist = A.products.slice().sort((a, b) => a.ord - b.ord).map(p => `<label class="bp-i"><input type="checkbox" data-bp="${esc(p.id)}"><span class="bp-th">${pic(p)}</span><span>${esc(p.brand ? p.brand + ' - ' : '')}${esc(p.ar)}</span></label>`).join('');
+      return `<div class="card-box"><h3>عروض الباقات</h3>
+      <p class="hint">اختر منتجين أو أكثر، وإذا الزبون حطهم كلهم مع بعض بالسلة بينزل السعر تلقائياً. لو حط واحد منهم بس ما في خصم.</p>
+      ${rows || '<p class="hint">ما في عروض لسا.</p>'}</div>
+    <div class="card-box"><h3>إضافة عرض</h3>
+      <div class="field"><label for="bd-name">اسم العرض (بيظهر للزبون)</label><input class="input" id="bd-name" maxlength="40" placeholder="مثلاً: باقة العناية"></div>
+      <div class="field"><label for="bd-nameEn">الاسم بالإنجليزي (اختياري)</label><input class="input" id="bd-nameEn" maxlength="40" dir="ltr" style="text-align:left" placeholder="e.g. Care bundle"></div>
+      <div class="field"><label>المنتجات (اختر 2 أو أكثر)</label><div class="bp-list">${plist || '<p class="hint">ما في منتجات</p>'}</div></div>
+      <div class="two"><div class="field"><label for="bd-type">نوع الخصم</label><select class="input" id="bd-type"><option value="price">سعر ثابت للمجموعة (JD)</option><option value="fixed">خصم مبلغ (JD)</option><option value="percent">نسبة %</option></select></div>
+      <div class="field"><label for="bd-val">القيمة</label><input class="input" id="bd-val" type="number" inputmode="decimal" min="0" step="0.001"></div></div>
+      <p class="hint">مثال: منتجين سعرهم 20 JD، اختر "سعر ثابت" وقيمة 15 = بيصيروا 15 JD لما ينشروا مع بعض. لو الزبون حط المجموعة مرتين الخصم بينطبق مرتين.</p>
+      <button class="btn ghost block" data-a="bd-add">إضافة العرض</button></div>`;
+    }
     function admSiteHTML() {
       const s = A.settings;
       return `<div class="card-box"><h3>التواصل</h3>
@@ -3730,6 +4263,7 @@
         promoText: clean(s.promoText || ''), promoTextEn: clean(s.promoTextEn || ''), heroImage: okImg(s.heroImage) ? s.heroImage : '',
         instagram: clean(s.instagram || ''),
         coupons: (s.coupons || []).map(c => ({ code: String(c.code).toUpperCase(), type: c.type === 'fixed' ? 'fixed' : 'percent', value: num(c.value), min: num(c.min), active: c.active !== false })),
+        bundles: (s.bundles || []).map(b => ({ id: clean(b.id) || newId(), name: clean(b.name), nameEn: clean(b.nameEn), ids: [...new Set((b.ids || []).map(String))].slice(0, 6), type: ['price', 'fixed', 'percent'].includes(b.type) ? b.type : 'price', value: num(b.value), active: b.active !== false })),
         auto: { on: !!s.auto.on, type: s.auto.type === 'fixed' ? 'fixed' : 'percent', value: num(s.auto.value), min: num(s.auto.min), label: clean(s.auto.label || ''), labelEn: clean(s.auto.labelEn || '') }
       };
     }
@@ -3777,7 +4311,7 @@
       const el = e.target.closest('[data-a]'); if (!el) return;
       const a = el.dataset.a, id = el.dataset.id;
       if (a === 'exit') e.preventDefault();
-      if (!['del', 'rv-del', 'cp-del', 'ord-del'].includes(a)) A.del = '';
+      if (!['del', 'rv-del', 'cp-del', 'bd-del', 'ord-del'].includes(a)) A.del = '';
       const rerender = () => admRender();
       try {
         switch (a) {
@@ -3794,6 +4328,8 @@
           case 'logout': AUTH.id = AUTH.refresh = ''; AUTH.exp = 0; try { sessionStorage.removeItem('donia_rt'); } catch (x) { } A.authed = false; A.loaded = false; A.err = ''; rerender(); break;
           case 'reload': admLoad(); break;
           case 'tab': A.tab = el.dataset.t; A.err = ''; rerender(); $('#adm').scrollTop = 0; break;
+          case 'srange': A.srange = +el.dataset.n; rerender(); break;
+          case 'stats-reload': A.stats = null; rerender(); break;
           case 'seed': admSeed(); break;
           case 'new': A.edit = { isNew: true, p: { id: newId(), ar: '', brand: '', name: '', desc: '', descEn: '', price: '', old: '', type: 'serum', skin: [], concern: [], sections: ['new'], soon: false, colorsOn: false, colors: [], visible: true, ord: 0, shape: 'tube', c: { body: '#FBEEF1', accent: '#C6567A', cap: '#F2D6DD', swatch: '#F8DEE6' }, image: '' } }; A.view = 'edit'; A.err = ''; rerender(); $('#adm').scrollTop = 0; break;
           case 'edit': { const p = A.products.find(x => x.id === id); if (!p) return; A.edit = { isNew: false, p: JSON.parse(JSON.stringify(p)) }; A.view = 'edit'; A.err = ''; rerender(); $('#adm').scrollTop = 0; break; }
@@ -3833,6 +4369,19 @@
             if (!(val > 0) || (type === 'percent' && val > 100)) { A.err = 'اكتب قيمة خصم صحيحة'; rerender(); $('#adm').scrollTop = 0; break; }
             A.err = ''; A.settings.coupons = A.settings.coupons.filter(c => c.code !== code).concat({ code, type, value: val, min, active: true });
             await admSaveSettings(true); break;
+          }
+          case 'bd-add': {
+            const ids = [...document.querySelectorAll('[data-bp]:checked')].map(x => x.dataset.bp), type = $('#bd-type').value, val = parseFloat($('#bd-val').value);
+            const err = ids.length < 2 ? 'اختر منتجين على الأقل' : !(val > 0) ? 'اكتب قيمة صحيحة' : type === 'percent' && val > 100 ? 'النسبة لازم تكون أقل من 100' : '';
+            if (!err && type === 'price') { const sum = ids.reduce((n, id) => n + num((A.products.find(x => x.id === id) || {}).price), 0); if (val >= sum) { A.err = 'سعر المجموعة (' + fmt(val) + ') لازم يكون أقل من مجموع أسعار المنتجات (' + fmt(sum) + ')'; rerender(); $('#adm').scrollTop = 0; break; } }
+            if (err) { A.err = err; rerender(); $('#adm').scrollTop = 0; break; }
+            A.err = ''; A.settings.bundles = (A.settings.bundles || []).concat({ id: newId(), name: clean($('#bd-name').value), nameEn: clean($('#bd-nameEn').value), ids, type, value: val, active: true });
+            await admSaveSettings(true); break;
+          }
+          case 'bd-del': {
+            const i = +el.dataset.i;
+            if (A.del !== 'b:' + i) { A.del = 'b:' + i; rerender(); break; }
+            A.del = ''; A.settings.bundles.splice(i, 1); await admSaveSettings(true); break;
           }
           case 'cp-del': {
             const i = +el.dataset.i;
@@ -3893,6 +4442,7 @@
       }
       if (t.dataset && t.dataset.coos !== undefined) { const ch = t.closest('.clr-item') && t.closest('.clr-item').querySelector('.chip'); if (ch) ch.classList.toggle('sold', t.checked); }
       if (t.id === 'pf-colorson') { const b = $('#pf-colors'); if (b) b.hidden = !t.checked; }
+      if (t.dataset && t.dataset.a === 'bd-toggle') { A.settings.bundles[+t.dataset.i].active = t.checked; await admSaveSettings(true); }
       if (t.dataset && t.dataset.a === 'cp-toggle') { A.settings.coupons[+t.dataset.i].active = t.checked; await admSaveSettings(true); }
       if (t.dataset && t.dataset.cp !== undefined && t.files && t.files[0]) {
         try {
@@ -3944,6 +4494,7 @@
       applyLang();
       loadCart(); updateBadge(); refresh(); loadCatalog(); loadReviews();
       window.addEventListener('hashchange', route); route();
+      if (TRK.once('visit')) TRK.send('visit');
     }
     init();
   </script>
