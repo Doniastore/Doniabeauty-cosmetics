@@ -1454,6 +1454,62 @@
       flex: none
     }
 
+    .pm {
+      display: grid;
+      gap: 10px
+    }
+
+    .pm-o {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      background: var(--bg);
+      width: 100%;
+      text-align: start
+    }
+
+    .pm-o i {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--line);
+      flex: none
+    }
+
+    .pm-o[aria-pressed="true"] {
+      border-color: var(--bronze)
+    }
+
+    .pm-o[aria-pressed="true"] i {
+      border: 5px solid var(--bronze)
+    }
+
+    .pm-o small {
+      display: block;
+      color: var(--muted);
+      font-size: 12px
+    }
+
+    .pm-o[disabled] {
+      opacity: .5;
+      cursor: not-allowed
+    }
+
+    .pm-o .soon {
+      margin-inline-start: auto;
+      font-size: 12px;
+      background: var(--sage);
+      border-radius: 999px;
+      padding: 2px 10px
+    }
+
+    #ppBox {
+      min-height: 50px
+    }
+
     .ok-ic {
       width: 60px;
       height: 60px;
@@ -2530,6 +2586,12 @@
       storeName: 'DONIA',                  // اسم المتجر
       instagram: 'https://www.instagram.com/donia.e.mutlaq/', // رابط صفحة انستقرام (وبيُستخدم منه رابط المراسلة المباشرة)
       firebase: { projectId: 'doniastore-cee4a', apiKey: 'AIzaSyBOsxlTBcKtcH_v1SXDAC3_0eXB4nqTV3E' },  // من إعدادات مشروع Firebase (فاضيين = تجربة محلية)
+      // ===== الدفع الإلكتروني =====
+      // أي خيار فاضي = بيضل مقفول بصفحة الدفع. عبّيهم لما تجهز المفاتيح.
+      payments: {
+        tap: { endpoint: '' },                  // رابط السيرفر اللي بينشئ عملية الدفع عند Tap (مش المفتاح السري!) → بيفعّل "دفع إلكتروني"
+        paypal: { clientId: '', usdRate: 1.41 } // Client ID العام من PayPal → بيفعّل بيبال. usdRate = كم دولار بالدينار
+      },
       moderateReviews: false,                   // false: الرأي بينشر فوراً بدون موافقة (بس تقدر تشوفه وتحذفه من لوحة التحكم)
       freeShipping: 35,                   // الحد الأدنى للشحن المجاني (JD)
       delivery: { amman: 2, other: 3 },   // أجرة التوصيل (JD): amman = إربد (اسم المفتاح قديم)، other = كل المحافظات الباقية بما فيها عمّان
@@ -2682,6 +2744,10 @@
         fn: 'الاسم الأول', ln: 'اسم العائلة', phone: 'رقم الهاتف', city: 'المدينة', selCity: 'اختر المدينة',
         area: 'المنطقة (الصويفية، عبدون...)', addr: 'العنوان بالتفصيل', addrPh: 'اسم الشارع، رقم البناية، أقرب معلم',
         note: 'ملاحظات (اختياري)', deliveryDate: 'تاريخ التوصيل', deliveryDateHint: 'اختر التاريخ المناسب لاستلام طلبك (بعد يومين على الأقل)', vDate: 'اختر تاريخ توصيل صحيح', payTitle: 'طريقة الدفع', cod: 'الدفع عند الاستلام',
+        payCard: 'دفع إلكتروني', payCardSub: 'فيزا، ماستر كارد، Apple Pay', payPal: 'PayPal', paySoon: 'قريباً',
+        payErr: 'تعذّر بدء الدفع الإلكتروني، جرّب مرة ثانية أو اختر الدفع عند الاستلام', payThanks: 'تم استلام الدفع، شكراً لك',
+        ordPayCard: 'الدفع: إلكتروني (بانتظار التأكيد)', ordPayPal: 'الدفع: PayPal (مدفوع)',
+        doneP2: no => `رقم طلبك <b class="num">${no}</b>. بنتواصل معك قريباً على رقمك لتأكيد التوصيل.`,
         submitBtn: 'تأكيد الطلب', sending: 'جاري إرسال الطلب...',
         doneH: 'تم استلام طلبك',
         doneP: no => `رقم طلبك <b class="num">${no}</b>. بنتواصل معك قريباً على رقمك لتأكيد التوصيل. الدفع عند الاستلام.`,
@@ -2749,6 +2815,10 @@
         fn: 'First name', ln: 'Last name', phone: 'Phone number', city: 'City', selCity: 'Select city',
         area: 'Area (e.g. Sweifieh, Abdoun)', addr: 'Full address', addrPh: 'Street name, building number, nearest landmark',
         note: 'Notes (optional)', deliveryDate: 'Delivery date', deliveryDateHint: 'Choose the date you want your order delivered (at least 2 days from now)', vDate: 'Select a valid delivery date', payTitle: 'Payment method', cod: 'Cash on delivery',
+        payCard: 'Online payment', payCardSub: 'Visa, Mastercard, Apple Pay', payPal: 'PayPal', paySoon: 'Coming soon',
+        payErr: "Couldn't start online payment. Try again or choose cash on delivery.", payThanks: 'Payment received, thank you',
+        ordPayCard: 'Payment: online (awaiting confirmation)', ordPayPal: 'Payment: PayPal (paid)',
+        doneP2: no => `Your order number is <b class="num">${no}</b>. We'll contact you shortly on your phone to confirm delivery.`,
         submitBtn: 'Place order', sending: 'Sending your order...',
         doneH: 'We received your order',
         doneP: no => `Your order number is <b class="num">${no}</b>. We'll contact you shortly on your phone to confirm delivery. Payment is cash on delivery.`,
@@ -2930,7 +3000,7 @@
     }
 
     /* ====================== الحالة ====================== */
-    const state = { catStatus: ONLINE ? 'loading' : 'ok', reviews: [], revStatus: 'loading', revFilter: '', revShown: 6, rv: { rating: 0 }, pstats: {}, q: '', type: '', skin: '', concern: '', brand: '', cart: {}, coupon: null, view: 'cart', qty: 1, openId: null, form: {}, order: null, modal: '' };
+    const state = { catStatus: ONLINE ? 'loading' : 'ok', reviews: [], revStatus: 'loading', revFilter: '', revShown: 6, rv: { rating: 0 }, pstats: {}, q: '', type: '', skin: '', concern: '', brand: '', cart: {}, coupon: null, view: 'cart', qty: 1, openId: null, form: {}, order: null, modal: '', payMethod: 'cod' };
     const KEY = 'donia_cart_v1';
     function loadCart() {
       try {
@@ -3244,12 +3314,12 @@
       ${F('note', tr('note'), `<input class="input" id="note" data-f="note" value="${val('note')}">`)}
       <input type="text" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
       <h3>${tr('payTitle')}</h3>
-      <div class="pay"><i></i><span>${tr('cod')}</span></div>
+      ${payOptionsHTML()}
     </div>`;
-        foot = `<button class="btn block" data-act="submit">${tr('submitBtn')} - <span class="num" id="subBtnTotal">${fmt(t.total)}</span></button>`;
+        foot = state.payMethod === 'paypal' && payOn('paypal') ? '<div id="ppBox"></div>' : `<button class="btn block" data-act="submit">${tr('submitBtn')} - <span class="num" id="subBtnTotal">${fmt(t.total)}</span></button>`;
       } else if (v === 'done') {
         body = `<div class="center"><div class="ok-ic">${ic('check', 30)}</div><h3>${tr('doneH')}</h3>
-      <p>${tr('doneP', state.order.no)}</p></div>
+      <p>${state.order.pm && state.order.pm !== 'cod' ? tr('doneP2', state.order.no) : tr('doneP', state.order.no)}</p></div>
       <div class="msg" id="msg" dir="auto"></div>${ONLINE ? '' : `<p class="hint" style="margin-top:10px">${tr('demoHint')}</p>`}`;
         foot = `<a class="btn ig block" target="_blank" rel="noopener" href="${igDM()}">${ic('chat', 20)} ${tr('waChat')}</a>
       <button class="btn ghost block" data-act="close-all">${tr('backStore')}</button>`;
@@ -3264,6 +3334,7 @@
       d.innerHTML = `<div class="dr-head"><div class="start">${back}<strong>${titles[v]}</strong></div><button class="icon-btn" data-act="close-all" aria-label="${tr('close')}">${ic('close')}</button></div>
     <div class="dr-body" id="cartBody">${body}</div>${foot ? `<div class="dr-foot" id="cartFoot">${foot}</div>` : ''}`;
       if (v === 'checkout') updateSummary();
+      if (v === 'checkout' && state.payMethod === 'paypal' && payOn('paypal')) mountPayPal();
       if (v === 'done' || v === 'fail') $('#msg').textContent = state.order.msg;
     }
     function updateSummary() {
@@ -3319,7 +3390,8 @@
             fields: {
               orderNo: S(o.orderNo), name: S(o.name), phone: S(o.phone), city: S(o.city), area: S(o.area), address: S(o.address), deliveryDate: S(o.deliveryDate || ''), note: S(o.note),
               itemsJson: S(o.itemsJson), subtotal: N(o.subtotal), discount: N(o.discount), delivery: N(o.delivery), total: N(o.total),
-              coupon: S(o.coupon), createdAt: { timestampValue: new Date(o.createdAt).toISOString() }, status: S('new')
+              coupon: S(o.coupon), createdAt: { timestampValue: new Date(o.createdAt).toISOString() }, status: S('new'),
+              paymentMethod: S(o.paymentMethod || 'cod'), paymentStatus: S(o.paymentStatus || 'cod'), paymentRef: S(o.paymentRef || '')
             }
           })
         });
@@ -3345,7 +3417,47 @@
         return true;
       } catch (e) { console.error('[DONIA] telegram notify: network/JS error:', e); return false; }
     }
-    async function submitOrder() {
+    /* ====================== الدفع الإلكتروني ====================== */
+    const PAYCFG = () => CONFIG.payments || { tap: {}, paypal: {} };
+    const payOn = m => m === 'cod' || (m === 'card' && !!(PAYCFG().tap || {}).endpoint) || (m === 'paypal' && !!(PAYCFG().paypal || {}).clientId);
+    function payOptionsHTML() {
+      if (!payOn(state.payMethod)) state.payMethod = 'cod';
+      const o = (m, label, sub) => `<button type="button" class="pm-o" data-act="pay-pick" data-m="${m}" aria-pressed="${state.payMethod === m}"${payOn(m) ? '' : ' disabled'}><i></i><span>${label}${sub ? `<small>${sub}</small>` : ''}</span>${payOn(m) ? '' : `<span class="soon">${tr('paySoon')}</span>`}</button>`;
+      return `<div class="pm">${o('cod', tr('cod'))}${o('card', tr('payCard'), tr('payCardSub'))}${o('paypal', tr('payPal'))}</div>`;
+    }
+    async function startTap(o) {
+      const res = await fetch(PAYCFG().tap.endpoint, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderNo: o.orderNo, amount: o.total, currency: 'JOD', name: o.name, phone: o.phone, redirect: location.origin + location.pathname + '?paid=' + encodeURIComponent(o.orderNo) })
+      });
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok || !j.url) throw new Error('tap');
+      return j.url;
+    }
+    let ppLoading = null;
+    function loadPayPal() {
+      if (window.paypal) return Promise.resolve();
+      if (!ppLoading) ppLoading = new Promise((ok, no) => {
+        const sc = document.createElement('script');
+        sc.src = 'https://www.paypal.com/sdk/js?currency=USD&client-id=' + encodeURIComponent(PAYCFG().paypal.clientId);
+        sc.onload = ok; sc.onerror = () => { ppLoading = null; no(); };
+        document.head.appendChild(sc);
+      });
+      return ppLoading;
+    }
+    async function mountPayPal() {
+      const box = $('#ppBox'); if (!box) return;
+      try { await loadPayPal(); } catch (e) { box.textContent = tr('payErr'); return; }
+      if (!$('#ppBox')) return;
+      window.paypal.Buttons({
+        onClick: (d, a) => validate() ? a.resolve() : a.reject(),
+        createOrder: (d, a) => a.order.create({ purchase_units: [{ amount: { currency_code: 'USD', value: (totals(state.form.city).total * (PAYCFG().paypal.usdRate || 1.41)).toFixed(2) } }] }),
+        onApprove: async (d, a) => { await a.order.capture(); submitOrder({ paypalId: d.orderID }); },
+        onError: () => toast(tr('payErr'))
+      }).render('#ppBox');
+    }
+
+    async function submitOrder(extra) {
       if (state.submitting) return;
       if (!validate()) return;
       if ($('#hp') && $('#hp').value) return;
@@ -3354,6 +3466,7 @@
       if (!t.items.length) return;
       const no = 'DN-' + String(Math.floor(1000 + Math.random() * 9000));
       const lab = autoLabel();
+      const pm = (extra && extra.paypalId) ? 'paypal' : (payOn(state.payMethod) ? state.payMethod : 'cod');
       const lines = [
         `${tr('ordNew')} ${no}`, '',
         `${tr('ordName')}: ${f.fn.trim()} ${f.ln.trim()}`,
@@ -3361,7 +3474,7 @@
         `${tr('ordCity')}: ${cityLbl(f.city)} - ${f.area.trim()}`,
         `${tr('ordAddr')}: ${f.addr.trim()}`,
         `${tr('ordDate')}: ${f.deliveryDate}`,
-        tr('ordPay'), '',
+        pm === 'paypal' ? tr('ordPayPal') : pm === 'card' ? tr('ordPayCard') : tr('ordPay'), '',
         tr('ordItems'),
         ...t.items.map(({ p, q, hex, cn }) => `- ${p.brand} ${pName(p)}${hex ? ` (${tr('color')}: ${cn})` : ''} × ${q} = ${iso(p.price * q)}`), '',
         `${tr('ordSub')}: ${iso(t.sub)}`,
@@ -3378,11 +3491,17 @@
         address: f.addr.trim(), deliveryDate: f.deliveryDate, note: (f.note || '').trim(),
         itemsJson: JSON.stringify({ items: t.items.map(({ p, q, hex, cn, co }) => ({ id: p.id, b: p.brand, n: p.ar, q, pr: p.price, ...(hex ? { col: (co && co.hex) || '', cn } : {}) })), auto: t.auto, autoLabel: CONFIG.auto ? CONFIG.auto.label : '', couponDisc: t.disc }),
         subtotal: t.sub, discount: r3(t.auto + t.disc + t.bund), delivery: t.fee || 0, total: t.total,
-        coupon: state.coupon && !t.belowMin ? state.coupon : '', createdAt: Date.now(), status: 'new'
+        coupon: state.coupon && !t.belowMin ? state.coupon : '', createdAt: Date.now(), status: 'new',
+        paymentMethod: pm, paymentStatus: pm === 'cod' ? 'cod' : pm === 'paypal' ? 'paid' : 'pending', paymentRef: (extra && extra.paypalId) || ''
       };
-      state.order = { no, msg, link: igDM() };
+      state.order = { no, msg, link: igDM(), pm };
       const btn = document.querySelector('[data-act="submit"]');
       state.submitting = true; if (btn) { btn.disabled = true; btn.textContent = tr('sending'); }
+      let tapUrl = '';
+      if (pm === 'card') {
+        try { tapUrl = await startTap(order); }
+        catch (e) { console.error('[DONIA] tap:', e); state.submitting = false; if (btn) { btn.disabled = false; btn.textContent = tr('submitBtn') + ' - ' + fmt(t.total); } return toast(tr('payErr')); }
+      }
       const [savedRes, tgRes] = await Promise.allSettled([ORD.create(order), notifyTelegram(msg)]);
       const saved = savedRes.status === 'fulfilled';
       const tgOk = tgRes.status === 'fulfilled' && tgRes.value === true;
@@ -3392,6 +3511,7 @@
         setLS('donia_ord_last', String(Date.now())); TRK.send('order');
         state.cart = {}; state.coupon = null; state.form.note = ''; state.form.deliveryDate = ''; saveCart(); updateBadge();
         state.view = 'done';
+        if (tapUrl) { state.submitting = false; location.href = tapUrl; return; }
       } else {
         state.view = 'fail';
       }
@@ -3800,6 +3920,7 @@
         }
         case 'checkout': if (TRK.once('co')) TRK.send('checkout'); state.view = 'checkout'; renderCart(); $('#cartBody').scrollTop = 0; break;
         case 'back': state.view = 'cart'; renderCart(); break;
+        case 'pay-pick': if (payOn(d.m)) { state.payMethod = d.m; renderCart(); } break;
         case 'submit': submitOrder(); break;
         case 'copy': {
           const txt = state.order.msg;
@@ -4495,6 +4616,7 @@
       loadCart(); updateBadge(); refresh(); loadCatalog(); loadReviews();
       window.addEventListener('hashchange', route); route();
       if (TRK.once('visit')) TRK.send('visit');
+      if (/[?&]paid=/.test(location.search)) { setTimeout(() => toast(tr('payThanks')), 700); history.replaceState(null, '', location.pathname + location.hash); }
     }
     init();
   </script>
