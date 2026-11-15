@@ -3398,7 +3398,7 @@
         if (!res.ok) throw await httpErr(res, 'order');
       }
     };
-    const ORDER_EMAIL = 'donyamu2001@gmail.com';
+    const ORDER_EMAIL = 'Donyamu2001@gmail.com';
     async function notifyEmail(text, orderNo) {
       try {
         const res = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(ORDER_EMAIL), {
