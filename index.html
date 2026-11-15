@@ -2585,19 +2585,19 @@
     const CONFIG = {
       storeName: 'DONIA',                  // اسم المتجر
       instagram: 'https://www.instagram.com/donia.e.mutlaq/', // رابط صفحة انستقرام (وبيُستخدم منه رابط المراسلة المباشرة)
-      firebase: { projectId: 'doniastore-cee4a', apiKey: 'AIzaSyBOsxlTBcKtcH_v1SXDAC3_0eXB4nqTV3E' },  // من إعدادات مشروع Firebase (فاضيين = تجربة محلية)
+      firebase: {projectId: 'doniastore-cee4a', apiKey: 'AIzaSyBOsxlTBcKtcH_v1SXDAC3_0eXB4nqTV3E'},  // من إعدادات مشروع Firebase (فاضيين = تجربة محلية)
       // ===== الدفع الإلكتروني =====
       // أي خيار فاضي = بيضل مقفول بصفحة الدفع. عبّيهم لما تجهز المفاتيح.
       payments: {
-        tap: { endpoint: '' },                  // رابط السيرفر اللي بينشئ عملية الدفع عند Tap (مش المفتاح السري!) → بيفعّل "دفع إلكتروني"
-        paypal: { clientId: '', usdRate: 1.41 } // Client ID العام من PayPal → بيفعّل بيبال. usdRate = كم دولار بالدينار
+        tap: {endpoint: ''},                  // رابط السيرفر اللي بينشئ عملية الدفع عند Tap (مش المفتاح السري!) → بيفعّل "دفع إلكتروني"
+        paypal: {clientId: '', usdRate: 1.41} // Client ID العام من PayPal → بيفعّل بيبال. usdRate = كم دولار بالدينار
       },
       moderateReviews: false,                   // false: الرأي بينشر فوراً بدون موافقة (بس تقدر تشوفه وتحذفه من لوحة التحكم)
       freeShipping: 35,                   // الحد الأدنى للشحن المجاني (JD)
-      delivery: { amman: 2, other: 3 },   // أجرة التوصيل (JD): amman = إربد (اسم المفتاح قديم)، other = كل المحافظات الباقية بما فيها عمّان
+      delivery: {amman: 2, other: 3},   // أجرة التوصيل (JD): amman = إربد (اسم المفتاح قديم)، other = كل المحافظات الباقية بما فيها عمّان
       coupons: {                          // أكواد الخصم (بتتحكم فيها انت)
-        WELCOME10: { type: 'percent', value: 10 },
-        SAVE3: { type: 'fixed', value: 3, min: 20 }
+        WELCOME10: {type: 'percent', value: 10},
+        SAVE3: {type: 'fixed', value: 3, min: 20}
       }
     };
 
@@ -2605,70 +2605,70 @@
     const SAMPLES = [
       {
         id: 'p1', brand: 'Celimax', name: 'Retinal Shot Tightening Booster', ar: 'بوستر الريتينال للشد', price: 16, old: 19, shape: 'tube',
-        c: { body: '#F3F6E4', accent: '#B9CF3E', cap: '#CBD0C4', swatch: '#DDE98A' },
+        c: {body: '#F3F6E4', accent: '#B9CF3E', cap: '#CBD0C4', swatch: '#DDE98A'},
         type: 'serum', skin: ['normal', 'oily', 'combo'], concern: ['wrinkles', 'pigmentation'], sections: ['best'],
         desc: 'بوستر بالريتينال يُستخدم مساءً لمظهر بشرة أكثر شدّاً ونضارة.',
         descEn: 'Retinal booster for evening use, for a firmer, more radiant-looking complexion.'
       },
       {
         id: 'p2', brand: 'Meditherapy', name: 'Retinal Skin Booster Serum', ar: 'سيروم الريتينال للبشرة', price: 15, old: 21, shape: 'pump',
-        c: { body: '#1D1F1E', accent: '#3A3D3B', cap: '#2B2E2C', swatch: '#EEF0BF' },
+        c: {body: '#1D1F1E', accent: '#3A3D3B', cap: '#2B2E2C', swatch: '#EEF0BF'},
         type: 'serum', skin: ['normal', 'oily', 'combo'], concern: ['wrinkles', 'pigmentation'], sections: ['best'],
         desc: 'سيروم بالريتينال مع السنتيلا والنياسيناميد لتوحيد مظهر لون البشرة.',
         descEn: 'Retinal serum with centella and niacinamide to even out the look of skin tone.'
       },
       {
         id: 'p3', brand: 'Centellian24', name: 'Madeca Cream', ar: 'كريم ماديكا', price: 13, old: 23, shape: 'tube',
-        c: { body: '#FBFBFA', accent: '#B8323A', cap: '#EDEAE6', swatch: '#FFFFFF' },
+        c: {body: '#FBFBFA', accent: '#B8323A', cap: '#EDEAE6', swatch: '#FFFFFF'},
         type: 'cream', skin: ['dry', 'normal', 'sensitive', 'combo'], concern: ['redness', 'hydration'], sections: ['best', 'trend'],
         desc: 'كريم بخلاصة السنتيلا يواسي البشرة ويرطّبها، مناسب للاستخدام اليومي.',
         descEn: 'Centella cream that soothes and hydrates the skin, suitable for daily use.'
       },
       {
         id: 'p4', brand: 'Beauty of Joseon', name: 'Relief Sun Rice + Probiotics SPF50+', ar: 'واقي شمس بالأرز والبروبيوتيك', price: 13, old: 16, shape: 'tube',
-        c: { body: '#F6EDE6', accent: '#C9B8A6', cap: '#FFFFFF', swatch: '#F2E3DA' },
+        c: {body: '#F6EDE6', accent: '#C9B8A6', cap: '#FFFFFF', swatch: '#F2E3DA'},
         type: 'sun', skin: ['normal', 'oily', 'dry', 'combo', 'sensitive'], concern: ['hydration'], sections: ['best'],
         desc: 'واقي شمس خفيف بحماية SPF50+ PA++++ بتركيبة الأرز والبروبيوتيك.',
         descEn: 'Lightweight sunscreen with SPF50+ PA++++ protection, made with rice and probiotics.'
       },
       {
         id: 'p5', brand: 'K-Secret', name: 'Seoul 1988 Eye Cream', ar: 'كريم العيون Seoul 1988', price: 12, old: 15, shape: 'tube',
-        c: { body: '#F1E6D2', accent: '#B33A3A', cap: '#EAD9BD', swatch: '#F4E9D8' },
+        c: {body: '#F1E6D2', accent: '#B33A3A', cap: '#EAD9BD', swatch: '#F4E9D8'},
         type: 'eye', skin: ['normal', 'dry', 'combo'], concern: ['wrinkles'], sections: ['trend'],
         desc: 'كريم عيون بالريتينال الليبوزومي والمواد المتخمّرة لمظهر أنعم حول العين.',
         descEn: 'Eye cream with liposomal retinal and fermented ingredients for a smoother look around the eyes.'
       },
       {
         id: 'p6', brand: 'Embryolisse', name: 'Lait-Crème Concentré', ar: 'كريم-حليب مرطّب متعدد الاستخدامات', price: 19, old: 25, shape: 'tube', soon: true,
-        c: { body: '#F7F5F1', accent: '#5F73B5', cap: '#FFFFFF', swatch: '#F2EFE9' },
+        c: {body: '#F7F5F1', accent: '#5F73B5', cap: '#FFFFFF', swatch: '#F2EFE9'},
         type: 'cream', skin: ['dry', 'normal'], concern: ['hydration'], sections: ['trend'],
         desc: 'مرطّب متعدد الاستخدامات، يصلح كترطيب يومي وكقاعدة للمكياج.',
         descEn: 'Multi-purpose moisturizer that works as a daily moisturizer and as a makeup base.'
       },
       {
         id: 'p7', brand: 'Dr.Melaxin', name: 'Calcium Bonding Eye Cream', ar: 'كريم العيون بالكالسيوم', price: 17, old: 20, shape: 'tube',
-        c: { body: '#5A2A6E', accent: '#D9B8E8', cap: '#C9CDD2', swatch: '#B78AD0', t: '#FFFFFF' },
+        c: {body: '#5A2A6E', accent: '#D9B8E8', cap: '#C9CDD2', swatch: '#B78AD0', t: '#FFFFFF'},
         type: 'eye', skin: ['normal', 'dry'], concern: ['wrinkles'], sections: ['trend'],
         desc: 'كريم عيون بالكالسيوم لمظهر أكثر امتلاءً وشدّاً حول العين.',
         descEn: 'Calcium eye cream for a fuller, firmer look around the eyes.'
       },
       {
         id: 'p8', brand: 'Dr. Althea', name: '345 Relief Cream', ar: 'كريم 345 المهدّئ', price: 14, old: 18, shape: 'tube',
-        c: { body: '#F2F5F4', accent: '#7FA79A', cap: '#FFFFFF', swatch: '#E4ECE9' },
+        c: {body: '#F2F5F4', accent: '#7FA79A', cap: '#FFFFFF', swatch: '#E4ECE9'},
         type: 'cream', skin: ['sensitive', 'combo', 'oily'], concern: ['redness', 'acne'], sections: ['new'],
         desc: 'كريم مهدّئ للبشرة الحساسة، يخفف مظهر الاحمرار.',
         descEn: 'Soothing cream for sensitive skin that reduces the look of redness.'
       },
       {
         id: 'p9', brand: 'Equal Berry', name: 'Aloe PDRN Calming Serum', ar: 'سيروم الصبار المهدّئ (PDRN)', price: 15, old: 19, shape: 'dropper',
-        c: { body: '#7CCB59', accent: '#3F9A2E', cap: '#59B33E', swatch: '#A9DD8F' },
+        c: {body: '#7CCB59', accent: '#3F9A2E', cap: '#59B33E', swatch: '#A9DD8F'},
         type: 'serum', skin: ['sensitive', 'dry', 'normal'], concern: ['redness', 'hydration'], sections: ['new'],
         desc: 'سيروم بالصبار وPDRN لتهدئة البشرة وراحة فورية وتجديد.',
         descEn: 'Serum with aloe and PDRN to calm the skin, with instant comfort and renewal.'
       },
       {
         id: 'p10', brand: 'Equal Berry', name: 'Hyaltoin Flooding Serum', ar: 'سيروم الترطيب العميق (هيالتوين)', price: 15, old: 19, shape: 'dropper',
-        c: { body: '#7EBFEA', accent: '#3D8FCB', cap: '#5AA7DD', swatch: '#A7D4F2' },
+        c: {body: '#7EBFEA', accent: '#3D8FCB', cap: '#5AA7DD', swatch: '#A7D4F2'},
         type: 'serum', skin: ['dry', 'normal', 'combo'], concern: ['hydration', 'redness'], sections: ['new'],
         desc: 'سيروم بالهيالورونيك لترطيب عميق وتبريد البشرة وتهدئة الاحمرار.',
         descEn: 'Hyaluronic serum for deep hydration that cools the skin and calms redness.'
@@ -2676,13 +2676,13 @@
     ];
 
     const SECTIONS = [
-      { key: 'best', title: 'الأكثر مبيعاً' },
-      { key: 'trend', title: 'رائج الآن' },
-      { key: 'new', title: 'وصل حديثاً' }
+      {key: 'best', title: 'الأكثر مبيعاً'},
+      {key: 'trend', title: 'رائج الآن'},
+      {key: 'new', title: 'وصل حديثاً'}
     ];
-    const TYPES = { serum: 'سيرومات', cream: 'كريمات', sun: 'واقيات الشمس', eye: 'العناية بالعيون', makeup: 'مكياج', cleanser: 'منظفات وتونر', body: 'العناية بالجسم', hair: 'العناية بالشعر' };
-    const SKINS = { normal: 'بشرة عادية', oily: 'بشرة دهنية', dry: 'بشرة جافة', combo: 'بشرة مختلطة', sensitive: 'بشرة حساسة' };
-    const CONCERNS = { acne: 'حبوب وبثور', wrinkles: 'خطوط وتجاعيد', pigmentation: 'تصبغات', hydration: 'جفاف وترطيب', redness: 'احمرار وحساسية' };
+    const TYPES = {serum: 'سيرومات', cream: 'كريمات', sun: 'واقيات الشمس', eye: 'العناية بالعيون', makeup: 'مكياج', cleanser: 'منظفات وتونر', body: 'العناية بالجسم', hair: 'العناية بالشعر'};
+    const SKINS = {normal: 'بشرة عادية', oily: 'بشرة دهنية', dry: 'بشرة جافة', combo: 'بشرة مختلطة', sensitive: 'بشرة حساسة'};
+    const CONCERNS = {acne: 'حبوب وبثور', wrinkles: 'خطوط وتجاعيد', pigmentation: 'تصبغات', hydration: 'جفاف وترطيب', redness: 'احمرار وحساسية'};
     const CITIES = ['عمّان', 'إربد', 'الزرقاء', 'العقبة', 'السلط', 'مادبا', 'جرش', 'عجلون', 'الكرك', 'المفرق', 'معان', 'الطفيلة'];
     const ONLINE = !!(CONFIG.firebase.projectId && CONFIG.firebase.apiKey);
     /* رابط المراسلة المباشرة على إنستقرام (DM)، مبني من رابط صفحة انستقرام */
@@ -2695,7 +2695,7 @@
       return u ? `https://ig.me/m/${u}` : (CONFIG.instagram || '#');
     }
     /* المنتجات الظاهرة بالموقع: تجريبية لو Firebase مش مربوط، وإلا بتنجاب من لوحة التحكم */
-    const PRODUCTS = ONLINE ? [] : SAMPLES.map(p => Object.assign({ visible: true, image: '', ord: 0 }, p));
+    const PRODUCTS = ONLINE ? [] : SAMPLES.map(p => Object.assign({visible: true, image: '', ord: 0}, p));
     const brands = () => [...new Set(PRODUCTS.map(p => p.brand).filter(Boolean))];
     const usedTypes = () => Object.keys(TYPES).filter(k => PRODUCTS.some(p => p.type === k));
 
@@ -2703,7 +2703,7 @@
        كل نصوص الواجهة هون. لتعديل أي نص: غيّره بالقسم (ar) أو (en).
        القيم اللي بتكون دوال بتاخد أرقام أو أسماء (مثل عدد المنتجات). */
     let LANG = 'ar';
-    const PROMO = { ar: '', en: '' };
+    const PROMO = {ar: '', en: ''};
     const I18N = {
       ar: {
         metaDesc: 'DONIA Beauty & Cosmetics: عناية بالبشرة ومستحضرات تجميل، توصيل لكل مناطق الأردن والدفع عند الاستلام.',
@@ -2856,21 +2856,21 @@
 
     /* أسماء الأنواع والأقسام والمدن بالإنجليزي (العربي فوق بالثوابت الأصلية) */
     const EN_LBL = {
-      type: { serum: 'Serums', cream: 'Creams', sun: 'Sunscreens', eye: 'Eye care', makeup: 'Makeup', cleanser: 'Cleansers & toners', body: 'Body care', hair: 'Hair care' },
-      skin: { normal: 'Normal skin', oily: 'Oily skin', dry: 'Dry skin', combo: 'Combination skin', sensitive: 'Sensitive skin' },
-      concern: { acne: 'Acne & breakouts', wrinkles: 'Lines & wrinkles', pigmentation: 'Pigmentation', hydration: 'Dryness & hydration', redness: 'Redness & sensitivity' },
-      section: { best: 'Best sellers', trend: 'Trending now', new: 'New arrivals' }
+      type: {serum: 'Serums', cream: 'Creams', sun: 'Sunscreens', eye: 'Eye care', makeup: 'Makeup', cleanser: 'Cleansers & toners', body: 'Body care', hair: 'Hair care'},
+      skin: {normal: 'Normal skin', oily: 'Oily skin', dry: 'Dry skin', combo: 'Combination skin', sensitive: 'Sensitive skin'},
+      concern: {acne: 'Acne & breakouts', wrinkles: 'Lines & wrinkles', pigmentation: 'Pigmentation', hydration: 'Dryness & hydration', redness: 'Redness & sensitivity'},
+      section: {best: 'Best sellers', trend: 'Trending now', new: 'New arrivals'}
     };
-    const EN_CITIES = { 'عمّان': 'Amman', 'إربد': 'Irbid', 'الزرقاء': 'Zarqa', 'العقبة': 'Aqaba', 'السلط': 'Salt', 'مادبا': 'Madaba', 'جرش': 'Jerash', 'عجلون': 'Ajloun', 'الكرك': 'Karak', 'المفرق': 'Mafraq', 'معان': "Ma'an", 'الطفيلة': 'Tafilah' };
+    const EN_CITIES = {'عمّان': 'Amman', 'إربد': 'Irbid', 'الزرقاء': 'Zarqa', 'العقبة': 'Aqaba', 'السلط': 'Salt', 'مادبا': 'Madaba', 'جرش': 'Jerash', 'عجلون': 'Ajloun', 'الكرك': 'Karak', 'المفرق': 'Mafraq', 'معان': "Ma'an", 'الطفيلة': 'Tafilah'};
     const tl = (kind, k) => {
-      const ar = { type: TYPES, skin: SKINS, concern: CONCERNS, section: SEC_LABELS }[kind];
+      const ar = {type: TYPES, skin: SKINS, concern: CONCERNS, section: SEC_LABELS}[kind];
       return (LANG === 'en' && EN_LBL[kind][k]) || (ar && ar[k]) || k;
     };
     /* قيمة المدينة بتضل عربي (للحساب والطلبات)، بس الاسم الظاهر بيتغير */
     const cityLbl = c => (LANG === 'en' && EN_CITIES[c]) || c;
     const pName = p => (LANG === 'en' && p.name) ? p.name : p.ar;
     const pDesc = p => (LANG === 'en' && p.descEn) ? p.descEn : p.desc;
-    const autoLabel = () => { const a = CONFIG.auto || {}; return (LANG === 'en' ? a.labelEn : a.label) || ''; };
+    const autoLabel = () => {const a = CONFIG.auto || {}; return (LANG === 'en' ? a.labelEn : a.label) || '';};
 
     function pickLang() {
       const m = /[?&]lang=(ar|en)(&|$)/.exec(location.search);
@@ -2882,10 +2882,10 @@
       pr.textContent = (LANG === 'en' ? PROMO.en : PROMO.ar) || tr('promo');
     }
     function applyStatic() {
-      document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = tr(el.dataset.i18n); });
-      document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = tr(el.dataset.i18nHtml); });
+      document.querySelectorAll('[data-i18n]').forEach(el => {el.textContent = tr(el.dataset.i18n);});
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {el.innerHTML = tr(el.dataset.i18nHtml);});
       document.querySelectorAll('[data-i18n-attr]').forEach(el => {
-        el.dataset.i18nAttr.split(';').forEach(pair => { const [a, k] = pair.split(':'); if (a && k) el.setAttribute(a, tr(k)); });
+        el.dataset.i18nAttr.split(';').forEach(pair => {const [a, k] = pair.split(':'); if (a && k) el.setAttribute(a, tr(k));});
       });
     }
     function applyLang() {
@@ -2896,7 +2896,7 @@
       if (md) md.content = tr('metaDesc'); if (og) og.content = tr('metaDesc');
       applyStatic(); applyPromo();
       const b = $('#btnLang');
-      if (b) { b.textContent = tr('langBtn'); b.lang = LANG === 'en' ? 'ar' : 'en'; b.setAttribute('aria-label', tr('langLabel')); b.title = tr('langLabel'); }
+      if (b) {b.textContent = tr('langBtn'); b.lang = LANG === 'en' ? 'ar' : 'en'; b.setAttribute('aria-label', tr('langLabel')); b.title = tr('langLabel');}
     }
     function showThanks() {
       state.modal = 'thanks';
@@ -2913,7 +2913,7 @@
       const w = $('#sheet .sheet-pic'); if (w) w.innerHTML = c ? picFor(p, c) : pic(p);
     }
     function reopenModal() {
-      const g = id => { const e = $(id); return e ? e.value : ''; };
+      const g = id => {const e = $(id); return e ? e.value : '';};
       if (state.modal === 'product' && byId(state.openId)) {
         const q = state.qty, c0 = state.color; openModal(state.openId); state.qty = q; if (c0) pickColor(c0);
         const m = $('#mq'); if (m) m.textContent = q;
@@ -2931,7 +2931,7 @@
     }
 
     /* الصور الحقيقية: بتنضاف هون (data URI). لو فاضية بتظهر الرسومات */
-    const IMAGES = { hero: null };
+    const IMAGES = {hero: null};
     function pic(p) {
       return p.image ? `<img class="ph" src="${p.image}" alt="${pName(p)}">` : art(p);
     }
@@ -3000,30 +3000,30 @@
     }
 
     /* ====================== الحالة ====================== */
-    const state = { catStatus: ONLINE ? 'loading' : 'ok', reviews: [], revStatus: 'loading', revFilter: '', revShown: 6, rv: { rating: 0 }, pstats: {}, q: '', type: '', skin: '', concern: '', brand: '', cart: {}, coupon: null, view: 'cart', qty: 1, openId: null, form: {}, order: null, modal: '', payMethod: 'cod' };
+    const state = {catStatus: ONLINE ? 'loading' : 'ok', reviews: [], revStatus: 'loading', revFilter: '', revShown: 6, rv: {rating: 0}, pstats: {}, q: '', type: '', skin: '', concern: '', brand: '', cart: {}, coupon: null, view: 'cart', qty: 1, openId: null, form: {}, order: null, modal: '', payMethod: 'cod'};
     const KEY = 'donia_cart_v1';
     function loadCart() {
       try {
         const raw = JSON.parse(localStorage.getItem(KEY) || '{}');
-        Object.keys(raw).forEach(id => { if (/^[\w-]{1,40}(~[0-9a-z]{1,8})?$/i.test(id) && raw[id] > 0) state.cart[id] = Math.min(20, +raw[id] || 0); });
+        Object.keys(raw).forEach(id => {if (/^[\w-]{1,40}(~[0-9a-z]{1,8})?$/i.test(id) && raw[id] > 0) state.cart[id] = Math.min(20, +raw[id] || 0);});
       } catch (e) { }
     }
-    function saveCart() { try { localStorage.setItem(KEY, JSON.stringify(state.cart)); } catch (e) { } }
+    function saveCart() {try {localStorage.setItem(KEY, JSON.stringify(state.cart));} catch (e) { } }
     function pruneCart() {
       let ch = false;
-      Object.keys(state.cart).forEach(k => { const p = byId(kid(k)), c = kcol(k); if (!p || p.soon || p.oos || (p.colorsOn ? !p.colors.some(x => x.id === c && !x.oos) : !!c)) { delete state.cart[k]; ch = true; } });
+      Object.keys(state.cart).forEach(k => {const p = byId(kid(k)), c = kcol(k); if (!p || p.soon || p.oos || (p.colorsOn ? !p.colors.some(x => x.id === c && !x.oos) : !!c)) {delete state.cart[k]; ch = true;} });
       if (ch) saveCart();
     }
     const kid = k => String(k).split('~')[0];
     const kcol = k => String(k).split('~')[1] || '';
     const cKey = (id, cid) => cid ? id + '~' + cid : id;
     const colObj = (p, cid) => (p.colors || []).find(x => x.id === cid);
-    const colName = (p, cid) => { const c = colObj(p, cid); return c ? (c.name || ('لون ' + (p.colors.indexOf(c) + 1))) : ''; };
+    const colName = (p, cid) => {const c = colObj(p, cid); return c ? (c.name || ('لون ' + (p.colors.indexOf(c) + 1))) : '';};
     const firstCol = p => p.colors.find(c => !c.oos) || p.colors[0];
     const colSrc = c => (c && (c.pimg || c.img)) || '';
     const picFor = (p, c) => colSrc(c) ? `<img class="ph" src="${colSrc(c)}" alt="${pName(p)}">` : pic(p);
     const swStyle = c => c && c.img ? `background-image:url('${c.img}')` : `background:${c && c.hex || '#ddd'}`;
-    const cartItems = () => Object.keys(state.cart).filter(k => byId(kid(k))).map(k => { const p = byId(kid(k)), hex = kcol(k); return { p, q: state.cart[k], k, hex, cn: hex ? colName(p, hex) : '', co: hex ? colObj(p, hex) : null }; });
+    const cartItems = () => Object.keys(state.cart).filter(k => byId(kid(k))).map(k => {const p = byId(kid(k)), hex = kcol(k); return {p, q: state.cart[k], k, hex, cn: hex ? colName(p, hex) : '', co: hex ? colObj(p, hex) : null};});
     const cartCount = () => cartItems().reduce((a, i) => a + i.q, 0);
 
     const r3 = n => Math.round(n * 1000) / 1000;
@@ -3032,16 +3032,16 @@
     const bProds = b => b.ids.map(id => byId(id));
     const bOk = b => bProds(b).every(p => p && !p.soon && !p.oos);
     function bundleCalc(items) {
-      const left = {}; items.forEach(i => { left[i.p.id] = (left[i.p.id] || 0) + i.q; });
+      const left = {}; items.forEach(i => {left[i.p.id] = (left[i.p.id] || 0) + i.q;});
       let amt = 0; const list = [];
       (CONFIG.bundles || []).forEach(b => {
         if (!bOk(b)) return;
         const sets = Math.min(...b.ids.map(id => left[id] || 0)); if (sets < 1) return;
         const sum = bProds(b).reduce((n, p) => n + p.price, 0), a = r3(bPer(b, sum) * sets);
-        b.ids.forEach(id => { left[id] -= sets; });
-        if (a > 0) { amt += a; list.push({ label: bLabel(b), sets, amt: a }); }
+        b.ids.forEach(id => {left[id] -= sets;});
+        if (a > 0) {amt += a; list.push({label: bLabel(b), sets, amt: a});}
       });
-      return { amt: r3(amt), list };
+      return {amt: r3(amt), list};
     }
     function bundleHints(t) {
       const inCart = new Set(t.items.map(i => i.p.id)), out = [];
@@ -3080,7 +3080,7 @@
       let fee = null;
       if (free) fee = 0;
       else if (city) fee = city === 'إربد' ? CONFIG.delivery.amman : CONFIG.delivery.other;
-      return { items, sub: sub0, bund, bundles: bd.list, auto, disc, belowMin, after, free, fee, total: after + (fee || 0) };
+      return {items, sub: sub0, bund, bundles: bd.list, auto, disc, belowMin, after, free, fee, total: after + (fee || 0)};
     }
     function autoHint(t) {
       const a = CONFIG.auto;
@@ -3095,7 +3095,7 @@
       const t = $('#toast'); t.textContent = msg; t.classList.add('on');
       clearTimeout(toast.id); toast.id = setTimeout(() => t.classList.remove('on'), 1900);
     }
-    function lock(on) { document.documentElement.style.overflow = on ? 'hidden' : ''; }
+    function lock(on) {document.documentElement.style.overflow = on ? 'hidden' : '';}
     function closeAll() {
       ['#menuDrawer', '#cartDrawer'].forEach(s => $(s).classList.remove('open'));
       $('#modal').classList.remove('open');
@@ -3119,7 +3119,7 @@
       if (e.target.closest('#dnav,#btnMenu')) return;
       closeDnav();
     });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDnav(); });
+    document.addEventListener('keydown', e => {if (e.key === 'Escape') closeDnav();});
     function openDrawer(sel) {
       closeAll();
       $(sel).classList.add('open'); $('#scrim').classList.add('on'); lock(true);
@@ -3128,7 +3128,7 @@
     function updateBadge(bump) {
       const n = cartCount(), b = $('#cartCount');
       b.textContent = n; b.hidden = n === 0;
-      if (bump) { b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); }
+      if (bump) {b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');}
     }
     function addToCart(id, q = 1, hex = '') {
       const p = byId(id); if (!p || p.soon || p.oos) return;
@@ -3185,13 +3185,13 @@
     }
     function renderProducts() {
       const box = $('#products');
-      if (state.catStatus === 'loading') { box.innerHTML = `<div class="sec"><div class="empty"><p>${tr('loadingProducts')}</p></div></div>`; return; }
-      if (state.catStatus === 'error') { box.innerHTML = `<div class="sec"><div class="empty"><p>${tr('prodError')}</p>${DEBUG ? `<p class="hint num" style="max-width:520px;overflow-wrap:anywhere">${esc(state.catErr || '')}</p>` : ''}<button class="btn ghost" data-act="cat-retry">${tr('retry')}</button></div></div>`; return; }
-      if (!PRODUCTS.length) { box.innerHTML = `<div class="sec"><div class="empty"><p>${tr('noProducts')}</p></div></div>`; return; }
+      if (state.catStatus === 'loading') {box.innerHTML = `<div class="sec"><div class="empty"><p>${tr('loadingProducts')}</p></div></div>`; return;}
+      if (state.catStatus === 'error') {box.innerHTML = `<div class="sec"><div class="empty"><p>${tr('prodError')}</p>${DEBUG ? `<p class="hint num" style="max-width:520px;overflow-wrap:anywhere">${esc(state.catErr || '')}</p>` : ''}<button class="btn ghost" data-act="cat-retry">${tr('retry')}</button></div></div>`; return;}
+      if (!PRODUCTS.length) {box.innerHTML = `<div class="sec"><div class="empty"><p>${tr('noProducts')}</p></div></div>`; return;}
       if (!isFiltering()) {
-        const groups = SECTIONS.map(s => ({ title: tl('section', s.key), list: PRODUCTS.filter(p => p.sections.includes(s.key)) }));
+        const groups = SECTIONS.map(s => ({title: tl('section', s.key), list: PRODUCTS.filter(p => p.sections.includes(s.key))}));
         const rest = PRODUCTS.filter(p => !p.sections.length);
-        if (rest.length) groups.push({ title: tr('otherProducts'), list: rest });
+        if (rest.length) groups.push({title: tr('otherProducts'), list: rest});
         box.innerHTML = groups.filter(g => g.list.length).map(g => `<div class="sec"><h2>${g.title}</h2><div class="grid">${g.list.map(card).join('')}</div></div>`).join('');
         return;
       }
@@ -3207,8 +3207,8 @@
     ${list.length ? `<div class="grid">${list.map(card).join('')}</div>` :
           `<div class="empty"><p>${tr('noResults')}</p><button class="btn" data-act="clear">${tr('clearFilters')}</button></div>`}</div>`;
     }
-    function refresh() { renderControls(); renderProducts(); }
-    function goProducts() { const el = $('#products'); if (el) el.scrollIntoView(); }
+    function refresh() {renderControls(); renderProducts();}
+    function goProducts() {const el = $('#products'); if (el) el.scrollIntoView();}
 
     /* ====================== نافذة المنتج ====================== */
     function openModal(id) {
@@ -3278,7 +3278,7 @@
     function renderCart() {
       const d = $('#cartDrawer');
       const v = state.view, n = cartCount();
-      const titles = { cart: tr('cartTitle', n), checkout: tr('checkoutTitle'), done: tr('doneTitle'), fail: tr('failTitle') };
+      const titles = {cart: tr('cartTitle', n), checkout: tr('checkoutTitle'), done: tr('doneTitle'), fail: tr('failTitle')};
       const back = v === 'checkout' ? `<button class="icon-btn back" data-act="back" aria-label="${tr('backCart')}">${ic('fwd')}</button>` : '';
       let body = '', foot = '';
       const t = totals(state.form.city);
@@ -3288,7 +3288,7 @@
           body = `<div class="empty" style="padding-top:60px">${ic('bag', 44)}<p>${tr('cartEmpty')}</p><button class="btn" data-act="close-all">${tr('browse')}</button></div>`;
         } else {
           const cmsg = state.coupon ? (t.belowMin ? `<div class="cmsg bad">${tr('cpnMin', state.coupon, fmt(CONFIG.coupons[state.coupon].min))}</div>` : `<div class="cmsg ok">${tr('cpnOk', state.coupon)}</div>`) : '<div class="cmsg" id="cmsg"></div>';
-          body = shipHTML(t) + autoHint(t) + bundleHints(t) + t.items.map(({ p, q, k, hex, cn, co }) => `<div class="line"><div class="thumb">${colSrc(co) ? `<img class="ph" src="${colSrc(co)}" alt="">` : pic(p)}</div><div>
+          body = shipHTML(t) + autoHint(t) + bundleHints(t) + t.items.map(({p, q, k, hex, cn, co}) => `<div class="line"><div class="thumb">${colSrc(co) ? `<img class="ph" src="${colSrc(co)}" alt="">` : pic(p)}</div><div>
           <div class="l-top"><span class="l-name">${pName(p)}</span><button class="del" data-del="${k}" aria-label="${tr('removeAria', pName(p))}">${ic('trash', 19)}</button></div>
           ${hex ? `<div class="clr-sub"><i class="clr-dot" style="${swStyle(co)}"></i>${tr('color')}: ${esc(cn)}</div>` : ''}
           <div class="l-bot"><div class="qty"><button data-dec="${k}" aria-label="${tr('dec')}">${ic('minus', 18)}</button><span>${q}</span><button data-inc="${k}" aria-label="${tr('inc')}">${ic('plus', 18)}</button></div>
@@ -3340,7 +3340,7 @@
     function updateSummary() {
       const t = totals(state.form.city);
       const box = $('#sumBox'); if (!box) return;
-      box.innerHTML = t.items.map(({ p, q, hex, cn }) => `<div class="it"><span>${p.ar}${hex ? ' (' + esc(cn) + ')' : ''} × ${q}</span><span class="num">${fmt(p.price * q)}</span></div>`).join('') + totalsHTML(t);
+      box.innerHTML = t.items.map(({p, q, hex, cn}) => `<div class="it"><span>${p.ar}${hex ? ' (' + esc(cn) + ')' : ''} × ${q}</span><span class="num">${fmt(p.price * q)}</span></div>`).join('') + totalsHTML(t);
       $('#sumTotal').textContent = fmt(t.total);
       const s = $('#subBtnTotal'); if (s) s.textContent = fmt(t.total);
     }
@@ -3356,7 +3356,7 @@
 
     /* التحقق وإرسال الطلب */
     const PHONE = /^(?:\+?962|0)?7[789]\d{7}$/;
-    function normPhone(v) { return v.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[\s\-()]/g, ''); }
+    function normPhone(v) {return v.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[\s\-()]/g, '');}
     function validate() {
       const f = state.form, e = {};
       if (!(f.fn || '').trim()) e.fn = tr('vFn');
@@ -3372,25 +3372,25 @@
         if (inp) inp.classList.toggle('bad', !!e[k]);
       });
       const first = Object.keys(e)[0];
-      if (first) { const inp = $('#' + first); inp.scrollIntoView({ block: 'center' }); inp.focus(); return false; }
+      if (first) {const inp = $('#' + first); inp.scrollIntoView({block: 'center'}); inp.focus(); return false;}
       return true;
     }
     const iso = (x, raw) => '\u2066' + (raw ? x : fmt(x)) + '\u2069';
     const ORD = {
       async create(o) {
         if (!ONLINE) {
-          let all = []; try { all = JSON.parse(getLS('donia_orders_v1') || '[]'); } catch (e) { }
-          all.push(Object.assign({ id: 'l' + Date.now() }, o));
+          let all = []; try {all = JSON.parse(getLS('donia_orders_v1') || '[]');} catch (e) { }
+          all.push(Object.assign({id: 'l' + Date.now()}, o));
           localStorage.setItem('donia_orders_v1', JSON.stringify(all)); return;
         }
-        const S = v => ({ stringValue: String(v) }), N = v => ({ doubleValue: Number(v) });
+        const S = v => ({stringValue: String(v)}), N = v => ({doubleValue: Number(v)});
         const res = await fetch(`${REV.base()}/orders?key=${REV.key()}`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
             fields: {
               orderNo: S(o.orderNo), name: S(o.name), phone: S(o.phone), city: S(o.city), area: S(o.area), address: S(o.address), deliveryDate: S(o.deliveryDate || ''), note: S(o.note),
               itemsJson: S(o.itemsJson), subtotal: N(o.subtotal), discount: N(o.discount), delivery: N(o.delivery), total: N(o.total),
-              coupon: S(o.coupon), createdAt: { timestampValue: new Date(o.createdAt).toISOString() }, status: S('new'),
+              coupon: S(o.coupon), createdAt: {timestampValue: new Date(o.createdAt).toISOString()}, status: S('new'),
               paymentMethod: S(o.paymentMethod || 'cod'), paymentStatus: S(o.paymentStatus || 'cod'), paymentRef: S(o.paymentRef || '')
             }
           })
@@ -3398,27 +3398,23 @@
         if (!res.ok) throw await httpErr(res, 'order');
       }
     };
-    const TELEGRAM = { token: '8831919230:AAFroaU3IgzCsk9MGle2c3dy-UIRSqz4Sdc', chatId: '1441110815' };
-    async function notifyTelegram(text) {
+    const ORDER_EMAIL = 'yousefalabed2009@gmail.com';
+    async function notifyEmail(text, orderNo) {
       try {
-        const res = await fetch(`https://api.telegram.org/bot${TELEGRAM.token}/sendMessage`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: TELEGRAM.chatId, text })
+        const res = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(ORDER_EMAIL), {
+          method: 'POST', headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+          body: JSON.stringify({_subject: 'طلب جديد ' + (orderNo || '') + ' - DONIA', _template: 'box', _captcha: 'false', 'تفاصيل الطلب': text})
         });
-        let body = null; try { body = await res.json(); } catch (x) { }
-        if (!res.ok || (body && body.ok === false)) {
-          const desc = (body && body.description) || res.statusText || 'unknown error';
-          console.error(`[DONIA] telegram notify FAILED (${res.status}): ${desc}`);
-          if (/chat not found/i.test(desc)) console.error('[DONIA] السبب الأرجح: صاحب الـ chatId ما بعت /start للبوت، أو الـ chatId غلط.');
-          if (/bot was blocked|Forbidden/i.test(desc)) console.error('[DONIA] السبب الأرجح: المستخدم حاظر البوت أو ما بدأ محادثة معه.');
-          if (/Unauthorized/i.test(desc)) console.error('[DONIA] السبب الأرجح: توكن البوت غلط أو تم إلغاؤه من BotFather.');
+        let body = null; try {body = await res.json();} catch (x) { }
+        if (!res.ok || (body && (body.success === false || body.success === 'false'))) {
+          console.error(`[DONIA] email notify FAILED (${res.status}):`, body && body.message);
           return false;
         }
         return true;
-      } catch (e) { console.error('[DONIA] telegram notify: network/JS error:', e); return false; }
+      } catch (e) {console.error('[DONIA] email notify: network/JS error:', e); return false;}
     }
     /* ====================== الدفع الإلكتروني ====================== */
-    const PAYCFG = () => CONFIG.payments || { tap: {}, paypal: {} };
+    const PAYCFG = () => CONFIG.payments || {tap: {}, paypal: {}};
     const payOn = m => m === 'cod' || (m === 'card' && !!(PAYCFG().tap || {}).endpoint) || (m === 'paypal' && !!(PAYCFG().paypal || {}).clientId);
     function payOptionsHTML() {
       if (!payOn(state.payMethod)) state.payMethod = 'cod';
@@ -3427,8 +3423,8 @@
     }
     async function startTap(o) {
       const res = await fetch(PAYCFG().tap.endpoint, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderNo: o.orderNo, amount: o.total, currency: 'JOD', name: o.name, phone: o.phone, redirect: location.origin + location.pathname + '?paid=' + encodeURIComponent(o.orderNo) })
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({orderNo: o.orderNo, amount: o.total, currency: 'JOD', name: o.name, phone: o.phone, redirect: location.origin + location.pathname + '?paid=' + encodeURIComponent(o.orderNo)})
       });
       const j = await res.json().catch(() => ({}));
       if (!res.ok || !j.url) throw new Error('tap');
@@ -3440,19 +3436,19 @@
       if (!ppLoading) ppLoading = new Promise((ok, no) => {
         const sc = document.createElement('script');
         sc.src = 'https://www.paypal.com/sdk/js?currency=USD&client-id=' + encodeURIComponent(PAYCFG().paypal.clientId);
-        sc.onload = ok; sc.onerror = () => { ppLoading = null; no(); };
+        sc.onload = ok; sc.onerror = () => {ppLoading = null; no();};
         document.head.appendChild(sc);
       });
       return ppLoading;
     }
     async function mountPayPal() {
       const box = $('#ppBox'); if (!box) return;
-      try { await loadPayPal(); } catch (e) { box.textContent = tr('payErr'); return; }
+      try {await loadPayPal();} catch (e) {box.textContent = tr('payErr'); return;}
       if (!$('#ppBox')) return;
       window.paypal.Buttons({
         onClick: (d, a) => validate() ? a.resolve() : a.reject(),
-        createOrder: (d, a) => a.order.create({ purchase_units: [{ amount: { currency_code: 'USD', value: (totals(state.form.city).total * (PAYCFG().paypal.usdRate || 1.41)).toFixed(2) } }] }),
-        onApprove: async (d, a) => { await a.order.capture(); submitOrder({ paypalId: d.orderID }); },
+        createOrder: (d, a) => a.order.create({purchase_units: [{amount: {currency_code: 'USD', value: (totals(state.form.city).total * (PAYCFG().paypal.usdRate || 1.41)).toFixed(2)}}]}),
+        onApprove: async (d, a) => {await a.order.capture(); submitOrder({paypalId: d.orderID});},
         onError: () => toast(tr('payErr'))
       }).render('#ppBox');
     }
@@ -3476,7 +3472,7 @@
         `${tr('ordDate')}: ${f.deliveryDate}`,
         pm === 'paypal' ? tr('ordPayPal') : pm === 'card' ? tr('ordPayCard') : tr('ordPay'), '',
         tr('ordItems'),
-        ...t.items.map(({ p, q, hex, cn }) => `- ${p.brand} ${pName(p)}${hex ? ` (${tr('color')}: ${cn})` : ''} × ${q} = ${iso(p.price * q)}`), '',
+        ...t.items.map(({p, q, hex, cn}) => `- ${p.brand} ${pName(p)}${hex ? ` (${tr('color')}: ${cn})` : ''} × ${q} = ${iso(p.price * q)}`), '',
         `${tr('ordSub')}: ${iso(t.sub)}`,
         ...(t.bundles || []).map(b => `${b.label}${b.sets > 1 ? ' ×' + b.sets : ''}: -${iso(b.amt)}`),
         ...(t.auto > 0 ? [`${tr('discAuto', lab)}: -${iso(t.auto)}`] : []),
@@ -3489,29 +3485,29 @@
       const order = {
         orderNo: no, name: `${f.fn.trim()} ${f.ln.trim()}`, phone: normPhone(f.phone), city: f.city, area: f.area.trim(),
         address: f.addr.trim(), deliveryDate: f.deliveryDate, note: (f.note || '').trim(),
-        itemsJson: JSON.stringify({ items: t.items.map(({ p, q, hex, cn, co }) => ({ id: p.id, b: p.brand, n: p.ar, q, pr: p.price, ...(hex ? { col: (co && co.hex) || '', cn } : {}) })), auto: t.auto, autoLabel: CONFIG.auto ? CONFIG.auto.label : '', couponDisc: t.disc }),
+        itemsJson: JSON.stringify({items: t.items.map(({p, q, hex, cn, co}) => ({id: p.id, b: p.brand, n: p.ar, q, pr: p.price, ...(hex ? {col: (co && co.hex) || '', cn} : {})})), auto: t.auto, autoLabel: CONFIG.auto ? CONFIG.auto.label : '', couponDisc: t.disc}),
         subtotal: t.sub, discount: r3(t.auto + t.disc + t.bund), delivery: t.fee || 0, total: t.total,
         coupon: state.coupon && !t.belowMin ? state.coupon : '', createdAt: Date.now(), status: 'new',
         paymentMethod: pm, paymentStatus: pm === 'cod' ? 'cod' : pm === 'paypal' ? 'paid' : 'pending', paymentRef: (extra && extra.paypalId) || ''
       };
-      state.order = { no, msg, link: igDM(), pm };
+      state.order = {no, msg, link: igDM(), pm};
       const btn = document.querySelector('[data-act="submit"]');
-      state.submitting = true; if (btn) { btn.disabled = true; btn.textContent = tr('sending'); }
+      state.submitting = true; if (btn) {btn.disabled = true; btn.textContent = tr('sending');}
       let tapUrl = '';
       if (pm === 'card') {
-        try { tapUrl = await startTap(order); }
-        catch (e) { console.error('[DONIA] tap:', e); state.submitting = false; if (btn) { btn.disabled = false; btn.textContent = tr('submitBtn') + ' - ' + fmt(t.total); } return toast(tr('payErr')); }
+        try {tapUrl = await startTap(order);}
+        catch (e) {console.error('[DONIA] tap:', e); state.submitting = false; if (btn) {btn.disabled = false; btn.textContent = tr('submitBtn') + ' - ' + fmt(t.total);} return toast(tr('payErr'));}
       }
-      const [savedRes, tgRes] = await Promise.allSettled([ORD.create(order), notifyTelegram(msg)]);
+      const [savedRes, tgRes] = await Promise.allSettled([ORD.create(order), notifyEmail(msg, no)]);
       const saved = savedRes.status === 'fulfilled';
       const tgOk = tgRes.status === 'fulfilled' && tgRes.value === true;
       if (!saved) console.error('[DONIA] order save FAILED:', savedRes.reason);
-      if (!tgOk) console.error('[DONIA] order was NOT delivered to Telegram (see error above).');
+      if (!tgOk) console.error('[DONIA] order was NOT delivered by email (see error above).');
       if (saved) {
         setLS('donia_ord_last', String(Date.now())); TRK.send('order');
         state.cart = {}; state.coupon = null; state.form.note = ''; state.form.deliveryDate = ''; saveCart(); updateBadge();
         state.view = 'done';
-        if (tapUrl) { state.submitting = false; location.href = tapUrl; return; }
+        if (tapUrl) {state.submitting = false; location.href = tapUrl; return;}
       } else {
         state.view = 'fail';
       }
@@ -3522,10 +3518,10 @@
     const DEBUG = /[?&]debug(=|&|$)/.test(location.search);
     async function httpErr(res, what) {
       let d = '';
-      try { const j = await res.json(); const e = j.error || (Array.isArray(j) && j[0] && j[0].error) || {}; d = [e.status, e.message].filter(Boolean).join(': '); } catch (x) { }
+      try {const j = await res.json(); const e = j.error || (Array.isArray(j) && j[0] && j[0].error) || {}; d = [e.status, e.message].filter(Boolean).join(': ');} catch (x) { }
       return new Error(`${what} ${res.status} ${d}`.trim());
     }
-    const num = (v, d = 0) => { const n = parseFloat(v); return Number.isFinite(n) && n >= 0 ? n : d; };
+    const num = (v, d = 0) => {const n = parseFloat(v); return Number.isFinite(n) && n >= 0 ? n : d;};
     const clean = t => String(t == null ? '' : t).replace(/[<>"`]/g, '').replace(/\s+/g, ' ').trim();
     const okImg = s => typeof s === 'string' && s.length < 900000 && /^data:image\/(webp|png|jpeg);base64,[A-Za-z0-9+/=]+$/.test(s);
     const okColor = c => typeof c === 'string' && /^#[0-9a-f]{3,8}$/i.test(c);
@@ -3534,16 +3530,16 @@
     function normProduct(r, image) {
       if (!r || typeof r !== 'object') return null;
       const arr = (v, obj) => (Array.isArray(v) ? v : []).filter(k => obj[k]);
-      const base = { body: '#FBEEF1', accent: '#C6567A', cap: '#F2D6DD', swatch: '#F8DEE6' };
+      const base = {body: '#FBEEF1', accent: '#C6567A', cap: '#F2D6DD', swatch: '#F8DEE6'};
       const c = Object.assign({}, base);
-      if (r.c && typeof r.c === 'object') Object.keys(base).concat('t').forEach(k => { if (okColor(r.c[k])) c[k] = r.c[k]; });
+      if (r.c && typeof r.c === 'object') Object.keys(base).concat('t').forEach(k => {if (okColor(r.c[k])) c[k] = r.c[k];});
       const colors = []; (Array.isArray(r.colors) ? r.colors : []).slice(0, 12).forEach((x, n) => {
         if (!x || typeof x !== 'object') return;
         const hex = typeof x.hex === 'string' && /^#[0-9a-f]{6}$/i.test(x.hex) ? x.hex.toUpperCase() : '', img = okImg(x.img) ? x.img : '';
         if (!hex && !img) return;
         let id = typeof x.id === 'string' && /^[a-z0-9]{1,8}$/i.test(x.id) ? x.id : (hex ? hex.slice(1) : 'c' + n);
         if (colors.some(c => c.id === id)) id = 'c' + n + id.slice(0, 5);
-        colors.push({ id, hex, img, pimg: okImg(x.pimg) ? x.pimg : '', oos: !!x.oos, name: clean(x.name) });
+        colors.push({id, hex, img, pimg: okImg(x.pimg) ? x.pimg : '', oos: !!x.oos, name: clean(x.name)});
       });
       const p = {
         id: clean(r.id), brand: clean(r.brand), name: clean(r.name), ar: clean(r.ar) || clean(r.name),
@@ -3567,20 +3563,20 @@
       instagram: CONFIG.instagram, freeShipping: CONFIG.freeShipping,
       deliveryAmman: CONFIG.delivery.amman, deliveryOther: CONFIG.delivery.other,
       promoText: '', promoTextEn: '', heroImage: '',
-      coupons: Object.entries(CONFIG.coupons).map(([code, c]) => ({ code, type: c.type, value: c.value, min: c.min || 0, active: true })),
-      auto: { on: false, type: 'percent', value: 10, min: 0, label: '', labelEn: '' },
+      coupons: Object.entries(CONFIG.coupons).map(([code, c]) => ({code, type: c.type, value: c.value, min: c.min || 0, active: true})),
+      auto: {on: false, type: 'percent', value: 10, min: 0, label: '', labelEn: ''},
       bundles: []
     });
     const BASE_SETTINGS = DEFAULT_SETTINGS();
     function mergeSettings(s) {
       const d = DEFAULT_SETTINGS();
       if (!s || typeof s !== 'object') return d;
-      return Object.assign(d, s, { auto: Object.assign(d.auto, s.auto || {}), coupons: Array.isArray(s.coupons) ? s.coupons : d.coupons, bundles: Array.isArray(s.bundles) ? s.bundles : [] });
+      return Object.assign(d, s, {auto: Object.assign(d.auto, s.auto || {}), coupons: Array.isArray(s.coupons) ? s.coupons : d.coupons, bundles: Array.isArray(s.bundles) ? s.bundles : []});
     }
     function setContactLinks() {
       const dm = igDM();
       $('#waFab').href = dm; $('#footWa').href = dm;
-      if (CONFIG.instagram) { $('#igFab').href = CONFIG.instagram; $('#footIg').href = CONFIG.instagram; }
+      if (CONFIG.instagram) {$('#igFab').href = CONFIG.instagram; $('#footIg').href = CONFIG.instagram;}
     }
     function applyHero() {
       const hc = $('#heroCard'); if (!hc) return;
@@ -3593,19 +3589,19 @@
       const ig = String(s.instagram || '').trim();
       if (ig) CONFIG.instagram = ig;
       CONFIG.freeShipping = num(s.freeShipping, CONFIG.freeShipping);
-      CONFIG.delivery = { amman: num(s.deliveryAmman, CONFIG.delivery.amman), other: num(s.deliveryOther, CONFIG.delivery.other) };
+      CONFIG.delivery = {amman: num(s.deliveryAmman, CONFIG.delivery.amman), other: num(s.deliveryOther, CONFIG.delivery.other)};
       CONFIG.coupons = {};
       s.coupons.forEach(c => {
         const code = String(c.code || '').trim().toUpperCase();
         if (code && c.active !== false && (c.type === 'percent' || c.type === 'fixed') && num(c.value) > 0)
-          CONFIG.coupons[code] = { type: c.type, value: num(c.value), min: num(c.min) };
+          CONFIG.coupons[code] = {type: c.type, value: num(c.value), min: num(c.min)};
       });
       CONFIG.auto = s.auto && s.auto.on && num(s.auto.value) > 0
-        ? { type: s.auto.type === 'fixed' ? 'fixed' : 'percent', value: num(s.auto.value), min: num(s.auto.min), label: clean(s.auto.label), labelEn: clean(s.auto.labelEn) } : null;
+        ? {type: s.auto.type === 'fixed' ? 'fixed' : 'percent', value: num(s.auto.value), min: num(s.auto.min), label: clean(s.auto.label), labelEn: clean(s.auto.labelEn)} : null;
       CONFIG.bundles = (s.bundles || []).map(b => {
         const ids = [...new Set((Array.isArray(b.ids) ? b.ids : []).map(String).filter(x => /^[\w-]{1,40}$/.test(x)))].slice(0, 6);
         const type = ['price', 'fixed', 'percent'].includes(b.type) ? b.type : 'price', value = num(b.value);
-        return { id: clean(b.id), name: clean(b.name), nameEn: clean(b.nameEn), ids, type, value, active: b.active !== false };
+        return {id: clean(b.id), name: clean(b.name), nameEn: clean(b.nameEn), ids, type, value, active: b.active !== false};
       }).filter(b => b.active && b.ids.length >= 2 && b.value > 0 && !(b.type === 'percent' && b.value > 100));
       PROMO.ar = clean(s.promoText); PROMO.en = clean(s.promoTextEn); applyPromo();
       IMAGES.hero = okImg(s.heroImage) ? s.heroImage : null;
@@ -3623,7 +3619,7 @@
           (j.documents || []).forEach(d => {
             try {
               const f = d.fields || {}; const raw = JSON.parse(f.json.stringValue); raw.id = d.name.split('/').pop();
-              out.push({ raw, image: (f.image && f.image.stringValue) || '' });
+              out.push({raw, image: (f.image && f.image.stringValue) || ''});
             } catch (e) { }
           });
           tok = j.nextPageToken; if (!tok) break;
@@ -3640,42 +3636,42 @@
       }
     };
     const LOC = {
-      getProducts() { try { const v = JSON.parse(getLS('donia_products_v1') || 'null'); return Array.isArray(v) ? v : null; } catch (e) { return null; } },
-      setProducts(list) { localStorage.setItem('donia_products_v1', JSON.stringify(list)); },
-      getSettings() { try { return JSON.parse(getLS('donia_settings_v1') || 'null'); } catch (e) { return null; } },
-      setSettings(s) { localStorage.setItem('donia_settings_v1', JSON.stringify(s)); }
+      getProducts() {try {const v = JSON.parse(getLS('donia_products_v1') || 'null'); return Array.isArray(v) ? v : null;} catch (e) {return null;} },
+      setProducts(list) {localStorage.setItem('donia_products_v1', JSON.stringify(list));},
+      getSettings() {try {return JSON.parse(getLS('donia_settings_v1') || 'null');} catch (e) {return null;} },
+      setSettings(s) {localStorage.setItem('donia_settings_v1', JSON.stringify(s));}
     };
     async function loadCatalog() {
-      if (ONLINE) { state.catStatus = 'loading'; renderProducts(); }
+      if (ONLINE) {state.catStatus = 'loading'; renderProducts();}
       try {
         const [items, settings] = ONLINE ? await Promise.all([FS.listProducts(), FS.getSettings()]) : [LOC.getProducts(), LOC.getSettings()];
         applySettings(settings);
-        if (items !== null) setProducts(items.map(i => normProduct(i.raw, i.image)).filter(p => p && p.visible).map(p => { if (p.colorsOn && p.colors.every(c => c.oos)) p.oos = true; return p; }));
+        if (items !== null) setProducts(items.map(i => normProduct(i.raw, i.image)).filter(p => p && p.visible).map(p => {if (p.colorsOn && p.colors.every(c => c.oos)) p.oos = true; return p;}));
         state.catStatus = 'ok';
       } catch (e) {
         console.error('[DONIA] products:', e); state.catErr = String((e && e.message) || e);
-        if (ONLINE) { setProducts([]); state.catStatus = 'error'; }
+        if (ONLINE) {setProducts([]); state.catStatus = 'error';}
       }
       pruneCart(); updateBadge(); computeStats(); refresh();
     }
 
     /* ====================== آراء الزبائن ====================== */
-    const esc = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    const getLS = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
-    const setLS = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { } };
+    const esc = t => String(t).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+    const getLS = k => {try {return localStorage.getItem(k);} catch (e) {return null;} };
+    const setLS = (k, v) => {try {localStorage.setItem(k, v);} catch (e) { } };
     const cust = n => n === 1 ? 'زبون واحد' : n === 2 ? 'زبونين' : n <= 10 ? n + ' زبائن' : n + ' زبون';
     const rate = (avg, cls = '') => `<span class="rate ${cls}" style="--p:${(avg / 5 * 100).toFixed(1)}%" role="img" aria-label="${tr('outOf5', avg.toFixed(1))}"><span class="rate-bg">★★★★★</span><span class="rate-fg">★★★★★</span></span>`;
     function stats(list) {
       const dist = [0, 0, 0, 0, 0, 0];
       list.forEach(r => dist[r.rating]++);
       const n = list.length;
-      return { n, dist, avg: n ? list.reduce((a, r) => a + r.rating, 0) / n : 0 };
+      return {n, dist, avg: n ? list.reduce((a, r) => a + r.rating, 0) / n : 0};
     }
     function computeStats() {
       const by = {};
       state.reviews.forEach(r => (by[r.productId] = by[r.productId] || []).push(r));
       state.pstats = {};
-      Object.keys(by).forEach(id => { state.pstats[id] = stats(by[id]); });
+      Object.keys(by).forEach(id => {state.pstats[id] = stats(by[id]);});
     }
     function miniRate(id) {
       const st = state.pstats[id];
@@ -3686,27 +3682,27 @@
     const okRev = r => r && typeof r.name === 'string' && typeof r.productId === 'string' && Number.isInteger(r.rating) && r.rating >= 1 && r.rating <= 5 && Number.isFinite(r.createdAt);
     /* تتبع الزيارات (خفيف، بدون كوكيز طرف ثالث) */
     const TRK = {
-      vid() { let v = getLS('donia_vid'); if (!v) { v = Math.random().toString(36).slice(2, 10) + Date.now().toString(36); setLS('donia_vid', v); } return v; },
-      once(k) { try { if (sessionStorage.getItem('trk_' + k)) return false; sessionStorage.setItem('trk_' + k, '1'); } catch (e) { } return true; },
+      vid() {let v = getLS('donia_vid'); if (!v) {v = Math.random().toString(36).slice(2, 10) + Date.now().toString(36); setLS('donia_vid', v);} return v;},
+      once(k) {try {if (sessionStorage.getItem('trk_' + k)) return false; sessionStorage.setItem('trk_' + k, '1');} catch (e) { } return true;},
       send(t, pid) {
         try {
           if (!REV.online() || location.hash === '#admin' || document.body.classList.contains('is-admin')) return;
           if (getLS('donia_notrack') || sessionStorage.getItem('donia_rt')) return;
           const d = new Date(), day = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-          let ref = ''; try { ref = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, '') : ''; } catch (e) { }
+          let ref = ''; try {ref = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, '') : '';} catch (e) { }
           if (ref === location.hostname) ref = '';
-          const f = { t: { stringValue: t }, vid: { stringValue: this.vid() }, day: { stringValue: day }, ts: { timestampValue: d.toISOString() }, dev: { stringValue: /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'desktop' } };
-          if (t === 'visit') f.ref = { stringValue: ref.slice(0, 60) };
-          if (pid) f.pid = { stringValue: String(pid).slice(0, 40) };
-          fetch(`${REV.base()}/stats?key=${REV.key()}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fields: f }), keepalive: true }).catch(() => { });
+          const f = {t: {stringValue: t}, vid: {stringValue: this.vid()}, day: {stringValue: day}, ts: {timestampValue: d.toISOString()}, dev: {stringValue: /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'desktop'}};
+          if (t === 'visit') f.ref = {stringValue: ref.slice(0, 60)};
+          if (pid) f.pid = {stringValue: String(pid).slice(0, 40)};
+          fetch(`${REV.base()}/stats?key=${REV.key()}`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({fields: f}), keepalive: true}).catch(() => { });
         } catch (e) { }
       }
     };
     const REV = {
-      online() { return !!(CONFIG.firebase.projectId && CONFIG.firebase.apiKey); },
-      base() { return `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(CONFIG.firebase.projectId)}/databases/(default)/documents`; },
-      key() { return encodeURIComponent(CONFIG.firebase.apiKey); },
-      readLocal() { try { return JSON.parse(getLS('donia_reviews_v1') || '[]').filter(okRev); } catch (e) { return []; } },
+      online() {return !!(CONFIG.firebase.projectId && CONFIG.firebase.apiKey);},
+      base() {return `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(CONFIG.firebase.projectId)}/databases/(default)/documents`;},
+      key() {return encodeURIComponent(CONFIG.firebase.apiKey);},
+      readLocal() {try {return JSON.parse(getLS('donia_reviews_v1') || '[]').filter(okRev);} catch (e) {return [];} },
       fromDoc(d) {
         const f = d.fields || {};
         return {
@@ -3721,11 +3717,11 @@
       async load() {
         if (!this.online()) return this.readLocal();
         const res = await fetch(`${this.base()}:runQuery?key=${this.key()}`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
             structuredQuery: {
-              from: [{ collectionId: 'reviews' }],
-              where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'approved' } } },
+              from: [{collectionId: 'reviews'}],
+              where: {fieldFilter: {field: {fieldPath: 'status'}, op: 'EQUAL', value: {stringValue: 'approved'}}},
               limit: 500
             }
           })
@@ -3740,15 +3736,15 @@
         }
         const status = CONFIG.moderateReviews ? 'pending' : 'approved';
         const res = await fetch(`${this.base()}/reviews?key=${this.key()}`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
             fields: {
-              name: { stringValue: r.name },
-              productId: { stringValue: r.productId },
-              rating: { integerValue: String(r.rating) },
-              comment: { stringValue: r.comment },
-              createdAt: { timestampValue: new Date(r.createdAt).toISOString() },
-              status: { stringValue: status }
+              name: {stringValue: r.name},
+              productId: {stringValue: r.productId},
+              rating: {integerValue: String(r.rating)},
+              comment: {stringValue: r.comment},
+              createdAt: {timestampValue: new Date(r.createdAt).toISOString()},
+              status: {stringValue: status}
             }
           })
         });
@@ -3758,8 +3754,8 @@
     };
 
     function fmtDate(ts, lg = LANG) {
-      try { return new Date(ts).toLocaleDateString(lg === 'en' ? 'en-GB' : 'ar-JO-u-nu-latn', { year: 'numeric', month: 'long', day: 'numeric' }); }
-      catch (e) { return new Date(ts).toISOString().slice(0, 10); }
+      try {return new Date(ts).toLocaleDateString(lg === 'en' ? 'en-GB' : 'ar-JO-u-nu-latn', {year: 'numeric', month: 'long', day: 'numeric'});}
+      catch (e) {return new Date(ts).toISOString().slice(0, 10);}
     }
     function renderReviews() {
       const box = $('#revBox'); if (!box) return;
@@ -3789,14 +3785,14 @@
     }
     async function loadReviews() {
       state.revStatus = 'loading'; renderReviews();
-      try { state.reviews = (await REV.load()).sort((a, b) => b.createdAt - a.createdAt); state.revStatus = 'ok'; }
-      catch (e) { console.error('[DONIA] reviews:', e); state.revErr = String((e && e.message) || e); state.reviews = []; state.revStatus = 'error'; }
+      try {state.reviews = (await REV.load()).sort((a, b) => b.createdAt - a.createdAt); state.revStatus = 'ok';}
+      catch (e) {console.error('[DONIA] reviews:', e); state.revErr = String((e && e.message) || e); state.reviews = []; state.revStatus = 'error';}
       computeStats(); renderReviews(); renderProducts();
     }
 
     function openReviewForm(pid, keep) {
       state.modal = 'review';
-      if (!keep || !state.rv || !state.rv.sel) state.rv = { sel: pid && byId(pid) ? [pid] : [], st: {}, cm: {}, name: '' };
+      if (!keep || !state.rv || !state.rv.sel) state.rv = {sel: pid && byId(pid) ? [pid] : [], st: {}, cm: {}, name: ''};
       const R = state.rv;
       const tiles = PRODUCTS.map(p => `<button type="button" class="rp-t" data-act="rv-pick" data-p="${p.id}" aria-pressed="${R.sel.includes(p.id)}" aria-label="${esc(pName(p))}"><div class="sq">${pic(p)}</div><span class="circ" aria-hidden="true">${R.sel.includes(p.id) ? '✓' : ''}</span><b>${esc(pName(p))}</b></button>`).join('');
       $('#sheet').innerHTML = `
@@ -3812,7 +3808,7 @@
       renderRvCards();
       $('#menuDrawer').classList.remove('open'); $('#cartDrawer').classList.remove('open');
       $('#modal').classList.add('open'); $('#scrim').classList.add('on'); lock(true);
-      const on = $('#rvGrid [aria-pressed="true"]'); if (on) on.scrollIntoView({ block: 'nearest' });
+      const on = $('#rvGrid [aria-pressed="true"]'); if (on) on.scrollIntoView({block: 'nearest'});
     }
     function renderRvCards() {
       const R = state.rv, box = $('#rvCards'); if (!box) return;
@@ -3826,14 +3822,14 @@
     function pickRvProduct(id) {
       const R = state.rv, i = R.sel.indexOf(id);
       if (i >= 0) R.sel.splice(i, 1); else R.sel.push(id);
-      document.querySelectorAll('#rvGrid .rp-t').forEach(b => { const on = R.sel.includes(b.dataset.p); b.setAttribute('aria-pressed', String(on)); b.querySelector('.circ').textContent = on ? '✓' : ''; });
+      document.querySelectorAll('#rvGrid .rp-t').forEach(b => {const on = R.sel.includes(b.dataset.p); b.setAttribute('aria-pressed', String(on)); b.querySelector('.circ').textContent = on ? '✓' : '';});
       const e = $('#e-rv-pid'); if (e) e.textContent = '';
       renderRvCards();
     }
     function setStars(id, n) {
       state.rv.st[id] = n;
       const c = document.querySelector(`.rvc[data-pid="${id}"]`);
-      if (c) c.querySelectorAll('.starpick button').forEach(b => { const on = +b.dataset.v <= n; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(+b.dataset.v === n)); });
+      if (c) c.querySelectorAll('.starpick button').forEach(b => {const on = +b.dataset.v <= n; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(+b.dataset.v === n));});
       const e = $('#e-rv-rating'); if (e) e.textContent = '';
     }
     document.addEventListener('input', e => {
@@ -3848,15 +3844,15 @@
       if (name.length < 2) e['rv-name'] = tr('vRvName');
       if (!sel.length) e['rv-pid'] = tr('vRvPid');
       else if (sel.some(id => !R.st[id])) e['rv-rating'] = tr('vRvStar');
-      ['rv-name', 'rv-pid', 'rv-rating'].forEach(k => { const el = $('#e-' + k); if (el) el.textContent = e[k] || ''; });
-      if (Object.keys(e).length) { const f = document.querySelector('.err:not(:empty)'); if (f) f.scrollIntoView({ block: 'center' }); return; }
+      ['rv-name', 'rv-pid', 'rv-rating'].forEach(k => {const el = $('#e-' + k); if (el) el.textContent = e[k] || '';});
+      if (Object.keys(e).length) {const f = document.querySelector('.err:not(:empty)'); if (f) f.scrollIntoView({block: 'center'}); return;}
       if ($('#rv-web').value) return closeAll();
       if (Date.now() - (+getLS('donia_rv_last') || 0) < 8000) return toast(tr('waitReview'));
       const btn = $('#rvSubmit'); btn.disabled = true; btn.textContent = tr('rvSending');
       const done = []; let status = 'approved';
       try {
         for (const id of sel) {
-          const review = { id: 'l' + Date.now() + id.slice(0, 4), name, productId: id, rating: R.st[id], comment: (R.cm[id] || '').trim().slice(0, 400), createdAt: Date.now() };
+          const review = {id: 'l' + Date.now() + id.slice(0, 4), name, productId: id, rating: R.st[id], comment: (R.cm[id] || '').trim().slice(0, 400), createdAt: Date.now()};
           status = await REV.add(review); done.push(review);
         }
         setLS('donia_rv_last', String(Date.now()));
@@ -3867,7 +3863,7 @@
           showThanks();
         }
       } catch (err) {
-        if (done.length && status === 'approved') { done.forEach(r => state.reviews.unshift(r)); computeStats(); renderReviews(); renderProducts(); }
+        if (done.length && status === 'approved') {done.forEach(r => state.reviews.unshift(r)); computeStats(); renderReviews(); renderProducts();}
         R.sel = R.sel.filter(id => !done.some(r => r.productId === id));
         btn.disabled = false; btn.textContent = tr('rvSubmit'); renderRvCards(); toast(tr('reviewFail'));
       }
@@ -3880,16 +3876,16 @@
       const d = el.dataset;
 
       if (d.open) return openModal(d.open);
-      if (d.add) { const pp = byId(d.add); return pp && pp.colorsOn ? openModal(d.add) : addToCart(d.add); }
-      if (d.inc) { state.cart[d.inc] = Math.min(20, state.cart[d.inc] + 1); saveCart(); updateBadge(); return renderCart(); }
-      if (d.dec) { state.cart[d.dec] = state.cart[d.dec] - 1; if (state.cart[d.dec] <= 0) delete state.cart[d.dec]; saveCart(); updateBadge(); return renderCart(); }
-      if (d.del) { delete state.cart[d.del]; saveCart(); updateBadge(); return renderCart(); }
+      if (d.add) {const pp = byId(d.add); return pp && pp.colorsOn ? openModal(d.add) : addToCart(d.add);}
+      if (d.inc) {state.cart[d.inc] = Math.min(20, state.cart[d.inc] + 1); saveCart(); updateBadge(); return renderCart();}
+      if (d.dec) {state.cart[d.dec] = state.cart[d.dec] - 1; if (state.cart[d.dec] <= 0) delete state.cart[d.dec]; saveCart(); updateBadge(); return renderCart();}
+      if (d.del) {delete state.cart[d.del]; saveCart(); updateBadge(); return renderCart();}
 
       if (d.filter) {
         const [k, v] = d.filter.split(':');
-        if (d.only) { state.type = state.skin = state.concern = state.brand = ''; state[k] = v; }
+        if (d.only) {state.type = state.skin = state.concern = state.brand = ''; state[k] = v;}
         else state[k] = (state[k] === v) ? '' : v;
-        if (d.only) { closeAll(); closeDnav(); }
+        if (d.only) {closeAll(); closeDnav();}
         refresh(); if (d.only) goProducts();
         return;
       }
@@ -3898,9 +3894,9 @@
         case 'lang': setLang(LANG === 'ar' ? 'en' : 'ar'); break;
         case 'menu':
           if (window.matchMedia('(min-width:900px)').matches) toggleDnav();
-          else { renderMenu(); openDrawer('#menuDrawer'); }
+          else {renderMenu(); openDrawer('#menuDrawer');}
           break;
-        case 'search': { const s = $('#searchbar'); s.hidden = !s.hidden; if (!s.hidden) $('#q').focus(); break; }
+        case 'search': {const s = $('#searchbar'); s.hidden = !s.hidden; if (!s.hidden) $('#q').focus(); break;}
         case 'cart': openCart('cart'); break;
         case 'close-all': closeAll(); closeDnav(); break;
         case 'close-dnav': closeDnav(); break;
@@ -3910,21 +3906,21 @@
         case 'mq+': state.qty = Math.min(20, state.qty + 1); $('#mq').textContent = state.qty; break;
         case 'mq-': state.qty = Math.max(1, state.qty - 1); $('#mq').textContent = state.qty; break;
         case 'pick-color': pickColor(d.c === state.color ? '' : d.c); break;
-        case 'modal-add': { const pm = byId(state.openId); if (pm && pm.colorsOn && !state.color) { toast(tr('pickColor')); break; } addToCart(state.openId, state.qty, state.color); closeAll(); break; }
+        case 'modal-add': {const pm = byId(state.openId); if (pm && pm.colorsOn && !state.color) {toast(tr('pickColor')); break;} addToCart(state.openId, state.qty, state.color); closeAll(); break;}
         case 'apply': {
           const code = ($('#cpn').value || '').trim().toUpperCase();
           if (!code) return;
-          if (CONFIG.coupons[code]) { state.coupon = code; renderCart(); }
-          else { state.coupon = null; renderCart(); const m = $('#cmsg'); if (m) { m.className = 'cmsg bad'; m.textContent = tr('cpnBad'); } }
+          if (CONFIG.coupons[code]) {state.coupon = code; renderCart();}
+          else {state.coupon = null; renderCart(); const m = $('#cmsg'); if (m) {m.className = 'cmsg bad'; m.textContent = tr('cpnBad');} }
           break;
         }
         case 'checkout': if (TRK.once('co')) TRK.send('checkout'); state.view = 'checkout'; renderCart(); $('#cartBody').scrollTop = 0; break;
         case 'back': state.view = 'cart'; renderCart(); break;
-        case 'pay-pick': if (payOn(d.m)) { state.payMethod = d.m; renderCart(); } break;
+        case 'pay-pick': if (payOn(d.m)) {state.payMethod = d.m; renderCart();} break;
         case 'submit': submitOrder(); break;
         case 'copy': {
           const txt = state.order.msg;
-          const fallback = () => { const r = document.createRange(); r.selectNodeContents($('#msg')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast(tr('selectCopy')); };
+          const fallback = () => {const r = document.createRange(); r.selectNodeContents($('#msg')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast(tr('selectCopy'));};
           if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(() => toast(tr('copied'))).catch(fallback);
           else fallback();
           break;
@@ -3940,47 +3936,47 @@
       }
     });
     document.addEventListener('input', e => {
-      if (e.target.id === 'q') { state.q = e.target.value; renderProducts(); renderControls(); return; }
+      if (e.target.id === 'q') {state.q = e.target.value; renderProducts(); renderControls(); return;}
       const k = e.target.dataset && e.target.dataset.f;
-      if (k) { state.form[k] = e.target.value; if (k === 'city') updateSummary(); }
+      if (k) {state.form[k] = e.target.value; if (k === 'city') updateSummary();}
     });
     document.addEventListener('change', e => {
-      if (e.target.id === 'rvFilter') { state.revFilter = e.target.value; state.revShown = 6; renderReviews(); return; }
+      if (e.target.id === 'rvFilter') {state.revFilter = e.target.value; state.revShown = 6; renderReviews(); return;}
       const k = e.target.dataset && e.target.dataset.f;
-      if (k) { state.form[k] = e.target.value; if (k === 'city') updateSummary(); }
+      if (k) {state.form[k] = e.target.value; if (k === 'city') updateSummary();}
     });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+    document.addEventListener('keydown', e => {if (e.key === 'Escape') closeAll();});
 
     /* ====================== لوحة التحكم (الرابط: الموقع/#admin) ====================== */
-    const A = { authed: false, tab: 'orders', view: 'list', products: [], settings: null, reviews: [], orders: [], stats: null, statsErr: '', srange: 7, ofilter: '', ordersErr: '', edit: null, err: '', busy: false, loaded: false, del: '', saving: false };
-    const AUTH = { id: '', refresh: '', exp: 0 };
-    const AUTH_ERRS = { INVALID_LOGIN_CREDENTIALS: 'الإيميل أو كلمة السر غلط', INVALID_PASSWORD: 'الإيميل أو كلمة السر غلط', EMAIL_NOT_FOUND: 'الإيميل أو كلمة السر غلط', INVALID_EMAIL: 'اكتب إيميل صحيح', TOO_MANY_ATTEMPTS_TRY_LATER: 'محاولات كثيرة، جرّب بعد شوي', USER_DISABLED: 'هذا الحساب موقوف' };
+    const A = {authed: false, tab: 'orders', view: 'list', products: [], settings: null, reviews: [], orders: [], stats: null, statsErr: '', srange: 7, ofilter: '', ordersErr: '', edit: null, err: '', busy: false, loaded: false, del: '', saving: false};
+    const AUTH = {id: '', refresh: '', exp: 0};
+    const AUTH_ERRS = {INVALID_LOGIN_CREDENTIALS: 'الإيميل أو كلمة السر غلط', INVALID_PASSWORD: 'الإيميل أو كلمة السر غلط', EMAIL_NOT_FOUND: 'الإيميل أو كلمة السر غلط', INVALID_EMAIL: 'اكتب إيميل صحيح', TOO_MANY_ATTEMPTS_TRY_LATER: 'محاولات كثيرة، جرّب بعد شوي', USER_DISABLED: 'هذا الحساب موقوف'};
     const newId = () => 'n' + Date.now().toString(36) + Math.floor(Math.random() * 1296).toString(36);
 
     function setTok(id, refresh, sec) {
       AUTH.id = id; AUTH.refresh = refresh; AUTH.exp = Date.now() + Math.max(60, sec - 60) * 1000;
-      try { sessionStorage.setItem('donia_rt', refresh); } catch (e) { }
+      try {sessionStorage.setItem('donia_rt', refresh);} catch (e) { }
     }
     async function admSignIn(email, password) {
       const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${REV.key()}`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, returnSecureToken: true })
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email, password, returnSecureToken: true})
       });
       const j = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error((j.error && j.error.message) || 'AUTH');
       setTok(j.idToken, j.refreshToken, +j.expiresIn || 3600);
     }
     async function admRefreshTok() {
-      let rt = AUTH.refresh; if (!rt) { try { rt = sessionStorage.getItem('donia_rt') || ''; } catch (e) { } }
+      let rt = AUTH.refresh; if (!rt) {try {rt = sessionStorage.getItem('donia_rt') || '';} catch (e) { } }
       if (!rt) return false;
       const res = await fetch(`https://securetoken.googleapis.com/v1/token?key=${REV.key()}`, {
-        method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'grant_type=refresh_token&refresh_token=' + encodeURIComponent(rt)
+        method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: 'grant_type=refresh_token&refresh_token=' + encodeURIComponent(rt)
       });
       if (!res.ok) return false;
       const j = await res.json(); setTok(j.id_token, j.refresh_token, +j.expires_in || 3600); return true;
     }
     async function authFetch(url, opts = {}) {
       if (Date.now() >= AUTH.exp && !(await admRefreshTok())) throw new Error('SESSION');
-      const res = await fetch(url, Object.assign({}, opts, { headers: Object.assign({ 'Content-Type': 'application/json', Authorization: 'Bearer ' + AUTH.id }, opts.headers || {}) }));
+      const res = await fetch(url, Object.assign({}, opts, {headers: Object.assign({'Content-Type': 'application/json', Authorization: 'Bearer ' + AUTH.id}, opts.headers || {})}));
       if (res.status === 401 || res.status === 403) throw new Error('DENIED');
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json().catch(() => null);
@@ -3988,20 +3984,20 @@
     function admErrMsg(e) {
       const m = String((e && e.message) || e);
       if (m === 'DENIED') return 'ما عندك صلاحية الحفظ. تأكد إنك داخل بحساب الأدمن وإن الـ UID صحيح بقواعد Firebase.';
-      if (m === 'SESSION') { A.authed = false; return 'انتهت الجلسة، سجّل دخول من جديد.'; }
+      if (m === 'SESSION') {A.authed = false; return 'انتهت الجلسة، سجّل دخول من جديد.';}
       if (/quota/i.test(m)) return 'المساحة ما بتكفي (وضع التجربة). جرّب صور أصغر.';
       return 'صار خطأ، جرّب مرة ثانية.';
     }
 
     /* الطلبات */
-    const ORDER_LABELS = { new: 'جديد', contacted: 'تم التواصل', done: 'تم التسليم', cancelled: 'ملغي' };
+    const ORDER_LABELS = {new: 'جديد', contacted: 'تم التواصل', done: 'تم التسليم', cancelled: 'ملغي'};
     function orderNorm(o) {
       if (!o) return null;
-      let det = { items: [] }; try { det = JSON.parse(o.itemsJson || '{}'); } catch (e) { }
+      let det = {items: []}; try {det = JSON.parse(o.itemsJson || '{}');} catch (e) { }
       return {
         id: String(o.id || ''), orderNo: String(o.orderNo || ''), name: String(o.name || ''), phone: String(o.phone || ''), city: String(o.city || ''), area: String(o.area || ''),
         address: String(o.address || ''), deliveryDate: String(o.deliveryDate || ''), note: String(o.note || ''), coupon: String(o.coupon || ''), subtotal: +o.subtotal || 0, discount: +o.discount || 0, delivery: +o.delivery || 0, total: +o.total || 0,
-        status: ORDER_LABELS[o.status] ? o.status : 'new', createdAt: +o.createdAt || 0, det: det && typeof det === 'object' ? det : { items: [] }
+        status: ORDER_LABELS[o.status] ? o.status : 'new', createdAt: +o.createdAt || 0, det: det && typeof det === 'object' ? det : {items: []}
       };
     }
     function orderFromDoc(d) {
@@ -4013,82 +4009,82 @@
       });
     }
     function fmtDT(ts) {
-      try { return new Date(ts).toLocaleString('ar-JO-u-nu-latn', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }); }
-      catch (e) { return new Date(ts).toISOString().slice(0, 16).replace('T', ' '); }
+      try {return new Date(ts).toLocaleString('ar-JO-u-nu-latn', {day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit'});}
+      catch (e) {return new Date(ts).toISOString().slice(0, 16).replace('T', ' ');}
     }
 
     /* كتابة/قراءة (أونلاين بعد تسجيل الدخول، أو محلي بوضع التجربة) */
     const ADB = {
       async saveProduct(p) {
-        const { image, ...rest } = p;
+        const {image, ...rest} = p;
         if (!REV.online()) {
-          const list = LOC.getProducts() || []; const row = { raw: rest, image: image || '' };
+          const list = LOC.getProducts() || []; const row = {raw: rest, image: image || ''};
           const i = list.findIndex(x => x.raw.id === p.id); if (i >= 0) list[i] = row; else list.push(row);
           return LOC.setProducts(list);
         }
-        await authFetch(`${REV.base()}/products/${encodeURIComponent(p.id)}?key=${REV.key()}`, { method: 'PATCH', body: JSON.stringify({ fields: { json: { stringValue: JSON.stringify(rest) }, image: { stringValue: image || '' } } }) });
+        await authFetch(`${REV.base()}/products/${encodeURIComponent(p.id)}?key=${REV.key()}`, {method: 'PATCH', body: JSON.stringify({fields: {json: {stringValue: JSON.stringify(rest)}, image: {stringValue: image || ''}}})});
       },
       async deleteProduct(id) {
         if (!REV.online()) return LOC.setProducts((LOC.getProducts() || []).filter(x => x.raw.id !== id));
-        await authFetch(`${REV.base()}/products/${encodeURIComponent(id)}?key=${REV.key()}`, { method: 'DELETE' });
+        await authFetch(`${REV.base()}/products/${encodeURIComponent(id)}?key=${REV.key()}`, {method: 'DELETE'});
       },
       async saveSettings(s) {
         if (!REV.online()) return LOC.setSettings(s);
-        const { heroImage, ...rest } = s;
-        await authFetch(`${REV.base()}/config/store?key=${REV.key()}`, { method: 'PATCH', body: JSON.stringify({ fields: { json: { stringValue: JSON.stringify(rest) }, heroImage: { stringValue: heroImage || '' } } }) });
+        const {heroImage, ...rest} = s;
+        await authFetch(`${REV.base()}/config/store?key=${REV.key()}`, {method: 'PATCH', body: JSON.stringify({fields: {json: {stringValue: JSON.stringify(rest)}, heroImage: {stringValue: heroImage || ''}}})});
       },
       async listReviews() {
-        if (!REV.online()) return REV.readLocal().map(r => Object.assign({ status: 'approved' }, r));
-        const rows = await authFetch(`${REV.base()}:runQuery?key=${REV.key()}`, { method: 'POST', body: JSON.stringify({ structuredQuery: { from: [{ collectionId: 'reviews' }], orderBy: [{ field: { fieldPath: 'createdAt' }, direction: 'DESCENDING' }], limit: 300 } }) });
-        return (rows || []).filter(r => r.document).map(r => Object.assign(REV.fromDoc(r.document), { status: (r.document.fields.status && r.document.fields.status.stringValue) || 'pending' })).filter(okRev);
+        if (!REV.online()) return REV.readLocal().map(r => Object.assign({status: 'approved'}, r));
+        const rows = await authFetch(`${REV.base()}:runQuery?key=${REV.key()}`, {method: 'POST', body: JSON.stringify({structuredQuery: {from: [{collectionId: 'reviews'}], orderBy: [{field: {fieldPath: 'createdAt'}, direction: 'DESCENDING'}], limit: 300}})});
+        return (rows || []).filter(r => r.document).map(r => Object.assign(REV.fromDoc(r.document), {status: (r.document.fields.status && r.document.fields.status.stringValue) || 'pending'})).filter(okRev);
       },
       async listStats(days) {
         if (!REV.online()) return [];
         const since = new Date(Date.now() - days * 86400000).toISOString();
-        const rows = await authFetch(`${REV.base()}:runQuery?key=${REV.key()}`, { method: 'POST', body: JSON.stringify({ structuredQuery: { from: [{ collectionId: 'stats' }], where: { fieldFilter: { field: { fieldPath: 'ts' }, op: 'GREATER_THAN_OR_EQUAL', value: { timestampValue: since } } }, orderBy: [{ field: { fieldPath: 'ts' }, direction: 'DESCENDING' }], limit: 5000 } }) });
-        return (rows || []).filter(r => r.document).map(r => { const f = r.document.fields || {}, g = k => (f[k] && f[k].stringValue) || ''; return { t: g('t'), vid: g('vid'), day: g('day'), dev: g('dev'), ref: g('ref'), pid: g('pid'), ts: f.ts && f.ts.timestampValue ? Date.parse(f.ts.timestampValue) : 0 }; });
+        const rows = await authFetch(`${REV.base()}:runQuery?key=${REV.key()}`, {method: 'POST', body: JSON.stringify({structuredQuery: {from: [{collectionId: 'stats'}], where: {fieldFilter: {field: {fieldPath: 'ts'}, op: 'GREATER_THAN_OR_EQUAL', value: {timestampValue: since}}}, orderBy: [{field: {fieldPath: 'ts'}, direction: 'DESCENDING'}], limit: 5000}})});
+        return (rows || []).filter(r => r.document).map(r => {const f = r.document.fields || {}, g = k => (f[k] && f[k].stringValue) || ''; return {t: g('t'), vid: g('vid'), day: g('day'), dev: g('dev'), ref: g('ref'), pid: g('pid'), ts: f.ts && f.ts.timestampValue ? Date.parse(f.ts.timestampValue) : 0};});
       },
       async setReview(id, status) {
-        await authFetch(`${REV.base()}/reviews/${encodeURIComponent(id)}?updateMask.fieldPaths=status&key=${REV.key()}`, { method: 'PATCH', body: JSON.stringify({ fields: { status: { stringValue: status } } }) });
+        await authFetch(`${REV.base()}/reviews/${encodeURIComponent(id)}?updateMask.fieldPaths=status&key=${REV.key()}`, {method: 'PATCH', body: JSON.stringify({fields: {status: {stringValue: status}}})});
       },
       async listOrders() {
         if (!REV.online()) {
-          let all = []; try { all = JSON.parse(getLS('donia_orders_v1') || '[]'); } catch (e) { }
+          let all = []; try {all = JSON.parse(getLS('donia_orders_v1') || '[]');} catch (e) { }
           return all.map(o => orderNorm(Object.assign({}, o))).filter(Boolean);
         }
-        const rows = await authFetch(`${REV.base()}:runQuery?key=${REV.key()}`, { method: 'POST', body: JSON.stringify({ structuredQuery: { from: [{ collectionId: 'orders' }], orderBy: [{ field: { fieldPath: 'createdAt' }, direction: 'DESCENDING' }], limit: 300 } }) });
+        const rows = await authFetch(`${REV.base()}:runQuery?key=${REV.key()}`, {method: 'POST', body: JSON.stringify({structuredQuery: {from: [{collectionId: 'orders'}], orderBy: [{field: {fieldPath: 'createdAt'}, direction: 'DESCENDING'}], limit: 300}})});
         return (rows || []).filter(r => r.document).map(r => orderFromDoc(r.document)).filter(Boolean);
       },
       async setOrderStatus(id, status) {
-        if (!REV.online()) { let all = []; try { all = JSON.parse(getLS('donia_orders_v1') || '[]'); } catch (e) { } const o = all.find(x => x.id === id); if (o) o.status = status; return setLS('donia_orders_v1', JSON.stringify(all)); }
-        await authFetch(`${REV.base()}/orders/${encodeURIComponent(id)}?updateMask.fieldPaths=status&key=${REV.key()}`, { method: 'PATCH', body: JSON.stringify({ fields: { status: { stringValue: status } } }) });
+        if (!REV.online()) {let all = []; try {all = JSON.parse(getLS('donia_orders_v1') || '[]');} catch (e) { } const o = all.find(x => x.id === id); if (o) o.status = status; return setLS('donia_orders_v1', JSON.stringify(all));}
+        await authFetch(`${REV.base()}/orders/${encodeURIComponent(id)}?updateMask.fieldPaths=status&key=${REV.key()}`, {method: 'PATCH', body: JSON.stringify({fields: {status: {stringValue: status}}})});
       },
       async deleteOrder(id) {
-        if (!REV.online()) { let all = []; try { all = JSON.parse(getLS('donia_orders_v1') || '[]'); } catch (e) { } return setLS('donia_orders_v1', JSON.stringify(all.filter(x => x.id !== id))); }
-        await authFetch(`${REV.base()}/orders/${encodeURIComponent(id)}?key=${REV.key()}`, { method: 'DELETE' });
+        if (!REV.online()) {let all = []; try {all = JSON.parse(getLS('donia_orders_v1') || '[]');} catch (e) { } return setLS('donia_orders_v1', JSON.stringify(all.filter(x => x.id !== id)));}
+        await authFetch(`${REV.base()}/orders/${encodeURIComponent(id)}?key=${REV.key()}`, {method: 'DELETE'});
       },
       async deleteReview(id) {
-        if (!REV.online()) { setLS('donia_reviews_v1', JSON.stringify(REV.readLocal().filter(r => r.id !== id))); return; }
-        await authFetch(`${REV.base()}/reviews/${encodeURIComponent(id)}?key=${REV.key()}`, { method: 'DELETE' });
+        if (!REV.online()) {setLS('donia_reviews_v1', JSON.stringify(REV.readLocal().filter(r => r.id !== id))); return;}
+        await authFetch(`${REV.base()}/reviews/${encodeURIComponent(id)}?key=${REV.key()}`, {method: 'DELETE'});
       }
     };
 
     /* ضغط الصور قبل الحفظ */
-    const CAN_WEBP = (() => { try { return document.createElement('canvas').toDataURL('image/webp').startsWith('data:image/webp'); } catch (e) { return false; } })();
+    const CAN_WEBP = (() => {try {return document.createElement('canvas').toDataURL('image/webp').startsWith('data:image/webp');} catch (e) {return false;} })();
     function compressImage(file, maxSide, limit) {
       return new Promise((resolve, reject) => {
         const url = URL.createObjectURL(file), img = new Image();
-        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('IMG')); };
+        img.onerror = () => {URL.revokeObjectURL(url); reject(new Error('IMG'));};
         img.onload = () => {
           let side = maxSide, q = 0.85;
           for (let i = 0; i < 8; i++) {
             const k = Math.min(1, side / Math.max(img.width, img.height));
             const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(img.width * k)); c.height = Math.max(1, Math.round(img.height * k));
             const x = c.getContext('2d');
-            if (!CAN_WEBP) { x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); }
+            if (!CAN_WEBP) {x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);}
             x.drawImage(img, 0, 0, c.width, c.height);
             const out = c.toDataURL(CAN_WEBP ? 'image/webp' : 'image/jpeg', q);
-            if (out.length <= limit) { URL.revokeObjectURL(url); return resolve(out); }
+            if (out.length <= limit) {URL.revokeObjectURL(url); return resolve(out);}
             q = Math.max(0.5, q - 0.1); side = Math.round(side * 0.85);
           }
           URL.revokeObjectURL(url); reject(new Error('BIG'));
@@ -4098,8 +4094,8 @@
     }
 
     /* ---------- المسار ---------- */
-    function route() { if (location.hash === '#admin') admOpen(); else admClose(); }
-    function admExit() { history.replaceState(null, '', location.pathname + location.search); route(); }
+    function route() {if (location.hash === '#admin') admOpen(); else admClose();}
+    function admExit() {history.replaceState(null, '', location.pathname + location.search); route();}
     function admClose() {
       if (!document.body.classList.contains('is-admin')) return;
       document.body.classList.remove('is-admin'); $('#adm').hidden = true;
@@ -4109,7 +4105,7 @@
       document.body.classList.add('is-admin'); closeAll(); window.scrollTo(0, 0);
       $('#adm').hidden = false; A.err = '';
       admRender();
-      if (!A.authed && REV.online()) admRefreshTok().then(ok => { if (ok) { A.authed = true; admLoad(); } }).catch(() => { });
+      if (!A.authed && REV.online()) admRefreshTok().then(ok => {if (ok) {A.authed = true; admLoad();} }).catch(() => { });
     }
     async function admLoad() {
       A.busy = true; admRender();
@@ -4117,10 +4113,10 @@
         const items = REV.online() ? await FS.listProducts() : (LOC.getProducts() || []);
         A.products = items.map(i => normProduct(i.raw, i.image)).filter(Boolean);
         A.settings = mergeSettings(REV.online() ? await FS.getSettings() : LOC.getSettings());
-        try { A.reviews = await ADB.listReviews(); } catch (e) { A.reviews = []; if (String(e.message) === 'DENIED') throw e; }
-        try { A.orders = await ADB.listOrders(); A.ordersErr = ''; } catch (e) { A.orders = []; A.ordersErr = String(e.message) === 'DENIED' ? 'قواعد Firebase ما فيها صلاحية الطلبات. حدّث القواعد من ملف firestore.rules ثم Publish.' : 'ما قدرنا نحمّل الطلبات.'; }
+        try {A.reviews = await ADB.listReviews();} catch (e) {A.reviews = []; if (String(e.message) === 'DENIED') throw e;}
+        try {A.orders = await ADB.listOrders(); A.ordersErr = '';} catch (e) {A.orders = []; A.ordersErr = String(e.message) === 'DENIED' ? 'قواعد Firebase ما فيها صلاحية الطلبات. حدّث القواعد من ملف firestore.rules ثم Publish.' : 'ما قدرنا نحمّل الطلبات.';}
         A.loaded = true; A.err = '';
-      } catch (e) { A.err = admErrMsg(e); }
+      } catch (e) {A.err = admErrMsg(e);}
       A.busy = false; admRender();
     }
 
@@ -4168,24 +4164,24 @@
     }
     async function admLoadStats() {
       A.statsErr = '';
-      try { A.stats = await ADB.listStats(30); } catch (e) { A.stats = []; A.statsErr = String(e.message) === 'DENIED' ? 'قواعد Firebase ما فيها صلاحية الإحصائيات. أضف قاعدة مجموعة stats (موجودة بالتعليمات) وجرّب مرة ثانية.' : 'ما قدرنا نحمّل الإحصائيات'; }
+      try {A.stats = await ADB.listStats(30);} catch (e) {A.stats = []; A.statsErr = String(e.message) === 'DENIED' ? 'قواعد Firebase ما فيها صلاحية الإحصائيات. أضف قاعدة مجموعة stats (موجودة بالتعليمات) وجرّب مرة ثانية.' : 'ما قدرنا نحمّل الإحصائيات';}
       if (A.tab === 'stats') admRender();
     }
     function admStatsHTML() {
-      if (A.stats === null) { admLoadStats(); return '<div class="empty"><p>جاري تحميل الإحصائيات...</p></div>'; }
+      if (A.stats === null) {admLoadStats(); return '<div class="empty"><p>جاري تحميل الإحصائيات...</p></div>';}
       const R = A.srange, now = Date.now(), from = now - R * 86400000;
       const ev = A.stats.filter(e => e.ts >= from), cnt = t => ev.filter(e => e.t === t).length;
       const visits = ev.filter(e => e.t === 'visit'), uniq = new Set(visits.map(e => e.vid)).size;
       const ords = A.orders.filter(o => o.createdAt >= from && o.status !== 'cancelled');
       const rev = ords.reduce((n, o) => n + (+o.total || 0), 0);
       const pct = (a, b) => b ? Math.round(a / b * 100) + '%' : '—';
-      const dayKey = ts => { const d = new Date(ts); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+      const dayKey = ts => {const d = new Date(ts); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');};
       const nd = Math.min(R, 14), days = [];
       for (let i = nd - 1; i >= 0; i--) days.push(dayKey(now - i * 86400000));
       const perDay = days.map(d => visits.filter(e => e.day === d).length), mx = Math.max(1, ...perDay);
       const top = {}; ev.filter(e => e.t === 'view').forEach(e => top[e.pid] = (top[e.pid] || 0) + 1);
-      const topH = Object.entries(top).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([id, n]) => { const p = PRODUCTS.find(x => x.id === id) || A.products.find(x => x.id === id); return `<div class="st-row"><span>${esc(p ? (p.brand + ' ' + p.ar) : id)}</span><b class="num">${n}</b></div>`; }).join('') || '<p class="hint">ما في بيانات بعد</p>';
-      const src = {}; visits.forEach(e => { const k = e.ref || 'مباشر'; src[k] = (src[k] || 0) + 1; });
+      const topH = Object.entries(top).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([id, n]) => {const p = PRODUCTS.find(x => x.id === id) || A.products.find(x => x.id === id); return `<div class="st-row"><span>${esc(p ? (p.brand + ' ' + p.ar) : id)}</span><b class="num">${n}</b></div>`;}).join('') || '<p class="hint">ما في بيانات بعد</p>';
+      const src = {}; visits.forEach(e => {const k = e.ref || 'مباشر'; src[k] = (src[k] || 0) + 1;});
       const srcH = Object.entries(src).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([k, n]) => `<div class="st-row"><span>${esc(k)}</span><b class="num">${n}</b></div>`).join('') || '<p class="hint">ما في بيانات بعد</p>';
       const mob = visits.filter(e => e.dev === 'mobile').length;
       const K = (v, l) => `<div class="st-k"><b class="num">${v}</b><span>${l}</span></div>`;
@@ -4231,10 +4227,10 @@
     }
     async function admReloadOrders(silent) {
       const sig = l => l.map(x => x.id + x.status).join();
-      try { const l = await ADB.listOrders(); const changed = sig(l) !== sig(A.orders); A.orders = l; A.ordersErr = ''; if (changed || !silent) { if (A.tab === 'orders' && A.view === 'list') admRender(); } if (!silent) toast('تم التحديث'); }
-      catch (e) { if (!silent) { A.ordersErr = 'ما قدرنا نحمّل الطلبات.'; admRender(); } }
+      try {const l = await ADB.listOrders(); const changed = sig(l) !== sig(A.orders); A.orders = l; A.ordersErr = ''; if (changed || !silent) {if (A.tab === 'orders' && A.view === 'list') admRender();} if (!silent) toast('تم التحديث');}
+      catch (e) {if (!silent) {A.ordersErr = 'ما قدرنا نحمّل الطلبات.'; admRender();} }
     }
-    setInterval(() => { if (A.authed && A.loaded && document.body.classList.contains('is-admin') && A.tab === 'orders') admReloadOrders(true); }, 45000);
+    setInterval(() => {if (A.authed && A.loaded && document.body.classList.contains('is-admin') && A.tab === 'orders') admReloadOrders(true);}, 45000);
     function admProductsHTML() {
       const list = A.products.slice().sort((a, b) => a.ord - b.ord);
       const rows = list.map(p => {
@@ -4313,7 +4309,7 @@
     const bDesc = b => b.type === 'price' ? 'سعر المجموعة ' + fmt(num(b.value)) : b.type === 'fixed' ? 'خصم ' + fmt(num(b.value)) : 'خصم ' + num(b.value) + '%';
     function admBundlesHTML() {
       const s = A.settings, list = s.bundles || [];
-      const pn = id => { const p = A.products.find(x => x.id === id); return p ? esc(p.ar) : 'منتج محذوف'; };
+      const pn = id => {const p = A.products.find(x => x.id === id); return p ? esc(p.ar) : 'منتج محذوف';};
       const rows = list.map((b, i) => `<div class="crow"><div><b>${esc(b.name || 'باقة')}</b><div class="hint">${b.ids.map(pn).join(' + ')}</div><div class="hint">${bDesc(b)}</div></div>
         <div style="display:flex;gap:8px;align-items:center"><div class="chk"><label><input type="checkbox" data-a="bd-toggle" data-i="${i}"${b.active !== false ? ' checked' : ''}>فعّال</label></div><button class="btn ghost sm" data-a="bd-del" data-i="${i}">${A.del === 'b:' + i ? 'تأكيد' : 'حذف'}</button></div></div>`).join('');
       const plist = A.products.slice().sort((a, b) => a.ord - b.ord).map(p => `<label class="bp-i"><input type="checkbox" data-bp="${esc(p.id)}"><span class="bp-th">${pic(p)}</span><span>${esc(p.brand ? p.brand + ' - ' : '')}${esc(p.ar)}</span></label>`).join('');
@@ -4356,21 +4352,21 @@
 
     /* ---------- تجميع القيم من النماذج ---------- */
     function admCollect() {
-      const e = A.edit; if (!e) return; const p = e.p; const v = id => { const el = $('#' + id); return el ? el.value : ''; };
+      const e = A.edit; if (!e) return; const p = e.p; const v = id => {const el = $('#' + id); return el ? el.value : '';};
       if (!$('#pf-ar')) return;
       if ($('#pf-colorson')) p.colorsOn = !!$('#pf-colorson').checked;
-      document.querySelectorAll('[data-cname]').forEach(x => { const c = (p.colors || [])[+x.dataset.cname]; if (c) c.name = x.value; });
-      document.querySelectorAll('[data-coos]').forEach(x => { const c = (p.colors || [])[+x.dataset.coos]; if (c) c.oos = x.checked; });
+      document.querySelectorAll('[data-cname]').forEach(x => {const c = (p.colors || [])[+x.dataset.cname]; if (c) c.name = x.value;});
+      document.querySelectorAll('[data-coos]').forEach(x => {const c = (p.colors || [])[+x.dataset.coos]; if (c) c.oos = x.checked;});
       p.ar = v('pf-ar'); p.brand = v('pf-brand'); p.name = v('pf-name'); p.desc = v('pf-desc'); p.descEn = v('pf-descEn'); p.price = v('pf-price'); p.old = v('pf-old'); p.type = v('pf-type') || p.type;
-      ['skin', 'concern', 'sections'].forEach(k => { p[k] = [...document.querySelectorAll(`[data-arr="${k}"]:checked`)].map(x => x.value); });
+      ['skin', 'concern', 'sections'].forEach(k => {p[k] = [...document.querySelectorAll(`[data-arr="${k}"]:checked`)].map(x => x.value);});
       p.soon = !!$('#pf-soon').checked; p.oos = !!$('#pf-oos').checked; p.visible = !!$('#pf-visible').checked;
     }
-    function setPath(o, path, val) { const ks = path.split('.'); const last = ks.pop(); ks.forEach(k => { o = o[k]; }); o[last] = val; }
+    function setPath(o, path, val) {const ks = path.split('.'); const last = ks.pop(); ks.forEach(k => {o = o[k];}); o[last] = val;}
     function admDiscountHelper(id) {
       const price = $('#pf-price'), old = $('#pf-old'), pct = $('#pf-pct'), hint = $('#pf-hint'); if (!price) return;
       if (id === 'pf-pct') {
         const k = parseFloat(pct.value); let o = parseFloat(old.value);
-        if (!(o > 0) && parseFloat(price.value) > 0) { o = parseFloat(price.value); old.value = o; }
+        if (!(o > 0) && parseFloat(price.value) > 0) {o = parseFloat(price.value); old.value = o;}
         if (k > 0 && k < 100 && o > 0) price.value = (Math.round(o * (1 - k / 100) * 1000) / 1000).toFixed(3);
       }
       const p = parseFloat(price.value), o2 = parseFloat(old.value);
@@ -4383,16 +4379,16 @@
         deliveryAmman: num(s.deliveryAmman, 2), deliveryOther: num(s.deliveryOther, 3),
         promoText: clean(s.promoText || ''), promoTextEn: clean(s.promoTextEn || ''), heroImage: okImg(s.heroImage) ? s.heroImage : '',
         instagram: clean(s.instagram || ''),
-        coupons: (s.coupons || []).map(c => ({ code: String(c.code).toUpperCase(), type: c.type === 'fixed' ? 'fixed' : 'percent', value: num(c.value), min: num(c.min), active: c.active !== false })),
-        bundles: (s.bundles || []).map(b => ({ id: clean(b.id) || newId(), name: clean(b.name), nameEn: clean(b.nameEn), ids: [...new Set((b.ids || []).map(String))].slice(0, 6), type: ['price', 'fixed', 'percent'].includes(b.type) ? b.type : 'price', value: num(b.value), active: b.active !== false })),
-        auto: { on: !!s.auto.on, type: s.auto.type === 'fixed' ? 'fixed' : 'percent', value: num(s.auto.value), min: num(s.auto.min), label: clean(s.auto.label || ''), labelEn: clean(s.auto.labelEn || '') }
+        coupons: (s.coupons || []).map(c => ({code: String(c.code).toUpperCase(), type: c.type === 'fixed' ? 'fixed' : 'percent', value: num(c.value), min: num(c.min), active: c.active !== false})),
+        bundles: (s.bundles || []).map(b => ({id: clean(b.id) || newId(), name: clean(b.name), nameEn: clean(b.nameEn), ids: [...new Set((b.ids || []).map(String))].slice(0, 6), type: ['price', 'fixed', 'percent'].includes(b.type) ? b.type : 'price', value: num(b.value), active: b.active !== false})),
+        auto: {on: !!s.auto.on, type: s.auto.type === 'fixed' ? 'fixed' : 'percent', value: num(s.auto.value), min: num(s.auto.min), label: clean(s.auto.label || ''), labelEn: clean(s.auto.labelEn || '')}
       };
     }
     async function admSaveSettings(silent) {
       const clean_ = admSettingsClean();
       A.saving = true; if (!silent) admRender();
-      try { await ADB.saveSettings(clean_); A.settings = mergeSettings(clean_); A.err = ''; toast('تم الحفظ'); }
-      catch (e) { A.err = admErrMsg(e); }
+      try {await ADB.saveSettings(clean_); A.settings = mergeSettings(clean_); A.err = ''; toast('تم الحفظ');}
+      catch (e) {A.err = admErrMsg(e);}
       A.saving = false; admRender(); if (A.err) $('#adm').scrollTop = 0;
     }
     async function admSaveProduct() {
@@ -4404,26 +4400,26 @@
       if ((p.colors || []).reduce((n, c) => n + (c.img || '').length + (c.pimg || '').length, 0) > 500000) errs.push('صور الألوان كبيرة بالمجموع، قلّل عدد الصور أو استخدم صور أصغر');
       if (p.colorsOn && !(p.colors || []).length) errs.push('أضف لون واحد على الأقل أو أطفئ خاصية الألوان');
       if (old && !(old > price)) errs.push('السعر قبل الخصم لازم يكون أكبر من السعر بعد الخصم');
-      if (errs.length) { A.err = errs.join(' - '); admRender(); $('#adm').scrollTop = 0; return; }
-      const out = { id: p.id, ar: clean(p.ar), brand: clean(p.brand), name: clean(p.name), desc: clean(p.desc), descEn: clean(p.descEn), price: r3(price), old: old ? r3(old) : 0, type: p.type, skin: p.skin, concern: p.concern, sections: p.sections, soon: p.soon, oos: !!p.oos, visible: p.visible, ord: p.ord || Date.now(), shape: p.shape, c: p.c, image: p.image || '', colorsOn: !!p.colorsOn && (p.colors || []).length > 0, colors: (p.colors || []).map(c => ({ id: c.id, hex: c.hex || '', img: c.img || '', pimg: c.pimg || '', oos: !!c.oos, name: clean(c.name) })) };
+      if (errs.length) {A.err = errs.join(' - '); admRender(); $('#adm').scrollTop = 0; return;}
+      const out = {id: p.id, ar: clean(p.ar), brand: clean(p.brand), name: clean(p.name), desc: clean(p.desc), descEn: clean(p.descEn), price: r3(price), old: old ? r3(old) : 0, type: p.type, skin: p.skin, concern: p.concern, sections: p.sections, soon: p.soon, oos: !!p.oos, visible: p.visible, ord: p.ord || Date.now(), shape: p.shape, c: p.c, image: p.image || '', colorsOn: !!p.colorsOn && (p.colors || []).length > 0, colors: (p.colors || []).map(c => ({id: c.id, hex: c.hex || '', img: c.img || '', pimg: c.pimg || '', oos: !!c.oos, name: clean(c.name)}))};
       A.saving = true; A.err = ''; admRender();
       try {
         await ADB.saveProduct(out);
         const n = normProduct(out, out.image); const i = A.products.findIndex(x => x.id === n.id);
         if (i >= 0) A.products[i] = n; else A.products.push(n);
         A.view = 'list'; A.edit = null; toast('تم الحفظ');
-      } catch (e) { A.err = admErrMsg(e); }
+      } catch (e) {A.err = admErrMsg(e);}
       A.saving = false; admRender(); $('#adm').scrollTop = 0;
     }
     async function admSeed() {
       A.busy = true; A.loaded = true; admRender();
       try {
         for (let i = 0; i < SAMPLES.length; i++) {
-          const { ...raw } = SAMPLES[i]; raw.visible = true; raw.ord = i + 1;
-          await ADB.saveProduct(Object.assign({}, raw, { image: '' }));
+          const {...raw} = SAMPLES[i]; raw.visible = true; raw.ord = i + 1;
+          await ADB.saveProduct(Object.assign({}, raw, {image: ''}));
         }
         toast('تم استيراد المنتجات');
-      } catch (e) { A.err = admErrMsg(e); }
+      } catch (e) {A.err = admErrMsg(e);}
       await admLoad();
     }
 
@@ -4440,20 +4436,20 @@
           case 'demo-in': A.authed = true; admLoad(); break;
           case 'login': {
             const email = $('#ad-email').value.trim(), pass = $('#ad-pass').value;
-            if (!email || !pass) { $('#ad-err').textContent = 'اكتب الإيميل وكلمة السر'; return; }
+            if (!email || !pass) {$('#ad-err').textContent = 'اكتب الإيميل وكلمة السر'; return;}
             const b = $('#ad-login'); b.disabled = true; b.textContent = 'جاري الدخول...';
-            try { await admSignIn(email, pass); A.authed = true; A.err = ''; admLoad(); }
-            catch (err) { const k = Object.keys(AUTH_ERRS).find(x => String(err.message).startsWith(x)); A.err = k ? AUTH_ERRS[k] : 'ما قدرنا ندخل، جرّب مرة ثانية'; $('#ad-err').textContent = A.err; b.disabled = false; b.textContent = 'دخول'; $('#ad-pass').value = ''; $('#ad-pass').focus(); }
+            try {await admSignIn(email, pass); A.authed = true; A.err = ''; admLoad();}
+            catch (err) {const k = Object.keys(AUTH_ERRS).find(x => String(err.message).startsWith(x)); A.err = k ? AUTH_ERRS[k] : 'ما قدرنا ندخل، جرّب مرة ثانية'; $('#ad-err').textContent = A.err; b.disabled = false; b.textContent = 'دخول'; $('#ad-pass').value = ''; $('#ad-pass').focus();}
             break;
           }
-          case 'logout': AUTH.id = AUTH.refresh = ''; AUTH.exp = 0; try { sessionStorage.removeItem('donia_rt'); } catch (x) { } A.authed = false; A.loaded = false; A.err = ''; rerender(); break;
+          case 'logout': AUTH.id = AUTH.refresh = ''; AUTH.exp = 0; try {sessionStorage.removeItem('donia_rt');} catch (x) { } A.authed = false; A.loaded = false; A.err = ''; rerender(); break;
           case 'reload': admLoad(); break;
           case 'tab': A.tab = el.dataset.t; A.err = ''; rerender(); $('#adm').scrollTop = 0; break;
           case 'srange': A.srange = +el.dataset.n; rerender(); break;
           case 'stats-reload': A.stats = null; rerender(); break;
           case 'seed': admSeed(); break;
-          case 'new': A.edit = { isNew: true, p: { id: newId(), ar: '', brand: '', name: '', desc: '', descEn: '', price: '', old: '', type: 'serum', skin: [], concern: [], sections: ['new'], soon: false, colorsOn: false, colors: [], visible: true, ord: 0, shape: 'tube', c: { body: '#FBEEF1', accent: '#C6567A', cap: '#F2D6DD', swatch: '#F8DEE6' }, image: '' } }; A.view = 'edit'; A.err = ''; rerender(); $('#adm').scrollTop = 0; break;
-          case 'edit': { const p = A.products.find(x => x.id === id); if (!p) return; A.edit = { isNew: false, p: JSON.parse(JSON.stringify(p)) }; A.view = 'edit'; A.err = ''; rerender(); $('#adm').scrollTop = 0; break; }
+          case 'new': A.edit = {isNew: true, p: {id: newId(), ar: '', brand: '', name: '', desc: '', descEn: '', price: '', old: '', type: 'serum', skin: [], concern: [], sections: ['new'], soon: false, colorsOn: false, colors: [], visible: true, ord: 0, shape: 'tube', c: {body: '#FBEEF1', accent: '#C6567A', cap: '#F2D6DD', swatch: '#F8DEE6'}, image: ''}}; A.view = 'edit'; A.err = ''; rerender(); $('#adm').scrollTop = 0; break;
+          case 'edit': {const p = A.products.find(x => x.id === id); if (!p) return; A.edit = {isNew: false, p: JSON.parse(JSON.stringify(p))}; A.view = 'edit'; A.err = ''; rerender(); $('#adm').scrollTop = 0; break;}
           case 'back': A.view = 'list'; A.edit = null; A.err = ''; rerender(); break;
           case 'img-clear': admCollect(); A.edit.p.image = ''; rerender(); admDiscountHelper(); break;
           case 'clr-add': {
@@ -4465,7 +4461,7 @@
             else if (!/^#[0-9A-F]{6}$/.test(hex)) A.err = 'كود اللون غير صحيح، مثال: #C6567A';
             else if (p.colors.some(c => c.hex === hex)) A.err = 'هاد اللون مضاف من قبل';
             else if (p.colors.length >= 12) A.err = 'الحد الأقصى 12 لون';
-            else { p.colors.push({ id: hex.slice(1), hex, img: '', name: nm }); A.err = ''; }
+            else {p.colors.push({id: hex.slice(1), hex, img: '', name: nm}); A.err = '';}
             rerender(); if (A.err) $('#adm').scrollTop = 0; break;
           }
           case 'clr-pdel': admCollect(); A.edit.p.colors[+el.dataset.i].pimg = ''; rerender(); break;
@@ -4474,39 +4470,39 @@
           case 'oos': {
             const p = A.products.find(x => x.id === id); if (!p) return;
             const next = !p.oos;
-            try { await ADB.saveProduct(Object.assign({}, p, { oos: next })); p.oos = next; A.err = ''; toast(next ? 'تم تحديد المنتج: نفد المخزون' : 'رجع المنتج متوفر'); }
-            catch (err) { A.err = admErrMsg(err); }
+            try {await ADB.saveProduct(Object.assign({}, p, {oos: next})); p.oos = next; A.err = ''; toast(next ? 'تم تحديد المنتج: نفد المخزون' : 'رجع المنتج متوفر');}
+            catch (err) {A.err = admErrMsg(err);}
             rerender(); break;
           }
           case 'del':
-            if (A.del !== 'p:' + id) { A.del = 'p:' + id; rerender(); break; }
-            try { await ADB.deleteProduct(id); A.products = A.products.filter(x => x.id !== id); A.view = 'list'; A.edit = null; A.del = ''; toast('تم حذف المنتج'); }
-            catch (err) { A.err = admErrMsg(err); A.del = ''; }
+            if (A.del !== 'p:' + id) {A.del = 'p:' + id; rerender(); break;}
+            try {await ADB.deleteProduct(id); A.products = A.products.filter(x => x.id !== id); A.view = 'list'; A.edit = null; A.del = ''; toast('تم حذف المنتج');}
+            catch (err) {A.err = admErrMsg(err); A.del = '';}
             rerender(); break;
           case 'save-settings': admSaveSettings(); break;
           case 'cp-add': {
             const code = ($('#cp-code').value || '').trim().toUpperCase(), type = $('#cp-type').value, val = parseFloat($('#cp-val').value), min = num($('#cp-min').value);
-            if (!/^[A-Z0-9_-]{3,20}$/.test(code)) { A.err = 'الكود لازم يكون 3 لـ 20 حرف إنجليزي أو رقم'; rerender(); $('#adm').scrollTop = 0; break; }
-            if (!(val > 0) || (type === 'percent' && val > 100)) { A.err = 'اكتب قيمة خصم صحيحة'; rerender(); $('#adm').scrollTop = 0; break; }
-            A.err = ''; A.settings.coupons = A.settings.coupons.filter(c => c.code !== code).concat({ code, type, value: val, min, active: true });
+            if (!/^[A-Z0-9_-]{3,20}$/.test(code)) {A.err = 'الكود لازم يكون 3 لـ 20 حرف إنجليزي أو رقم'; rerender(); $('#adm').scrollTop = 0; break;}
+            if (!(val > 0) || (type === 'percent' && val > 100)) {A.err = 'اكتب قيمة خصم صحيحة'; rerender(); $('#adm').scrollTop = 0; break;}
+            A.err = ''; A.settings.coupons = A.settings.coupons.filter(c => c.code !== code).concat({code, type, value: val, min, active: true});
             await admSaveSettings(true); break;
           }
           case 'bd-add': {
             const ids = [...document.querySelectorAll('[data-bp]:checked')].map(x => x.dataset.bp), type = $('#bd-type').value, val = parseFloat($('#bd-val').value);
             const err = ids.length < 2 ? 'اختر منتجين على الأقل' : !(val > 0) ? 'اكتب قيمة صحيحة' : type === 'percent' && val > 100 ? 'النسبة لازم تكون أقل من 100' : '';
-            if (!err && type === 'price') { const sum = ids.reduce((n, id) => n + num((A.products.find(x => x.id === id) || {}).price), 0); if (val >= sum) { A.err = 'سعر المجموعة (' + fmt(val) + ') لازم يكون أقل من مجموع أسعار المنتجات (' + fmt(sum) + ')'; rerender(); $('#adm').scrollTop = 0; break; } }
-            if (err) { A.err = err; rerender(); $('#adm').scrollTop = 0; break; }
-            A.err = ''; A.settings.bundles = (A.settings.bundles || []).concat({ id: newId(), name: clean($('#bd-name').value), nameEn: clean($('#bd-nameEn').value), ids, type, value: val, active: true });
+            if (!err && type === 'price') {const sum = ids.reduce((n, id) => n + num((A.products.find(x => x.id === id) || {}).price), 0); if (val >= sum) {A.err = 'سعر المجموعة (' + fmt(val) + ') لازم يكون أقل من مجموع أسعار المنتجات (' + fmt(sum) + ')'; rerender(); $('#adm').scrollTop = 0; break;} }
+            if (err) {A.err = err; rerender(); $('#adm').scrollTop = 0; break;}
+            A.err = ''; A.settings.bundles = (A.settings.bundles || []).concat({id: newId(), name: clean($('#bd-name').value), nameEn: clean($('#bd-nameEn').value), ids, type, value: val, active: true});
             await admSaveSettings(true); break;
           }
           case 'bd-del': {
             const i = +el.dataset.i;
-            if (A.del !== 'b:' + i) { A.del = 'b:' + i; rerender(); break; }
+            if (A.del !== 'b:' + i) {A.del = 'b:' + i; rerender(); break;}
             A.del = ''; A.settings.bundles.splice(i, 1); await admSaveSettings(true); break;
           }
           case 'cp-del': {
             const i = +el.dataset.i;
-            if (A.del !== 'c:' + i) { A.del = 'c:' + i; rerender(); break; }
+            if (A.del !== 'c:' + i) {A.del = 'c:' + i; rerender(); break;}
             A.del = ''; A.settings.coupons.splice(i, 1); await admSaveSettings(true); break;
           }
           case 'hero-clear': A.settings.heroImage = ''; rerender(); break;
@@ -4519,57 +4515,57 @@
               const msg = `أهلاً ${(o.name || '').split(' ')[0]} 🌸\nشكراً لطلبك من DONIA. يهمنا رأيك، قيّم طلبك من هون:\n${url}`;
               window.open('https://wa.me/' + ph + '?text=' + encodeURIComponent(msg), '_blank');
             } else {
-              try { await navigator.clipboard.writeText(url); toast('تم نسخ رابط التقييم'); }
-              catch (err) { window.prompt('انسخ الرابط:', url); }
+              try {await navigator.clipboard.writeText(url); toast('تم نسخ رابط التقييم');}
+              catch (err) {window.prompt('انسخ الرابط:', url);}
             }
             break;
           }
           case 'ord-reload': admReloadOrders(false); break;
           case 'ord-del':
-            if (A.del !== 'o:' + id) { A.del = 'o:' + id; rerender(); break; }
-            try { await ADB.deleteOrder(id); A.orders = A.orders.filter(x => x.id !== id); A.del = ''; toast('تم حذف الطلب'); }
-            catch (err) { A.err = admErrMsg(err); A.del = ''; }
+            if (A.del !== 'o:' + id) {A.del = 'o:' + id; rerender(); break;}
+            try {await ADB.deleteOrder(id); A.orders = A.orders.filter(x => x.id !== id); A.del = ''; toast('تم حذف الطلب');}
+            catch (err) {A.err = admErrMsg(err); A.del = '';}
             rerender(); break;
           case 'rv-ok': case 'rv-hide': {
             const st = a === 'rv-ok' ? 'approved' : 'pending';
-            try { await ADB.setReview(id, st); const r = A.reviews.find(x => x.id === id); if (r) r.status = st; toast(st === 'approved' ? 'تم نشر الرأي' : 'تم إخفاء الرأي'); }
-            catch (err) { A.err = admErrMsg(err); }
+            try {await ADB.setReview(id, st); const r = A.reviews.find(x => x.id === id); if (r) r.status = st; toast(st === 'approved' ? 'تم نشر الرأي' : 'تم إخفاء الرأي');}
+            catch (err) {A.err = admErrMsg(err);}
             rerender(); break;
           }
           case 'rv-del':
-            if (A.del !== 'r:' + id) { A.del = 'r:' + id; rerender(); break; }
-            try { await ADB.deleteReview(id); A.reviews = A.reviews.filter(x => x.id !== id); A.del = ''; toast('تم حذف الرأي'); }
-            catch (err) { A.err = admErrMsg(err); A.del = ''; }
+            if (A.del !== 'r:' + id) {A.del = 'r:' + id; rerender(); break;}
+            try {await ADB.deleteReview(id); A.reviews = A.reviews.filter(x => x.id !== id); A.del = ''; toast('تم حذف الرأي');}
+            catch (err) {A.err = admErrMsg(err); A.del = '';}
             rerender(); break;
         }
-      } catch (err) { A.err = admErrMsg(err); admRender(); }
+      } catch (err) {A.err = admErrMsg(err); admRender();}
     });
     document.addEventListener('input', e => {
       const t = e.target;
       if (t.dataset && t.dataset.s && A.settings) setPath(A.settings, t.dataset.s, t.type === 'checkbox' ? t.checked : t.value);
       if (t.id === 'pf-pct' || t.id === 'pf-price' || t.id === 'pf-old') admDiscountHelper(t.id);
       if (t.id === 'pf-cpick') $('#pf-chex').value = t.value.toUpperCase();
-      if (t.id === 'pf-chex') { let h = t.value.trim(); if (h[0] !== '#') h = '#' + h; if (/^#[0-9a-f]{6}$/i.test(h)) $('#pf-cpick').value = h.toLowerCase(); }
+      if (t.id === 'pf-chex') {let h = t.value.trim(); if (h[0] !== '#') h = '#' + h; if (/^#[0-9a-f]{6}$/i.test(h)) $('#pf-cpick').value = h.toLowerCase();}
     });
-    document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'ad-pass') { const b = $('#ad-login'); if (b) b.click(); } });
+    document.addEventListener('keydown', e => {if (e.key === 'Enter' && e.target.id === 'ad-pass') {const b = $('#ad-login'); if (b) b.click();} });
     document.addEventListener('change', async e => {
       const t = e.target;
       if (t.dataset && t.dataset.s && A.settings) setPath(A.settings, t.dataset.s, t.type === 'checkbox' ? t.checked : t.value);
       if (t.dataset && t.dataset.a === 'ord-status') {
         const o = A.orders.find(x => x.id === t.dataset.id), prev = o ? o.status : 'new';
-        try { await ADB.setOrderStatus(t.dataset.id, t.value); if (o) o.status = t.value; toast('تم تحديث حالة الطلب'); }
-        catch (err) { A.err = admErrMsg(err); if (o) o.status = prev; }
+        try {await ADB.setOrderStatus(t.dataset.id, t.value); if (o) o.status = t.value; toast('تم تحديث حالة الطلب');}
+        catch (err) {A.err = admErrMsg(err); if (o) o.status = prev;}
         admRender();
       }
-      if (t.dataset && t.dataset.coos !== undefined) { const ch = t.closest('.clr-item') && t.closest('.clr-item').querySelector('.chip'); if (ch) ch.classList.toggle('sold', t.checked); }
-      if (t.id === 'pf-colorson') { const b = $('#pf-colors'); if (b) b.hidden = !t.checked; }
-      if (t.dataset && t.dataset.a === 'bd-toggle') { A.settings.bundles[+t.dataset.i].active = t.checked; await admSaveSettings(true); }
-      if (t.dataset && t.dataset.a === 'cp-toggle') { A.settings.coupons[+t.dataset.i].active = t.checked; await admSaveSettings(true); }
+      if (t.dataset && t.dataset.coos !== undefined) {const ch = t.closest('.clr-item') && t.closest('.clr-item').querySelector('.chip'); if (ch) ch.classList.toggle('sold', t.checked);}
+      if (t.id === 'pf-colorson') {const b = $('#pf-colors'); if (b) b.hidden = !t.checked;}
+      if (t.dataset && t.dataset.a === 'bd-toggle') {A.settings.bundles[+t.dataset.i].active = t.checked; await admSaveSettings(true);}
+      if (t.dataset && t.dataset.a === 'cp-toggle') {A.settings.coupons[+t.dataset.i].active = t.checked; await admSaveSettings(true);}
       if (t.dataset && t.dataset.cp !== undefined && t.files && t.files[0]) {
         try {
           const data = await compressImage(t.files[0], 720, 90000); admCollect(); const c = (A.edit.p.colors || [])[+t.dataset.cp];
           if (c) c.pimg = data; A.err = ''; admRender();
-        } catch (err) { A.err = err.message === 'BIG' ? 'صورة المنتج كبيرة، جرّب صورة أصغر' : 'ما قدرنا نقرأ الصورة'; admRender(); $('#adm').scrollTop = 0; }
+        } catch (err) {A.err = err.message === 'BIG' ? 'صورة المنتج كبيرة، جرّب صورة أصغر' : 'ما قدرنا نقرأ الصورة'; admRender(); $('#adm').scrollTop = 0;}
       }
       if ((t.id === 'pf-cimgnew' || (t.dataset && t.dataset.ci !== undefined)) && t.files && t.files[0]) {
         try {
@@ -4577,25 +4573,25 @@
           if (t.id === 'pf-cimgnew') {
             if (p.colors.length >= 12) throw new Error('MAX');
             if (!clean(($('#pf-cname') || {}).value || '')) throw new Error('NAME');
-            let id; do { id = 'i' + Math.random().toString(36).slice(2, 7); } while (p.colors.some(c => c.id === id));
-            p.colors.push({ id, hex: '', img: data, name: clean(($('#pf-cname') || {}).value || '') });
+            let id; do {id = 'i' + Math.random().toString(36).slice(2, 7);} while (p.colors.some(c => c.id === id));
+            p.colors.push({id, hex: '', img: data, name: clean(($('#pf-cname') || {}).value || '')});
           } else if (p.colors[+t.dataset.ci]) p.colors[+t.dataset.ci].img = data;
           A.err = ''; admRender();
-        } catch (err) { A.err = err.message === 'NAME' ? 'اكتب اسم اللون أولاً بالخانة، وبعدها اختر الصورة' : err.message === 'MAX' ? 'الحد الأقصى 12 لون' : err.message === 'BIG' ? 'صورة اللون كبيرة، جرّب صورة أصغر' : 'ما قدرنا نقرأ الصورة'; admRender(); $('#adm').scrollTop = 0; }
+        } catch (err) {A.err = err.message === 'NAME' ? 'اكتب اسم اللون أولاً بالخانة، وبعدها اختر الصورة' : err.message === 'MAX' ? 'الحد الأقصى 12 لون' : err.message === 'BIG' ? 'صورة اللون كبيرة، جرّب صورة أصغر' : 'ما قدرنا نقرأ الصورة'; admRender(); $('#adm').scrollTop = 0;}
       }
       if ((t.id === 'pf-file' || t.id === 'hero-file') && t.files && t.files[0]) {
         const hero = t.id === 'hero-file';
         try {
           const data = await compressImage(t.files[0], hero ? 1400 : 720, hero ? 600000 : 320000);
-          if (hero) A.settings.heroImage = data; else { admCollect(); A.edit.p.image = data; }
+          if (hero) A.settings.heroImage = data; else {admCollect(); A.edit.p.image = data;}
           admRender(); if (!hero) admDiscountHelper();
-        } catch (err) { A.err = err.message === 'BIG' ? 'الصورة كبيرة كثير، جرّب صورة أصغر' : 'ما قدرنا نقرأ الصورة'; admRender(); $('#adm').scrollTop = 0; }
+        } catch (err) {A.err = err.message === 'BIG' ? 'الصورة كبيرة كثير، جرّب صورة أصغر' : 'ما قدرنا نقرأ الصورة'; admRender(); $('#adm').scrollTop = 0;}
       }
     });
 
     /* ====================== تشغيل ====================== */
     const LOGO = 'data:image/webp;base64,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';
-    function logoHTML() { return `<img src="${LOGO}" alt="" width="48" height="48"><span>${CONFIG.storeName}</span>`; }
+    function logoHTML() {return `<img src="${LOGO}" alt="" width="48" height="48"><span>${CONFIG.storeName}</span>`;}
     function init() {
       LANG = pickLang();
       $('#btnMenu').insertAdjacentHTML('afterbegin', ic('menu'));
@@ -4606,17 +4602,17 @@
       const dm = igDM();
       $('#waFab').href = dm; $('#footWa').href = dm;
       $('#waFab').innerHTML = `${ic('chat', 22)}<span data-i18n="waFab">راسلنا</span>`;
-      if (CONFIG.instagram) { $('#igFab').href = CONFIG.instagram; $('#footIg').href = CONFIG.instagram; }
+      if (CONFIG.instagram) {$('#igFab').href = CONFIG.instagram; $('#footIg').href = CONFIG.instagram;}
       $('#igFab').innerHTML = ic('camera', 22);
       $('#footIg').insertAdjacentHTML('afterbegin', ic('camera', 18));
-      const HB = (shape, c) => art({ brand: 'DONIA', ar: 'DONIA', shape, c });
-      $('#heroArt').innerHTML = `<div class="halo"></div><div class="a1">${HB('tube', { body: '#FBEEF1', accent: '#C6567A', cap: '#F2D6DD', swatch: '#F8DEE6' })}</div><div class="a2">${HB('pump', { body: '#C6567A', accent: '#A83F5E', cap: '#3A222A', swatch: '#F8DEE6' })}</div><div class="a3">${HB('dropper', { body: '#F2D6DD', accent: '#C6567A', cap: '#D6889F', swatch: '#F8DEE6' })}</div>`;
-      $('#heroArt').querySelectorAll('div[class^="a"]').forEach(w => { const sv = w.querySelector('svg'); sv.setAttribute('class', w.className); w.replaceWith(sv); });
+      const HB = (shape, c) => art({brand: 'DONIA', ar: 'DONIA', shape, c});
+      $('#heroArt').innerHTML = `<div class="halo"></div><div class="a1">${HB('tube', {body: '#FBEEF1', accent: '#C6567A', cap: '#F2D6DD', swatch: '#F8DEE6'})}</div><div class="a2">${HB('pump', {body: '#C6567A', accent: '#A83F5E', cap: '#3A222A', swatch: '#F8DEE6'})}</div><div class="a3">${HB('dropper', {body: '#F2D6DD', accent: '#C6567A', cap: '#D6889F', swatch: '#F8DEE6'})}</div>`;
+      $('#heroArt').querySelectorAll('div[class^="a"]').forEach(w => {const sv = w.querySelector('svg'); sv.setAttribute('class', w.className); w.replaceWith(sv);});
       applyLang();
       loadCart(); updateBadge(); refresh(); loadCatalog(); loadReviews();
       window.addEventListener('hashchange', route); route();
       if (TRK.once('visit')) TRK.send('visit');
-      if (/[?&]paid=/.test(location.search)) { setTimeout(() => toast(tr('payThanks')), 700); history.replaceState(null, '', location.pathname + location.hash); }
+      if (/[?&]paid=/.test(location.search)) {setTimeout(() => toast(tr('payThanks')), 700); history.replaceState(null, '', location.pathname + location.hash);}
     }
     init();
   </script>
